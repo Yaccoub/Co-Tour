@@ -108,6 +108,39 @@ def hydrate_raw_data(t, startdate, enddate, datatype):
     else:
         print('Data Type is not valid')
 
+def get_json_data(date):
+
+    with open('./data/json/' + date + ".json", 'r') as fh:
+        tweets_dict = json.load(fh)
+        return tweets_dict
+
+def hydrate_data(t, startdate, enddate):
+
+    dates = pd.date_range(start=startdate, end=enddate)
+
+    for date in dates:
+        print('hydrating tweets from ' + str(date.date()) + '...')
+        numTweets = 0
+        tweets = list()
+        ids = []
+        with open(r"./data/csv/" + str(date.date()) + ".csv") as fd:
+            rd = csv.reader(fd, quotechar='"', )
+            header = next(rd)
+            for row in rd:
+                ids.append(row[0])
+        tweet_hy = t.hydrate(ids)
+
+        with open(r'./data/json/' + str(date.date()) + ".json", 'w') as outfile:
+            for tweet in tweet_hy:
+                newRow = {}
+                for key, value in tweet.items():
+                    newRow[key] = value
+                tweets.append(newRow)
+                if numTweets % 100 == 0:
+                    print('Tweets collected so far: {:d}'.format(numTweets))
+                numTweets = numTweets + 1
+            print('generating json file in: ./data/json/' + str(date.date()) + ".json")
+            outfile.write(json.dumps(tweets))
 
 def main():
 
@@ -117,6 +150,8 @@ def main():
     access_token_secret = 'SHZ8r8NcEpNQ85ArCDCjIIOP8Z2n1PkWDJQENqH1lM1Xq'
     t = Twarc(consumer_key, consumer_secret, access_token, access_token_secret)
 
+    # hydrate_data(t, startdate = '2020-06-20', enddate = '2020-06-20')
+    tweetsdict = get_json_data('2020-06-20')
 
 
 if __name__ == "__main__":
