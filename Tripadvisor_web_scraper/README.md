@@ -38,3 +38,11 @@ In order to change the number of the harvested reviews, change the variable tota
 ```python
 totalNumPages = 30
 ```
+Finally run the get_attraction.py file
+
+```bash
+python3 get_attraction.py
+```
+
+
+## Usage
