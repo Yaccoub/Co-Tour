@@ -13,7 +13,7 @@ helping us later to cluster these attractions and unveil the tourism patterns ch
 ## Installation
 
 You need to download and install google chrome. The according 
-Chrome driver should also be downloaded and placed at the same directory as the project file.
+Chrome driver should also be downloaded and placed into the same directory as the project file.
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install the Tripadvisor Web Scraper required packages.
 
