@@ -134,7 +134,20 @@ def part_of_speech(df):
     df = pd.DataFrame.from_records(res)
     return df
 
+def remove_hashtag(df):
+    rec = df.to_records(index=False)
+    for row in rec:
+        row['full_text'] = row['full_text'].replace('#','')
+    df = pd.DataFrame.from_records(rec)
+    return df
 
+def remove_stopwords(df):
+    stop_words = set(nltk.corpus.stopwords.words('english'))
+    rec = df.to_records(index=False)
+    for row in rec:
+        row['full_text'] = " ".join([w for w in str(row['full_text']).split() if w not in stop_words])
+    df = pd.DataFrame.from_records(rec)
+    return df
 
 
 
@@ -155,7 +168,9 @@ df['location'], df['part_of_s'] = ["", ""]
 df = geo_unify(df[0:33])
 df = df[['id', 'full_text', 'location', 'part_of_s']]
 df = remove_tab_newLines_lowercase(df)
+df = remove_hashtag(df)
 df = convert_emotes(df)
 df = replace_slang_words(df)
+df = remove_stopwords(df)
 df = part_of_speech(df)
 df = nltkTokenize(df)
