@@ -1,5 +1,7 @@
 import json
 import re
+import json
+import requests
 
 import emot
 import geograpy
@@ -9,6 +11,11 @@ import pandas as pd
 import requests
 from flatten_dict import flatten
 from geopy.geocoders import Nominatim
+
+
+
+
+
 
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
@@ -87,6 +94,52 @@ def nltkTokenize(df):
     return df
 
 
+
+def remove_tab_newLines_lowercase(df):
+    # tweets is a list of tweets
+    res = df.to_records(index=False)
+    for row in res:
+        text = row['full_text']
+        text = ' '.join(text.split())
+        text = text.lower()
+        row['full_text'] = text
+    df = pd.DataFrame.from_records(res)
+    return df
+
+
+def replace_slang_words(df):
+    error = 'None of the words'
+    res = df.to_records(index=False)
+    for row in res:
+        slangText = row['full_text']
+        print(slangText)
+        prefixStr = '<div class="translation-text">'
+        postfixStr = '</div'
+        r = requests.post('https://www.noslang.com/', {'action': 'translate', 'p':
+            slangText, 'noswear': 'noswear', 'submit': 'Translate'})
+        startIndex = r.text.find(prefixStr) + len(prefixStr)
+        endIndex = startIndex + r.text[startIndex:].find(postfixStr)
+        if not error in r.text[startIndex:endIndex]:
+            row['full_text'] = r.text[startIndex:endIndex]
+    df = pd.DataFrame.from_records(res)
+    return df
+
+
+def part_of_speech(df):
+    res = df.to_records(index=False)
+    for row in res:
+        text = row['full_text']
+        text = nltk.pos_tag(nltk.word_tokenize(text))
+        row['part_of_s'] = text
+    df = pd.DataFrame.from_records(res)
+    return df
+
+
+
+
+
+
+
 tweets = list()
 
 with open('./data/json/2020-03-20.json', 'r') as fh:
@@ -101,5 +154,8 @@ df['location'], df['part_of_s'] = ["", ""]
 
 df = geo_unify(df[0:33])
 df = df[['id', 'full_text', 'location', 'part_of_s']]
+df = remove_tab_newLines_lowercase(df)
 df = convert_emotes(df)
+df = replace_slang_words(df)
+df = part_of_speech(df)
 df = nltkTokenize(df)
