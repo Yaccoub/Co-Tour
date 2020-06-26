@@ -11,7 +11,7 @@ from selenium.common.exceptions import StaleElementReferenceException
 
 def main():
     global fileName
-    fileName = "tripadvisor_Munich_Activities_dataset" + datetime.now().strftime('%Y%m%d_%H%M') + ".csv"
+    fileName = "TripAdvisor_Munich_Activities_dataset" + datetime.now().strftime('%Y%m%d_%H%M') + ".csv"
     global titleList
     titleList = []
     global writer
