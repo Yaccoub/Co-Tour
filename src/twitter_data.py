@@ -123,14 +123,14 @@ def hydrate_data(t, startdate, enddate):
         numTweets = 0
         tweets = list()
         ids = []
-        with open(r"./data/csv/" + str(date.date()) + ".csv") as fd:
+        with open(r"../data/emotion_detection_data/csv/" + str(date.date()) + ".csv") as fd:
             rd = csv.reader(fd, quotechar='"', )
             header = next(rd)
             for row in rd:
                 ids.append(row[0])
         tweet_hy = t.hydrate(ids)
 
-        with open(r'./data/json/' + str(date.date()) + ".json", 'w') as outfile:
+        with open(r'../data/emotion_detection_data/json/' + str(date.date()) + ".json", 'w') as outfile:
             for tweet in tweet_hy:
                 newRow = {}
                 for key, value in tweet.items():
@@ -139,7 +139,7 @@ def hydrate_data(t, startdate, enddate):
                 if numTweets % 100 == 0:
                     print('Tweets collected so far: {:d}'.format(numTweets))
                 numTweets = numTweets + 1
-            print('generating json file in: ./data/json/' + str(date.date()) + ".json")
+            print('generating json file in: ../data/emotion_detection_data/json/' + str(date.date()) + ".json")
             outfile.write(json.dumps(tweets))
 
 def main():
