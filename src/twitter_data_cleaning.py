@@ -41,25 +41,26 @@ def geolocator(coords):
 
 
 def verify_location(places):
-    """ Check if the given place name is valid and return it 
+    """ Extruct place informations from dict
         
     
-        param place : string "place_name"
+        param places : dict places
         
     
         return location
     """
     
     whitelist = set('abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ')
-
+    # check if a valid country_cities variable is given
     if places.country_cities:
         location = ''.join(
             filter(whitelist.__contains__, str(list(places.country_cities.values())[0]))) + ', ' + str(
             list(places.country_cities)[0])
+    # check if a valid cities variable is given
     elif places.cities:
         location = ''.join(
             filter(whitelist.__contains__, str(places.cities)))
-
+    # else use country name
     else:
         location = ''.join(
             filter(whitelist.__contains__, str(places.countries)))
@@ -83,13 +84,17 @@ def geo_unify(df):
     n = 0
     res = df.to_records(index=False)
     for row in res:
+        # check if geo-coordinates are given
         if not (np.array(pd.isnull(row['geo\coordinates'])).any()):
             location = geolocator(row['geo\coordinates'])
+        # else check if a country name is given
         elif not (np.array(pd.isnull(row['place\\full_name'])).any()):
             location = row['place\\full_name'] + ', ' + row['place\\country']
+        # else check if user location is given
         elif not (np.array(pd.isnull(row['user\location'])).any()):
             places = geograpy.get_place_context(text=row['user\location'])
             location = verify_location(places)
+        # else location is an empty string
         else:
             location = ""
         row['location'] = location
@@ -126,7 +131,7 @@ def convert_emotes(df):
 
 def nltkTokenize(df):
     
-    """ Splitting the text into multiple words
+    """ Tokenize full_text 
     
         param df : DataFrame
         
@@ -154,7 +159,9 @@ def remove_tab_newLines_lowercase(df):
     res = df.to_records(index=False)
     for row in res:
         text = row['full_text']
+        # remove tabs and new lines
         text = ' '.join(text.split())
+        # convert to lowercase
         text = text.lower()
         row['full_text'] = text
     df = pd.DataFrame.from_records(res)
@@ -173,14 +180,16 @@ def replace_slang_words(df):
     error = 'None of the words'
     res = df.to_records(index=False)
     for row in res:
+        # use the text slang dictionary "noslang" from noslang.com
         slangText = row['full_text']
-        print(slangText)
         prefixStr = '<div class="translation-text">'
         postfixStr = '</div'
+        # make an http post request
         r = requests.post('https://www.noslang.com/', {'action': 'translate', 'p':
             slangText, 'noswear': 'noswear', 'submit': 'Translate'})
         startIndex = r.text.find(prefixStr) + len(prefixStr)
         endIndex = startIndex + r.text[startIndex:].find(postfixStr)
+        # check if at least one slang word is unrecognized
         if not error in r.text[startIndex:endIndex]:
             row['full_text'] = r.text[startIndex:endIndex]
     df = pd.DataFrame.from_records(res)
