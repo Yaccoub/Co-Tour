@@ -1,19 +1,25 @@
 import json
 import re
-
+import preprocessor as p
 import emot
 import geograpy
+import nltk
 import nltk
 import numpy as np
 import pandas as pd
 import requests
 from flatten_dict import flatten
 from geopy.geocoders import Nominatim
+from spellchecker import SpellChecker
+from nltk.stem import PorterStemmer
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
 
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
 nltk.download('maxent_ne_chunker')
 nltk.download('words')
+nltk.download('wordnet')
 
 
 def geolocator(coords):
@@ -248,6 +254,92 @@ def remove_stopwords(df):
         row['full_text'] = " ".join([w for w in str(row['full_text']).split() if w not in stop_words])
     df = pd.DataFrame.from_records(rec)
     return df
+
+
+# Function to clean the tweet from URLs, mentions, retweets and unnecessary numbers
+def tweet_preprocessing_cleaning(text):
+    """
+    Clean the tweet from URLs, mentions, retweets and unnecessary numbers
+    :param text: string
+    :return: string
+    """
+    p.set_options(p.OPT.URL, p.OPT.MENTION, p.OPT.NUMBER, p.OPT.RESERVED)
+    return p.clean(text)
+
+
+def tweet_preprocessing_spelling(text):
+    """
+    Rectify the spelling of the tweet text
+
+    :param text: string
+    :return: string
+    """
+    spell = SpellChecker()
+    tokens = nltk.word_tokenize(text)
+    misspelled = spell.unknown(tokens)
+
+    for word in misspelled:
+        # Remove adjacent duplicates letters
+        xx = remove_duplicates(word)
+        # Replace the misspelled word by the most likely one
+        text = text.replace(word, spell.correction(xx))
+        # Get a list of `likely` options
+        # print(spell.candidates(word))
+
+    return text
+
+
+def tweet_preprocessing_stemming(df):
+    """
+    Realize the stemming of the words
+    :param df: DataFrame
+    :return: DataFrame
+    """
+    stemmer = PorterStemmer()
+    res = df.to_records(index=False)
+
+    for row in res:
+        words = word_tokenize(row['full_text'])
+        for word in words:
+            row['full_text'] = row['full_text'].replace(word, stemmer.stem(word))
+
+    df = pd.DataFrame.from_records(res)
+
+    return df
+
+
+def tweet_preprocessing_lemmatization(df):
+    """
+    Realize the lemmatization of the words
+    :param text: string
+    :return: string
+    """
+    lm = WordNetLemmatizer()
+    res = df.to_records(index=False)
+
+    for row in res:
+        words = word_tokenize(row['full_text'])
+        for word in words:
+            row['full_text'] = row['full_text'].replace(word, lm.lemmatize(word))
+
+    df = pd.DataFrame.from_records(res)
+
+    return df
+
+
+# Function to remove adjacent duplicates characters from a string
+def remove_duplicates(s):
+    chars = list(s)
+    prev = None
+    k = 0
+
+    for c in s:
+        if prev != c:
+            chars[k] = c
+            prev = c
+            k = k + 1
+
+    return ''.join(chars[:k])
 
 
 def main():
