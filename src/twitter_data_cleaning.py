@@ -25,6 +25,15 @@ nltk.download('words')
 
 
 def geolocator(coords):
+    """ This function returns the adress corresponding to the given coordinates 
+    
+    
+        param geocoordinates : string "ongitude, latitude"     
+        
+        
+        return location : string
+    """
+    
     geolocator = Nominatim(timeout=3)
     location = geolocator.reverse(coords, zoom='10', language='en')
     location = location.address
@@ -32,6 +41,15 @@ def geolocator(coords):
 
 
 def verify_location(places):
+    """ This function check if the given place name is valid
+        
+    
+        param place : string "place_name"
+        
+    
+        return location
+    """
+    
     whitelist = set('abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 
     if places.country_cities:
@@ -50,6 +68,18 @@ def verify_location(places):
 
 
 def geo_unify(df):
+    
+    """ This function associate to the location the information that more accurate
+    
+    
+        param df : DataFrame 
+        
+        
+        return the same DataFrame with only one place information
+        
+    """
+    
+    
     n = 0
     res = df.to_records(index=False)
     for row in res:
@@ -72,6 +102,14 @@ def geo_unify(df):
 
 
 def convert_emotes(df):
+    
+    """ This function convert the emojis in "full_text" to their meaning
+    
+        param df : DataFrame
+        
+        return df : Dataframe 
+    """
+    
     rec = df.to_records(index=False)
     for row in rec:
         for emoticon in emot.EMOTICONS:
@@ -87,6 +125,13 @@ def convert_emotes(df):
 
 
 def nltkTokenize(df):
+    
+    """ This function splits the text into multiple words
+    
+        param df : DataFrame
+        
+        return df : ´DataFrame
+    """
     rec = df.to_records(index=False)
     for row in rec:
         row['full_text'] = nltk.word_tokenize(row['full_text'])
@@ -96,6 +141,15 @@ def nltkTokenize(df):
 
 
 def remove_tab_newLines_lowercase(df):
+    """ This function deletes newlines and tabs and convert uppercase to lowercase
+        This reduce the number of possible characters in the text
+        
+        
+        param df : DataFrame
+        
+        
+        return df : DataFrame
+    """
     # tweets is a list of tweets
     res = df.to_records(index=False)
     for row in res:
@@ -108,6 +162,14 @@ def remove_tab_newLines_lowercase(df):
 
 
 def replace_slang_words(df):
+    """ This function replace slang word and spelling mistakes with the correct value
+        
+        
+        param df : DataFrame
+        
+        
+        return df : DataFrame
+    """
     error = 'None of the words'
     res = df.to_records(index=False)
     for row in res:
@@ -126,6 +188,15 @@ def replace_slang_words(df):
 
 
 def part_of_speech(df):
+    """ This function precise the part of speech of each word
+        
+        
+        param df : DataFrame
+        
+        
+        return df : DataFrame
+    """
+    
     res = df.to_records(index=False)
     for row in res:
         text = row['full_text']
@@ -135,6 +206,14 @@ def part_of_speech(df):
     return df
 
 def remove_hashtag(df):
+    """ This function remove hashtags from the text
+        
+        
+        param df : DataFrame
+        
+        
+        return df : DataFrame
+    """
     rec = df.to_records(index=False)
     for row in rec:
         row['full_text'] = row['full_text'].replace('#','')
@@ -142,6 +221,14 @@ def remove_hashtag(df):
     return df
 
 def remove_stopwords(df):
+    """ This function replace stop word and spelling mistakes with the correct value
+        
+        
+        param df : DataFrame
+        
+        
+        return df : DataFrame
+    """
     stop_words = set(nltk.corpus.stopwords.words('english'))
     rec = df.to_records(index=False)
     for row in rec:
