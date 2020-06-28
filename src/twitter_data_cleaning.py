@@ -213,7 +213,7 @@ def part_of_speech(df):
     res = df.to_records(index=False)
     for row in res:
         text = row['full_text']
-        text = nltk.pos_tag(nltk.word_tokenize(text))
+        text = nltk.pos_tag(text)
         row['part_of_s'] = text
     df = pd.DataFrame.from_records(res)
     return df
@@ -270,8 +270,9 @@ def main():
     df = convert_emotes(df)
     df = replace_slang_words(df)
     df = remove_stopwords(df)
-    df = part_of_speech(df)
     df = nltkTokenize(df)
+    df = part_of_speech(df)
+
 
 
 if __name__ == "__main__":
