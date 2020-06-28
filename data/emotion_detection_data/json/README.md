@@ -1,0 +1,1 @@
+The generated JSON files have a size bigger than 10MB. We were unable to upload them, however it is possible to get them by using the hydrate_data function along with the csv files.
