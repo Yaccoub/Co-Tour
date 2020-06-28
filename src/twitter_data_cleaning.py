@@ -25,7 +25,7 @@ nltk.download('words')
 
 
 def geolocator(coords):
-    """ This function returns the adress corresponding to the given coordinates 
+    """ Returns the adress corresponding to the given coordinates 
     
     
         param geocoordinates : string "ongitude, latitude"     
@@ -41,7 +41,7 @@ def geolocator(coords):
 
 
 def verify_location(places):
-    """ This function check if the given place name is valid
+    """ Check if the given place name is valid and return it 
         
     
         param place : string "place_name"
@@ -69,13 +69,13 @@ def verify_location(places):
 
 def geo_unify(df):
     
-    """ This function associate to the location the information that more accurate
+    """ Return the more accurate location information
     
     
         param df : DataFrame 
         
         
-        return the same DataFrame with only one place information
+        return df : DataFrame with only one place information
         
     """
     
@@ -103,7 +103,7 @@ def geo_unify(df):
 
 def convert_emotes(df):
     
-    """ This function convert the emojis in "full_text" to their meaning
+    """ Convert the emojis in "full_text" to their meaning
     
         param df : DataFrame
         
@@ -126,7 +126,7 @@ def convert_emotes(df):
 
 def nltkTokenize(df):
     
-    """ This function splits the text into multiple words
+    """ Splitting the text into multiple words
     
         param df : DataFrame
         
@@ -141,8 +141,8 @@ def nltkTokenize(df):
 
 
 def remove_tab_newLines_lowercase(df):
-    """ This function deletes newlines and tabs and convert uppercase to lowercase
-        This reduce the number of possible characters in the text
+    """ Deletes newlines and tabs and convert uppercase to lowercase
+        Reduce the number of possible characters in the text
         
         
         param df : DataFrame
@@ -162,7 +162,7 @@ def remove_tab_newLines_lowercase(df):
 
 
 def replace_slang_words(df):
-    """ This function replace slang word and spelling mistakes with the correct value
+    """ Replace slang word and spelling mistakes with the correct value
         
         
         param df : DataFrame
@@ -188,7 +188,7 @@ def replace_slang_words(df):
 
 
 def part_of_speech(df):
-    """ This function precise the part of speech of each word
+    """ Precising the part of speech of each word
         
         
         param df : DataFrame
@@ -206,7 +206,7 @@ def part_of_speech(df):
     return df
 
 def remove_hashtag(df):
-    """ This function remove hashtags from the text
+    """ Removing hashtags from the text
         
         
         param df : DataFrame
@@ -221,7 +221,7 @@ def remove_hashtag(df):
     return df
 
 def remove_stopwords(df):
-    """ This function replace stop word and spelling mistakes with the correct value
+    """ Replace stop word and spelling mistakes with the correct value
         
         
         param df : DataFrame
