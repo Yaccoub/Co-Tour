@@ -311,8 +311,8 @@ def tweet_preprocessing_stemming(df):
 def tweet_preprocessing_lemmatization(df):
     """
     Realize the lemmatization of the words
-    :param text: string
-    :return: string
+    :param df: Dataframe
+    :return: Dataframe
     """
     lm = WordNetLemmatizer()
     res = df.to_records(index=False)
