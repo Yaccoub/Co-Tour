@@ -1,11 +1,10 @@
-from zipfile import ZipFile
-import os.path
-
-import requests as requests
 import csv
 import json
+import os.path
+from zipfile import ZipFile
 
 import pandas as pd
+import requests as requests
 from twarc import Twarc
 
 
@@ -38,7 +37,8 @@ def get_raw_data_ids(startdate, enddate):
             zipObj.extractall()
         os.remove(zipObj)
         # Rename tsv files according to format: 'yyyy-mm-dd.tsv'
-        os.rename('./data/tsv_full/ids_' + str(date.date()) + '.tsv', './data/tsv_full/' + str(date.date())+'.tsv')
+        os.rename('./data/tsv_full/ids_' + str(date.date()) + '.tsv', './data/tsv_full/' + str(date.date()) + '.tsv')
+
 
 def hydrate_raw_data(t, startdate, enddate, datatype):
     """
@@ -58,7 +58,7 @@ def hydrate_raw_data(t, startdate, enddate, datatype):
     """
 
     dates = pd.date_range(start=startdate, end=enddate)
-    
+
     # For tsv files
     if datatype == 'tsv':
         print('hydrating tweets from ' + str(date.date()) + '...')
@@ -147,6 +147,7 @@ def hydrate_raw_data(t, startdate, enddate, datatype):
     else:
         print('Data Type is not valid')
 
+
 def get_json_data(date):
     """
     Read JSON file for the given date
@@ -159,6 +160,7 @@ def get_json_data(date):
     with open('./data/json/' + date + ".json", 'r') as fh:
         tweets_dict = json.load(fh)
         return tweets_dict
+
 
 def hydrate_data(t, startdate, enddate):
     """
@@ -200,8 +202,8 @@ def hydrate_data(t, startdate, enddate):
             # Save tweets in JSON files
             outfile.write(json.dumps(tweets))
 
-def main():
 
+def main():
     # Twitter Api Keys, if access is required
     # please contact: salem.sfaxi@tum.de for
     # credentials
@@ -211,7 +213,7 @@ def main():
     access_token_secret = ''
     t = Twarc(consumer_key, consumer_secret, access_token, access_token_secret)
 
-    hydrate_data(t, startdate = '', enddate = '')
+    hydrate_data(t, startdate='', enddate='')
     tweets_dict = get_json_data('')
 
 
