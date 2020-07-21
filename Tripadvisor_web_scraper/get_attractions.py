@@ -88,9 +88,9 @@ def analyzeIndexPage(driver):
     listRatings = []
     listExpDates = []
     listVisittype = []
-    for section in soup.find_all("div", attrs={"class": re.compile(r"^location-review-card-Card__ui_card.*")}):
+    for section in soup.find_all("div", attrs={"class": re.compile(r"Dq9MAugU T870kzTX LnVzGwUB")}):
         review = section.find("q", attrs={
-            "class": re.compile(r"^location-review-review-list-parts-ExpandableReview__reviewText.*")})
+            "class": re.compile(r"IRsGHoPm")})
         content = review.findChildren("span")[0].get_text()
         if content != None:
             listReviews.append(content)
@@ -98,7 +98,7 @@ def analyzeIndexPage(driver):
             listReviews.append("")
 
         title = section.find("a", attrs={
-            "class": re.compile(r"^location-review-review-list-parts-ReviewTitle__reviewTitleText.*")})
+            "class": re.compile(r"ocfR3SKN")})
 
         text = title.findChildren("span")[0].get_text()
         if text != None:
@@ -113,21 +113,21 @@ def analyzeIndexPage(driver):
             listRatings.append("")
 
         visit = section.find("span", attrs={
-            "class": re.compile(r"^location-review-review-list-parts-TripType__trip_type.*")})
+            "class": re.compile(r"_2bVY3aT5")})
         if visit != None:
             listVisittype.append(visit.get_text())
         else:
             listVisittype.append("")
 
         location = section.find("span",
-                                attrs={"class": re.compile(r"^social-member-common-MemberHometown__hometown.*")})
+                                attrs={"class": re.compile(r"default _3J15flPT small")})
         if location != None:
             listLocations.append(location.get_text())
         else:
             listLocations.append("")
 
         expdate = section.find("span", attrs={
-            "class": re.compile(r"^location-review-review-list-parts-EventDate__event_date.*")})
+            "class": re.compile(r"34Xs-BQm")})
         if expdate != None:
             listExpDates.append(expdate.get_text())
         else:
