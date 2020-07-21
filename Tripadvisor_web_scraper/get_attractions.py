@@ -64,7 +64,7 @@ def main():
 
 def findReadmore(driver):
     element = driver.find_elements_by_xpath(
-        "//span[starts-with(@class,'location-review-review-list-parts-ExpandableReview__cta--2mR2g')]")
+        "//span[starts-with(@class,'_3maEfNCR')]")
     if element:
         print('found button readmore')
         return element[0]
