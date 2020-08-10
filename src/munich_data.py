@@ -29,14 +29,17 @@ def main():
         df_clean = df[['AUSPRAEGUNG', 'WERT', 'DATE']]
         df_clean = df_clean[df_clean.WERT != np.NaN]
 
+        # Set date as index
+        df_clean = df_clean.set_index('DATE')
+
         # Set set nan values from 2020 to zero
         for index in df_clean.index:
             if df_clean.DATE.loc[index] >= pd.to_datetime('2020-01-01'):
                 if np.isnan(df_clean.WERT.loc[index]):
                     df_clean.WERT.loc[index] = 0
-
-        # Set date as index
-        df_clean = df_clean.set_index('DATE')
+            else:
+                if np.isnan(df_clean.WERT.loc[index]):
+                    df_clean.WERT.loc[index] = df_clean.WERT.mean()
 
         # Generate a compund feature table
         for item in df_clean.AUSPRAEGUNG.unique():
@@ -49,6 +52,13 @@ def main():
     df_clean = pd.concat(ret, axis=0, sort=True)
     df_clean = df_clean.reset_index()
     df_clean = df_clean.groupby(['DATE']).sum()
+
+    # Rename some columns for better clarity
+    # TODO: Check why the column is not renamed
+    df_clean = df_clean.rename(columns={"insgesamt": "Kinos"})
+
+    # Reset index
+    df_clean = df_clean.reset_index()
 
     #Save file
     df_clean.to_csv('../data/munich_visitors/Features.csv', index=False)
