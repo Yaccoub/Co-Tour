@@ -2,148 +2,56 @@
 import pandas as pd
 import numpy as np
 
+def download_data(sheet_name):
+    url = 'https://www.mstatistik-muenchen.de/monatszahlenmonitoring/export/xlsx/mzm_export_alle_monatszahlen.xlsx'
+    return pd.read_excel(url, sheet_name=sheet_name)
+
+def convert_time(data):
+    # Change format of month column
+    # TODO: Check how to get rid of the warning in cell locating
+    for index in data.index:
+        item = str(data.MONAT.loc[index])
+        data.MONAT.loc[index] = item[:4] + '-' + item[-2:]
+    data['DATE'] = pd.to_datetime(data['MONAT'])
+    # Drop unused columns
+    return data.drop(['MONATSZAHL', 'JAHR', 'MONAT'], axis=1)
+
 def main():
-    # Visualize the different sheets of the excel file
-    url = 'https://www.mstatistik-muenchen.de/monatszahlenmonitoring/export/xlsx/mzm_export_alle_monatszahlen.xlsx'
-    df = pd.ExcelFile(url)
+    sheets = ['FREIZEIT','KINOS','MUSEEN','ORCHESTER','THEATER','TOURISMUS']
+    ret = []
+    for sheet_name in sheets:
+        print('Downloading data for: ' + sheet_name + '...')
+        # Data download
+        # TODO: Download could be accelerated by downloading the Excel file only once.
+        df = download_data(sheet_name)
 
-    # todo Leisure
-    # Data download
-    url = 'https://www.mstatistik-muenchen.de/monatszahlenmonitoring/export/xlsx/mzm_export_alle_monatszahlen.xlsx'
-    df = pd.read_excel(url, sheet_name='FREIZEIT')
+        df = convert_time(df)
+        df_clean = df[['AUSPRAEGUNG', 'WERT', 'DATE']]
+        df_clean = df_clean[df_clean.WERT != np.NaN]
 
-    # Change format of month column
-    for index in df.index:
-        item = str(df.MONAT.loc[index])
-        df.MONAT.loc[index] = item[:4] + '-' + item[-2:]
-    df['DATE'] = pd.to_datetime(df['MONAT'])
-    # Drop unused columns
-    df_clean = df.drop(['MONATSZAHL', 'JAHR', 'MONAT'], axis=1)
+        # Set set nan values from 2020 to zero
+        for index in df_clean.index:
+            if df_clean.DATE.loc[index] >= pd.to_datetime('2020-01-01'):
+                if np.isnan(df_clean.WERT.loc[index]):
+                    df_clean.WERT.loc[index] = 0
 
-    # Save the cleaned data as a csv file
-    df_clean = df_clean[['AUSPRAEGUNG', 'WERT', 'DATE']]
-    df_clean = df_clean[df_clean.WERT != np.NaN]
-    df_clean.to_csv('../data/munich_visitors/munich-leisure-facilities.csv', index=False)
+        # Set date as index
+        df_clean = df_clean.set_index('DATE')
 
-    # todo Cinema
-    # Data download
-    url = 'https://www.mstatistik-muenchen.de/monatszahlenmonitoring/export/xlsx/mzm_export_alle_monatszahlen.xlsx'
-    df = pd.read_excel(url, sheet_name='KINOS')
+        # Generate a compund feature table
+        for item in df_clean.AUSPRAEGUNG.unique():
+            name = item
+            tmp = pd.DataFrame(df_clean[df_clean.AUSPRAEGUNG == name].copy().WERT)
+            tmp = pd.DataFrame(tmp)
+            ret.append(pd.DataFrame(tmp.rename(columns={'WERT': name})))
 
-    # Change format of month column
-    for index in df.index:
-        item = str(df.MONAT.loc[index])
-        df.MONAT.loc[index] = item[:4] + '-' + item[-2:]
-    df['DATE'] = pd.to_datetime(df['MONAT'])
-    # Drop unused columns
-    df_clean = df.drop(['MONATSZAHL', 'JAHR', 'MONAT'], axis=1)
+    # Concat the feature table
+    df_clean = pd.concat(ret, axis=0, sort=True)
+    df_clean = df_clean.reset_index()
+    df_clean = df_clean.groupby(['DATE']).sum()
 
-    # Drop column "Auspraegung"
-    df_clean = df_clean.drop(['AUSPRAEGUNG'], axis=1)
-
-    # Save the cleaned data as a csv file
-    df_clean = df_clean[['WERT', 'DATE']]
-    df_clean = df_clean[df_clean.WERT != np.NaN]
-    df_clean.to_csv('../data/munich_visitors/munich-cinemas.csv', index=False)
-
-    # todo Museums
-    # Data download
-    url = 'https://www.mstatistik-muenchen.de/monatszahlenmonitoring/export/xlsx/mzm_export_alle_monatszahlen.xlsx'
-    df = pd.read_excel(url, sheet_name='MUSEEN')
-
-    # Change format of month column
-    for index in df.index:
-        item = str(df.MONAT.loc[index])
-        df.MONAT.loc[index] = item[:4] + '-' + item[-2:]
-    df['DATE'] = pd.to_datetime(df['MONAT'])
-    # Drop unused columns
-    df_clean = df.drop(['MONATSZAHL', 'JAHR', 'MONAT'], axis=1)
-
-    for index in df_clean.index:
-        if df_clean.DATE.loc[index] >= pd.to_datetime('2020-01-01'):
-            if np.isnan(df_clean.WERT.loc[index]):
-                # display(pd.DataFrame(df_clean.loc[index]))
-                df_clean.WERT.loc[index] = 0
-    print(df_clean[df_clean.DATE >= '2020-01-01'].copy().isna().sum())
-
-    # Save the cleaned data as a csv file
-    df_clean = df_clean[['AUSPRAEGUNG', 'WERT', 'DATE']]
-    df_clean = df_clean[df_clean.WERT != np.NaN]
-    df_clean.to_csv('../data/munich_visitors/munich-museums.csv', index=False)
-
-    # todo orchestra
-    # Data download
-    url = 'https://www.mstatistik-muenchen.de/monatszahlenmonitoring/export/xlsx/mzm_export_alle_monatszahlen.xlsx'
-    df = pd.read_excel(url, sheet_name='ORCHESTER')
-
-    # Change format of month column
-    for index in df.index:
-        item = str(df.MONAT.loc[index])
-        df.MONAT.loc[index] = item[:4] + '-' + item[-2:]
-    df['DATE'] = pd.to_datetime(df['MONAT'])
-    # Drop unused columns
-    df_clean = df.drop(['JAHR', 'MONAT'], axis=1)
-
-    for index in df_clean.index:
-        if df_clean.DATE.loc[index] >= pd.to_datetime('2020-01-01'):
-            if np.isnan(df_clean.WERT.loc[index]):
-                # display(pd.DataFrame(df_clean.loc[index]))
-                df_clean.WERT.loc[index] = 0
-    print(df_clean[df_clean.DATE >= '2020-01-01'].copy().isna().sum())
-
-    # Save the cleaned data as a csv file
-    df_clean = df_clean[df_clean.MONATSZAHL == 'Besucher*innen']
-    df_clean = df_clean.drop(['MONATSZAHL'], axis=1)
-    df_clean = df_clean[['AUSPRAEGUNG', 'WERT', 'DATE']]
-    df_clean = df_clean[df_clean.WERT != np.NaN]
-    df_clean.to_csv('../data/munich_visitors/munich-orchestra.csv', index=False)
-
-    # todo theater
-    # Data download
-    url = 'https://www.mstatistik-muenchen.de/monatszahlenmonitoring/export/xlsx/mzm_export_alle_monatszahlen.xlsx'
-    df = pd.read_excel(url, sheet_name='THEATER')
-
-    # Change format of month column
-    for index in df.index:
-        item = str(df.MONAT.loc[index])
-        df.MONAT.loc[index] = item[:4] + '-' + item[-2:]
-    df['DATE'] = pd.to_datetime(df['MONAT'])
-    # Drop unused columns
-    df_clean = df.drop(['JAHR', 'MONAT'], axis=1)
-
-    for index in df_clean.index:
-        if df_clean.DATE.loc[index] >= pd.to_datetime('2020-01-01'):
-            if np.isnan(df_clean.WERT.loc[index]):
-                # display(pd.DataFrame(df_clean.loc[index]))
-                df_clean.WERT.loc[index] = 0
-    print(df_clean[df_clean.DATE >= '2020-01-01'].copy().isna().sum())
-
-    # Save the cleaned data as a csv file
-    df_clean = df_clean[df_clean.MONATSZAHL == 'Besucher*innen']
-    df_clean = df_clean.drop(['MONATSZAHL'], axis=1)
-    df_clean = df_clean[['AUSPRAEGUNG', 'WERT', 'DATE']]
-    df_clean = df_clean[df_clean.WERT != np.NaN]
-    df_clean.to_csv('../data/munich_visitors/munich-theatre.csv', index=False)
-
-    # todo tourism
-    # Data download
-    url = 'https://www.mstatistik-muenchen.de/monatszahlenmonitoring/export/xlsx/mzm_export_alle_monatszahlen.xlsx'
-    df = pd.read_excel(url, sheet_name='TOURISMUS')
-
-    # Change format of month column
-    for index in df.index:
-        item = str(df.MONAT.loc[index])
-        df.MONAT.loc[index] = item[:4] + '-' + item[-2:]
-    df['DATE'] = pd.to_datetime(df['MONAT'])
-    # Drop unused columns
-    df_clean = df.drop(['JAHR', 'MONAT'], axis=1)
-
-    # Save the cleaned data as a csv file
-    df_clean = df_clean[df_clean.MONATSZAHL == 'Gäste']
-    df_clean = df_clean.drop(['MONATSZAHL'], axis=1)
-    df_clean = df_clean[['AUSPRAEGUNG', 'WERT', 'DATE']]
-    df_clean = df_clean[df_clean.WERT != np.NaN]
-    df_clean.to_csv('../data/munich_visitors/munich-tourism.csv', index=False)
+    #Save file
+    df_clean.to_csv('../data/munich_visitors/Features.csv', index=False)
 
 if __name__ == '__main__':
     main()
