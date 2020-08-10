@@ -18,15 +18,15 @@ def main():
     fw = open(fileName, "w", newline='', encoding="utf-8")
     writer = csv.writer(fw, delimiter=',', quoting=csv.QUOTE_MINIMAL)
     writer.writerow(['date', 'title', 'text', 'rating', 'visitor_origin', 'visit'])
-    url = "https://www.tripadvisor.de/Attraction_Review-g187309-d242776-Reviews-English_Garden-Munich_Upper_Bavaria_Bavaria.html"
+    url = "https://www.tripadvisor.de/Attraction_Review-g187309-d190285-Reviews-Frauenkirche-Munich_Upper_Bavaria_Bavaria.html"
 
     options = webdriver.ChromeOptions()
     driver = webdriver.Chrome(options=options)
     driver.get(url)
     ignored_exceptions = (NoSuchElementException, StaleElementReferenceException)
     try:
-        driver.implicitly_wait(2)
-        button = WebDriverWait(driver, 20, ignored_exceptions=ignored_exceptions).until(findReadmore)
+        driver.implicitly_wait(4)
+        button = WebDriverWait(driver, 40, ignored_exceptions=ignored_exceptions).until(findReadmore)
         button.click()
     except exceptions.StaleElementReferenceException as e:
         print(e)
@@ -40,8 +40,8 @@ def main():
         driver.implicitly_wait(3)
         for i in range(4):
             try:
-                driver.implicitly_wait(1)
-                Next = WebDriverWait(driver, 20, ignored_exceptions=ignored_exceptions).until(findNext)
+                driver.implicitly_wait(4)
+                Next = WebDriverWait(driver, 40, ignored_exceptions=ignored_exceptions).until(findNext)
                 Next.click()
                 break
             except exceptions.StaleElementReferenceException as e:
@@ -50,8 +50,8 @@ def main():
 
         for i in range(4):
             try:
-                driver.implicitly_wait(2)
-                button = WebDriverWait(driver, 20, ignored_exceptions=ignored_exceptions).until(findReadmore)
+                driver.implicitly_wait(4)
+                button = WebDriverWait(driver, 40, ignored_exceptions=ignored_exceptions).until(findReadmore)
                 button.click()
                 break
             except exceptions.StaleElementReferenceException as e:
