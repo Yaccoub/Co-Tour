@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[91]:
+# In[131]:
 
 
 # Import the standard libraries
 import pandas as pd
 import numpy as np
-import requests
 
 def download_data(month_listings):
         
@@ -199,20 +198,27 @@ def clean_data(data):
 
 def main():
     months_listings = ['Mar19_listings','Mai19_listings','June19_listings','July19_listings','Aug19_listings','Sep19_listings','Oct19_listings','Nov19_listings','Dec19_listings','Jan20_listings','Feb20_listings','Mar20_listings','Apr20_listings','Mai20_listings','June20_listings']
-    dataframe = pd.DataFrame()
     ret = []
+    concat_dfs = []
+    i=1
     for month_sheet in months_listings:
         print('Downloading data for: ' + month_sheet )
         # Data download
         df = download_data(month_sheet)
         # the data of the current month listing
         df = clean_data(df)
+        # how to concatenate it with the other months listings in a table 
         df[month_sheet] = df.values.tolist()
         df = pd.DataFrame(df[month_sheet])
         ret.append(df)
 
-    # Concat the list to one tabel
+    # Concat the list to one table
     pd.concat(ret, axis=1, sort=True).T
+    print(ret)
+
+
+
+
 
 if __name__ == '__main__':
     main()
