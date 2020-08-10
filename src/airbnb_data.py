@@ -7,6 +7,7 @@
 # Import the standard libraries
 import pandas as pd
 import numpy as np
+import requests
 
 def download_data(month_listings):
         
@@ -211,7 +212,7 @@ def main():
         ret.append(df)
 
     # Concat the list to one tabel
-    pd.concat(ret, axis=1, sort=True)
+    pd.concat(ret, axis=1, sort=True).T
 
 if __name__ == '__main__':
     main()
