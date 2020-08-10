@@ -199,15 +199,19 @@ def clean_data(data):
 def main():
     months_listings = ['Mar19_listings','Mai19_listings','June19_listings','July19_listings','Aug19_listings','Sep19_listings','Oct19_listings','Nov19_listings','Dec19_listings','Jan20_listings','Feb20_listings','Mar20_listings','Apr20_listings','Mai20_listings','June20_listings']
     dataframe = pd.DataFrame()
+    ret = []
     for month_sheet in months_listings:
         print('Downloading data for: ' + month_sheet )
         # Data download
         df = download_data(month_sheet)
         # the data of the current month listing
         df = clean_data(df)
-        # how to concatenate it with the other months in a table ?
-        print(df)
-    
+        df[month_sheet] = df.values.tolist()
+        df = pd.DataFrame(df[month_sheet])
+        ret.append(df)
+
+    # Concat the list to one tabel
+    pd.concat(ret, axis=1, sort=True)
 
 if __name__ == '__main__':
     main()
