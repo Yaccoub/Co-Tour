@@ -18,7 +18,7 @@ def main():
     fw = open(fileName, "w", newline='', encoding="utf-8")
     writer = csv.writer(fw, delimiter=',', quoting=csv.QUOTE_MINIMAL)
     writer.writerow(['date', 'title', 'text', 'rating', 'visitor_origin', 'visit'])
-    url = "https://www.tripadvisor.de/Attraction_Review-g187309-d3590402-Reviews-FC_Bayern_Museum-Munich_Upper_Bavaria_Bavaria.html"
+    url = "https://www.tripadvisor.de/Attraction_Review-g187309-d242776-Reviews-English_Garden-Munich_Upper_Bavaria_Bavaria.html"
 
     options = webdriver.ChromeOptions()
     driver = webdriver.Chrome(options=options)
