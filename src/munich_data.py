@@ -1,6 +1,7 @@
 # Import the standard libraries
 import pandas as pd
 import numpy as np
+import datetime
 
 def download_data(sheet_name):
     url = 'https://www.mstatistik-muenchen.de/monatszahlenmonitoring/export/xlsx/mzm_export_alle_monatszahlen.xlsx'
@@ -8,13 +9,12 @@ def download_data(sheet_name):
 
 def convert_time(data):
     # Change format of month column
-    # TODO: Check how to get rid of the warning in cell locating
     for index in data.index:
         item = str(data.MONAT.loc[index])
-        data.MONAT.loc[index] = item[:4] + '-' + item[-2:]
-    data['DATE'] = pd.to_datetime(data['MONAT'])
-    # Drop unused columns
-    return data.drop(['MONATSZAHL', 'JAHR', 'MONAT'], axis=1)
+        data.MONAT.loc[index] = '01' + '/' + item[-2:] + '/' + item[:4]
+        data.MONAT.loc[index] = datetime.datetime.strptime(data.MONAT.loc[index],'%d/%m/%Y').strftime('%Y/%m/%d')
+    data = data.rename(columns={"MONAT": "DATE", "B": "c"})
+    return data.drop(['MONATSZAHL', 'JAHR'], axis=1)
 
 def main():
     sheets = ['FREIZEIT','KINOS','MUSEEN','ORCHESTER','THEATER','TOURISMUS']
@@ -31,7 +31,8 @@ def main():
 
         # Set set nan values from 2020 to zero
         for index in df_clean.index:
-            if df_clean.DATE.loc[index] >= pd.to_datetime('2020-01-01'):
+            if datetime.datetime.strptime(df_clean.DATE.loc[index], '%Y/%m/%d') >= datetime.datetime.strptime(
+                    '2020/01/01', '%Y/%m/%d'):
                 if np.isnan(df_clean.WERT.loc[index]):
                     df_clean.WERT.loc[index] = 0
             else:
@@ -50,8 +51,10 @@ def main():
 
     # Concat the feature table
     df_clean = pd.concat(ret, axis=0, sort=True)
+    df_clean = df_clean.groupby(['DATE'], sort=True).sum()
     df_clean = df_clean.reset_index()
-    df_clean = df_clean.groupby(['DATE']).sum()
+    df_clean['DATE'] = [datetime.datetime.strptime(date, '%Y/%m/%d').strftime('%Y/%b/%d') for date in df_clean['DATE']]
+    df_clean = df_clean.set_index('DATE')
 
     # Rename some columns for better clarity
     df_clean = df_clean.rename(columns={"insgesamt": "Kinos"})
