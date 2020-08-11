@@ -53,7 +53,7 @@ def main():
     df_clean = pd.concat(ret, axis=0, sort=True)
     df_clean = df_clean.groupby(['DATE'], sort=True).sum()
     df_clean = df_clean.reset_index()
-    df_clean['DATE'] = [datetime.datetime.strptime(date, '%Y/%m/%d').strftime('%Y/%b/%d') for date in df_clean['DATE']]
+    df_clean['DATE'] = [datetime.datetime.strptime(date, '%Y/%m/%d').strftime('%d/%b/%Y') for date in df_clean['DATE']]
     df_clean = df_clean.set_index('DATE')
 
     # Rename some columns for better clarity

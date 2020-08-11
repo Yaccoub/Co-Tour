@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from sklearn import preprocessing
 from datetime import datetime
 state = pd.read_csv('../data/munich_visitors/munich_visitors.csv', engine='python')
-state['DATE']= [datetime.strptime(date, '%d/%m/%Y')for date in state['DATE']]
+state['DATE'] = [datetime.strptime(date, '%d/%b/%Y') for date in state['DATE']]
 #state['DATE'] = [dateparser.parse(date).strftime('%Y.%m') for date in state['DATE']]
 state = state.set_index('DATE')
 for i in range(len(state)):
