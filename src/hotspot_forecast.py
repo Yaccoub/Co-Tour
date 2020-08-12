@@ -11,7 +11,11 @@ from keras.models import Sequential
 from sklearn.metrics import mean_squared_error
 from statsmodels.tsa.stattools import adfuller
 
-
+# Create Experiment in Mlflow for tracking
+try:
+    experiment_id = mlflow.create_experiment(name='Lstm')
+except:
+    experiment_id = mlflow.get_experiment_by_name(name='Lstm').experiment_id
 
 np.random.seed(7)
 Covid_19 = pd.read_csv('../data/covid_19_data/rki/COVID_19_Cases_SK_Muenchen.csv', low_memory=False)
@@ -56,6 +60,10 @@ x_train = np.reshape(x_train, (x_train.shape[0], x_train.shape[1], 1))
 # x_train = np.concatenate((x_train, x_cov), axis=2)
 
 # Logging
+mlflow.start_run(experiment_id=experiment_id, run_name='LSTM')
+# For multivariate lstm
+#mlflow.start_run(run_name='Multivariate LSTM')
+
 mlflow.tensorflow.autolog()
 # create and fit the LSTM network
 model = Sequential()
@@ -66,7 +74,7 @@ model.add(Dense(units=25))
 model.add(Dense(units=1))
 model.compile(loss='mean_squared_error', optimizer='adam')
 
-model.fit(x_train, y_train, batch_size=1, epochs=1)
+model.fit(x_train, y_train, batch_size=1, epochs=10)
 
 test_data = data2[train_size - 20:, :]
 x_test = []
@@ -91,7 +99,8 @@ x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
 
 # Getting the models predicted price values
 predictions = model.predict(x_test)
-rmse = np.sqrt(np.mean(((predictions - y_test) ** 2)))
+rmse = np.sqrt(np.nanmean(((predictions - y_test) ** 2)))
+mlflow.log_metric('rmse',rmse)
 #rmse = np.sqrt(mean_squared_error(predictions, y_test))
 # Plot/Create the data for the graph
 train = data[:train_size]
@@ -104,11 +113,10 @@ plt.xlabel('Date', fontsize=18)
 plt.ylabel('Close Price USD ($)', fontsize=18)
 plt.plot(train)
 plt.plot(valid[['Olympiapark', 'Predictions']])
-plt.legend(['Train', 'Val', 'Predictions'], loc='lower right')
+plt.legend(['Train', 'Val', 'Predictions'], loc='upper right')
 plt.show()
 
-# # plot history
-# pyplot.plot(model.history['loss'], label='train')
-# pyplot.plot(model.history['val_loss'], label='test')
-# pyplot.legend()
-# pyplot.show()
+fig1 = 'Forecast.png'
+plt.savefig(fig1)
+mlflow.log_artifact(fig1) # logging to mlflow
+
