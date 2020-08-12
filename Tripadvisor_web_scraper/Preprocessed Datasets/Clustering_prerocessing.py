@@ -25,3 +25,4 @@ def feature_extraction(dataframe):
     visitors_by_country = df.groupby('country').count().sort_values('visit', ascending=True)['visitor_origin']
     type_of_visitors    = df.groupby('visit').count().sort_values('country', ascending=True)['visitor_origin']
     visitors_by_city    = df.groupby('city').count().sort_values('visit', ascending=True)['visitor_origin']
+    return visitors_by_country, type_of_visitors, visitors_by_city
