@@ -57,8 +57,10 @@ def main():
     district_name = 'SK München'
     df = data_cleaning(df, district_name)
 
+    # Replace special characters
+    district_name = district_name.replace("ü", "ue").replace(" ", "_")
     # Save cases of one district in a csv file
-    file_name = '../data/covid_19_data/rki/COVID-19 Cases ' + district_name + '.csv'
+    file_name = '../data/covid_19_data/rki/COVID_19_Cases_' + district_name + '.csv'
     df.to_csv(file_name, index=True, encoding='utf-8')
     print("Saved cleaned data to: " + file_name)
 
