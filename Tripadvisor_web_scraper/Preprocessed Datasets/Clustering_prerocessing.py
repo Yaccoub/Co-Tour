@@ -41,3 +41,34 @@ def get_visitors(visitors_by_country, visitors_by_city):
     visitors_from_eu = visitors_by_country.groupby('Non EU').sum()['visitor_origin'][0] - \
                        visitors_by_country['visitor_origin']['Germany']
     return visitors_from_munich, visitors_outside_munich, visitors_outside_eu, visitors_from_eu
+
+
+def get_file(path):
+    file_names = []
+    data = pd.DataFrame()
+    names = glob.glob(path)
+    for i in range(len(names)):
+        df = pd.read_csv(names[i], header=0, squeeze=True)
+        file_name = os.path.basename(names[i])
+        file_name = file_name.split('.')[0]
+        file_names.append(file_name)
+        visitors_by_country, type_of_visitors, visitors_by_city = feature_extraction(df, file_name)
+        visitors_by_country = eu_countries(visitors_by_country)
+        visitors_from_munich, visitors_outside_munich, visitors_outside_eu, visitors_from_eu = get_visitors(
+            visitors_by_country, visitors_by_city)
+        type_of_visitors['visitors_from_munich'] = visitors_from_munich
+        type_of_visitors['visitors_outside_munich'] = visitors_outside_munich
+        type_of_visitors['visitors_outside_eu'] = visitors_outside_eu
+        type_of_visitors['visitors_from_eu'] = visitors_from_eu
+        type_of_visitors['attraction_name'] = file_name
+        data = data.append(type_of_visitors)
+
+        print(i)
+    data.reset_index()
+    data.set_index('attraction_name', inplace=True)
+    data.to_csv('k_means_data.csv')
+
+    return data
+
+
+data = get_file(path)
