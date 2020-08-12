@@ -56,8 +56,21 @@ def main():
     df_clean['DATE'] = [datetime.datetime.strptime(date, '%Y/%m/%d').strftime('%d/%b/%Y') for date in df_clean['DATE']]
     df_clean = df_clean.set_index('DATE')
 
+    # Summing up some columns
+    df_clean['Deutsches Museum - Museumsinsel'] = df_clean['Deutsches Museum - Museumsinsel'] + df_clean[
+        'Deutsches Museum - Verkehrszentrum']
+    df_clean = df_clean.drop(['Deutsches Museum - Verkehrszentrum'], axis=1)
+    df_clean = df_clean.rename(columns={"Deutsches Museum - Museumsinsel": "Deutsches Museum"})
+    # df_clean['Außenanlagen Olympiapark (Veranstaltungen)'] = df_clean['Außenanlagen Olympiapark (Veranstaltungen)'] + df_clean['Olympia-Eissportzentrum'] + df_clean['Olympiahalle'] + df_clean['Olympiaturm'] + df_clean['Kleine Olympiahalle']
+    # df_clean = df_clean.drop(['Olympia-Eissportzentrum', 'Olympiahalle', 'Olympiaturm', 'Kleine Olympiahalle'],axis=1)
+    # df_clean = df_clean.rename(columns={"Außenanlagen Olympiapark (Veranstaltungen)": "Olympiapark"})
+
     # Rename some columns for better clarity
     df_clean = df_clean.rename(columns={"insgesamt": "Kinos"})
+    df_clean = df_clean.rename(columns={"Prinzregententheater (Großes Haus)": "Prinzregententheater"})
+    df_clean = df_clean.rename(columns={"Ausland": "Ausland (Tourismus)"})
+    df_clean = df_clean.rename(columns={"Inland": "Inland (Tourismus)"})
+    df_clean = df_clean.rename(columns={"Außenanlagen Olympiapark (Veranstaltungen)": "Olympiapark"})
 
     # Reset index
     df_clean = df_clean.reset_index()
