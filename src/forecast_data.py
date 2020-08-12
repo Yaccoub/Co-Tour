@@ -19,8 +19,9 @@ for i in range(len(state)):
 
 listings = pd.read_csv('../data/Airbnb_data/listings.csv', low_memory=False)
 
-listings['DATE']= [datetime.strptime(date, '%d/%m/%Y')for date in listings['DATE']]
-listings = listings.set_index('DATE')
+listings['Datum']= [datetime.strptime(date, '%d/%b/%Y')for date in listings['Datum']]
+listings = listings.set_index('Datum')
+
 for i in range(len(listings)):
     for district in listings.columns:
         listings.iloc[i][district] = ast.literal_eval(listings.iloc[i][district])
