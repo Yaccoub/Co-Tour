@@ -14,7 +14,7 @@ Covid_19 = Covid_19.set_index('Refdatum')
 Covid_19 = Covid_19.resample('1M').sum()
 Covid_19.index = Covid_19.index + timedelta(days=1)
 
-dataset = pd.read_csv('../data/dataset/Dataset.csv', low_memory=False)
+dataset = pd.read_csv('../data/Forecast Data/dataset.csv', low_memory=False)
 dataset['DATE'] = [datetime.strptime(date, '%Y-%m-%d') for date in dataset['DATE']]
 dataset = dataset.set_index('DATE')
 

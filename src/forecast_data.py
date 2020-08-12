@@ -96,5 +96,5 @@ for place in places:
 dataset = pd.DataFrame(state)
 dataset.div(dataset.sum(axis=1), axis=0)
 
-dataset.to_csv('../data/dataset/Dataset.csv')
+dataset.to_csv('../data/Forecast Data/dataset.csv')
 
