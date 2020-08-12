@@ -94,3 +94,6 @@ for place in places:
             #(df_clean[place][listings.index]+state[place][listings.index] + listings[y[place]])/3
 dataset = pd.DataFrame(state)
 dataset.div(dataset.sum(axis=1), axis=0)
+
+dataset.to_csv('../data/dataset/Dataset.csv')
+
