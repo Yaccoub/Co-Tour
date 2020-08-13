@@ -47,14 +47,23 @@ def main():
     dropNan = False
     X_Data, y_Data = create_sequences(df,timesteps,dropNan)
 
+    # rename columns of y dataset
+    y_Data = pd.DataFrame(y_Data)
+    for old_name, new_name in zip(y_Data.columns, df.columns):
+        y_Data = y_Data.rename(columns={old_name: new_name})
+    y_Data
+
     # test train split
     testsize = 0.33
     shuffle=True
     train_index, test_index = test_train(len(X_Data),testsize,shuffle)
+
+    # rename the columns of y_Data
+
     X_train = X_Data[train_index]
     X_test = X_Data[test_index]
-    y_train = y_Data[train_index]
-    y_test = y_Data[test_index]
+    y_train = y_Data.loc[train_index]
+    y_test = y_Data.loc[test_index]
 
 if __name__ == '__main__':
     main()
