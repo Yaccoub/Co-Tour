@@ -16,24 +16,17 @@ from statsmodels.tsa.stattools import adfuller
 
 # Create Experiment in Mlflow for tracking
 try:
-    experiment_id = mlflow.create_experiment(name='Lstm')
+    experiment_id = mlflow.create_experiment(name='CNN')
 except:
-    experiment_id = mlflow.get_experiment_by_name(name='Lstm').experiment_id
+    experiment_id = mlflow.get_experiment_by_name(name='CNN').experiment_id
 
 np.random.seed(7)
-Covid_19 = pd.read_csv('../data/covid_19_data/rki/COVID_19_Cases_SK_Muenchen.csv', low_memory=False)
-Covid_19['Refdatum'] = [datetime.strptime(date, '%Y-%m-%d') for date in Covid_19['Refdatum']]
-Covid_19 = Covid_19.set_index('Refdatum')
-Covid_19 = Covid_19.resample('1M').sum()
-Covid_19.index = Covid_19.index + timedelta(days=1)
 
 dataset = pd.read_csv('../data/Forecast Data/dataset.csv', low_memory=False)
 dataset['DATE'] = [datetime.strptime(date, '%Y-%m-%d') for date in dataset['DATE']]
 dataset = dataset.set_index('DATE')
 
-dataset = pd.concat([dataset, Covid_19], axis=1)
 
-dataset['AnzahlFall'] = dataset['AnzahlFall'].fillna(0)
 
 data = dataset.filter(['Olympiapark'])
 data2 = data.values

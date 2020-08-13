@@ -10,6 +10,7 @@ import statsmodels.api as sm
 import matplotlib.pyplot as plt
 from sklearn import preprocessing
 from datetime import datetime
+from datetime import timedelta
 state = pd.read_csv('../data/munich_visitors/munich_visitors.csv', engine='python')
 state['DATE'] = [datetime.strptime(date, '%d/%b/%Y') for date in state['DATE']]
 #state['DATE'] = [dateparser.parse(date).strftime('%Y.%m') for date in state['DATE']]
@@ -96,5 +97,16 @@ for place in places:
 dataset = pd.DataFrame(state)
 dataset.div(dataset.sum(axis=1), axis=0)
 
-dataset.to_csv('../data/Forecast Data/dataset.csv')
+Covid_19 = pd.read_csv('../data/covid_19_data/rki/COVID_19_Cases_SK_Muenchen.csv', low_memory=False)
+Covid_19['Refdatum'] = [datetime.strptime(date, '%Y-%m-%d') for date in Covid_19['Refdatum']]
+Covid_19 = Covid_19.set_index('Refdatum')
+Covid_19 = Covid_19.resample('1M').sum()
+Covid_19.index = Covid_19.index + timedelta(days=1)
+
+
+dataset = pd.concat([dataset, Covid_19], axis=1)
+dataset = dataset.reset_index()
+dataset = dataset.rename(columns={"index": "DATE"})
+dataset['AnzahlFall'] = dataset['AnzahlFall'].fillna(0)
+dataset.to_csv('../data/Forecast Data/dataset.csv', index=False)
 
