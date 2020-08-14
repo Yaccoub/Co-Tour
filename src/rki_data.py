@@ -43,7 +43,7 @@ def data_cleaning(data, district_name, dropAnzahlTodesfall=True, dropAltersgrupp
     # Change time format
     district['Refdatum'] = pd.to_datetime(district['Refdatum'])
     # Summing up the COVID-19 cases
-    district = district.groupby(by=['Refdatum']).sum().cumsum()
+    district = district.groupby(by=['Refdatum']).sum()
     # Sort the data
     district = district.sort_values(by=['Refdatum'])
     print("Data cleaning ended")
