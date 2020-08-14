@@ -11,7 +11,47 @@ from keras.models import Sequential
 from sklearn.metrics import mean_squared_error
 from statsmodels.tsa.stattools import adfuller
 
-# Create Experiment in Mlflow for tracking
+def create_sequences(dataset,timesteps=1,dropNa=True):
+    # drop row's which include Nan elements (data preprocessing)
+    df = pd.DataFrame(dataset)
+    if dropNa == True:
+        df.dropna(inplace=True)
+    dataset = df.values
+    # create x and y out of dataset
+    dataX, dataY = [], []
+    for i in range(len(dataset)):
+        endIdx = i + timesteps
+        # stop if reached the end of dataset
+        if endIdx + 1 > len(dataset):
+            break
+        dataX.append(dataset[i:endIdx,:])
+        dataY.append(dataset[endIdx,:])
+    return np.array(dataX), np.array(dataY)
+def test_train(datasetsize,testsize,shuffle=True):
+    if shuffle == True:
+        ntest = int(np.ceil(testsize * datasetsize))
+        idx = np.arange(0,datasetsize)
+        np.random.shuffle(idx)
+        train_index = idx[ntest:]
+        test_index = idx[:ntest]
+        return train_index, test_index
+    else:
+        ntest = int(np.ceil(testsize * datasetsize))
+        idx = np.arange(0,datasetsize)
+        test_index = idx[datasetsize-ntest:]
+        train_index = idx[:datasetsize-ntest]
+        return train_index, test_index
+def LSTM_model():
+    model = Sequential()
+    model.add(LSTM(units=50, return_sequences=True, input_shape=(X_train.shape[1], 1)))
+    # model.add(LSTM(units=50, return_sequences=True,input_shape=(x_train.shape[1],2))) # For multivariate lstm
+    model.add(LSTM(units=50, return_sequences=False))
+    model.add(Dense(units=25))
+    model.add(Dense(units=1))
+    model.compile(loss='mean_squared_error', optimizer='adam')
+    return model
+# def main():
+    # Create Experiment in Mlflow for tracking
 try:
     experiment_id = mlflow.create_experiment(name='Lstm')
 except:
@@ -21,92 +61,58 @@ np.random.seed(7)
 dataset = pd.read_csv('../data/Forecast Data/dataset.csv')
 dataset['DATE'] = [datetime.strptime(date, '%Y-%m-%d') for date in dataset['DATE']]
 dataset = dataset.set_index('DATE')
+timesteps = 20
+dropNan = False
+for place in dataset.columns[:]:
 
-data = dataset.filter(['Olympiapark'])
-data2 = data.values
+    X_Data, y_Data = create_sequences(dataset[place],timesteps,dropNan)
+    y_Data = pd.DataFrame(y_Data)
 
-# # For multivariate lstm
-# data_covid = dataset.filter(['AnzahlFall'])
-# data_covid = data_covid.values
+    y_Data = y_Data.rename(columns={0: place})
+    y_Data_c = y_Data.set_index(dataset.index[timesteps:])
+    testsize = 0.33
+    shuffle= False
+    train_index, test_index = test_train(len(X_Data),testsize,shuffle)
 
-test_size = 15
-train_size = int(len(dataset)) - test_size
+    # # rename the columns of y_Data
+    X_train = X_Data[train_index]
+    X_test = X_Data[test_index]
+    y_train = y_Data.loc[train_index]
+    y_test = y_Data.loc[test_index]
 
-x_train = []
-# x_cov=[] # For multivariate lstm
-y_train = []
+    # Logging
+    mlflow.start_run(experiment_id=experiment_id, run_name=place)
+    # For multivariate lstm
+    # mlflow.start_run(run_name='Multivariate LSTM')
 
-for i in range(20, train_size):
-    x_train.append(data2[i - 20:i, 0])
-    # x_cov.append(data_covid[i - 20:i, 0]) # For multivariate lstm
-    y_train.append(data2[i, 0])
+    mlflow.tensorflow.autolog()
+    # create and fit the LSTM network
 
-x_train, y_train = np.array(x_train), np.array(y_train)
-x_train = np.reshape(x_train, (x_train.shape[0], x_train.shape[1], 1))
+    model = LSTM_model()
+    model.fit(X_train, y_train, batch_size=1, epochs=2)
 
-# For multivariate lstm
-# x_cov = np.array(x_cov) # For multivariate lstm
-# x_cov = np.reshape(x_train, (x_cov.shape[0],x_cov.shape[1],1))
-# x_train = np.concatenate((x_train, x_cov), axis=2)
+    # Getting the models predicted price values
+    predictions = model.predict(X_test)
+    rmse = np.sqrt(np.nanmean(((predictions - y_test) ** 2)))
+    mlflow.log_metric('rmse',rmse)
 
-# Logging
-mlflow.start_run(experiment_id=experiment_id, run_name='LSTM')
-# For multivariate lstm
-#mlflow.start_run(run_name='Multivariate LSTM')
+    # Plot/Create the data for the graph
+    y_train = y_train.set_index(y_Data_c.index[:int(np.ceil(len(y_Data_c)-len(y_Data_c)* testsize))-1])
+    y_test = y_test.set_index(y_Data_c.index[int(np.ceil(len(y_Data_c)-len(y_Data_c)* testsize))-1:])
+    train = y_train
+    valid = pd.DataFrame(y_test)
+    valid['Predictions'] = predictions
+    # Visualize the data
+    plt.figure(figsize=(16, 8))
+    plt.title('Model')
+    plt.xlabel('Date', fontsize=18)
+    plt.ylabel('Close Price USD ($)', fontsize=18)
+    plt.plot(train)
+    plt.plot(valid[[place, 'Predictions']])
+    plt.legend(['Train', 'Val', 'Predictions'], loc='upper right')
+    plt.show()
 
-mlflow.tensorflow.autolog()
-# create and fit the LSTM network
-model = Sequential()
-model.add(LSTM(units=50, return_sequences=True, input_shape=(x_train.shape[1], 1)))
-# model.add(LSTM(units=50, return_sequences=True,input_shape=(x_train.shape[1],2))) # For multivariate lstm
-model.add(LSTM(units=50, return_sequences=False))
-model.add(Dense(units=25))
-model.add(Dense(units=1))
-model.compile(loss='mean_squared_error', optimizer='adam')
-
-model.fit(x_train, y_train, batch_size=1, epochs=1)
-
-test_data = data2[train_size - 20:, :]
-x_test = []
-y_test = data2[train_size:]
-
-
-# For multivariate lstm
-# test_cov = data_covid[train_size - 20:, :]
-# x_test_cov = []
-
-for i in range(20, len(test_data)):
-    x_test.append(test_data[i - 20:i, 0])
-    # x_test_cov.append(test_cov[i-20:i,0]) # For multivariate lstm
-
-x_test = np.array(x_test)
-x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
-
-# # For multivariate lstm
-# x_test_cov = np.array(x_test_cov)
-# x_test_cov = np.reshape(x_test, (x_test_cov.shape[0],x_test_cov.shape[1],1))
-# x_test = np.concatenate((x_test, x_test_cov), axis=2)
-
-# Getting the models predicted price values
-predictions = model.predict(x_test)
-rmse = np.sqrt(np.nanmean(((predictions - y_test) ** 2)))
-mlflow.log_metric('rmse',rmse)
-#rmse = np.sqrt(mean_squared_error(predictions, y_test))
-# Plot/Create the data for the graph
-train = data[:train_size]
-valid = pd.DataFrame(data[train_size:])
-valid['Predictions'] = predictions
-# Visualize the data
-plt.figure(figsize=(16, 8))
-plt.title('Model')
-plt.xlabel('Date', fontsize=18)
-plt.ylabel('Close Price USD ($)', fontsize=18)
-plt.plot(train)
-plt.plot(valid[['Olympiapark', 'Predictions']])
-plt.legend(['Train', 'Val', 'Predictions'], loc='upper right')
-plt.show()
-
-fig1 = 'Forecast.png'
-plt.savefig(fig1)
-mlflow.log_artifact(fig1) # logging to mlflow
-
+    fig1 = 'Forecast.png'
+    plt.savefig(fig1)
+    mlflow.log_artifact(fig1) # logging to mlflow
+    mlflow.end_run()
