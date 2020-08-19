@@ -155,7 +155,7 @@ def remove_stopwords(df):
 
 tweets = list()
 
-with open('./data/json/2020-03-20.json', 'r') as fh:
+with open('C:/Users/achou/Desktop/AMI/2020-03-15.json', 'r') as fh:
     tweets2 = json.load(fh)
 for tweet in tweets2:
     tweet_flat = flatten(tweet, reducer='path')
@@ -174,3 +174,4 @@ df = replace_slang_words(df)
 df = remove_stopwords(df)
 df = part_of_speech(df)
 df = nltkTokenize(df)
+
