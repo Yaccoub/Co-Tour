@@ -21,7 +21,7 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install the Tri
 pip3 install -r requirements.txt
 ```
 
-## Usage
+## Running
 In order to scrape information related a specific attraction/activity from 
 TripAdvisor, change the variable url accordingly. 
  
@@ -46,3 +46,15 @@ python3 get_attraction.py
 
 
 ## Usage
+
+This database is useful to understand classes of tourists, 
+their origin, and preferences. This dataset will help us to 
+detect the change in popularity of some touristic hotspots after
+ the corona crisis by monitoring their ratings and the number 
+ of the reviews and comparing them to the pre-Covid19 period. 
+ This dataset will also be used to cluster these attractions 
+ sites (using k-means algorithm as an example) by popularity, 
+ season of most visits and type of visit (business, family, 
+ friends). The review text itself could also be mapped to a 
+ satisfaction level ranging from 1 to 5 giving us more insight 
+ of the popularity of each attraction 

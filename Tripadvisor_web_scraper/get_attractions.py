@@ -11,37 +11,39 @@ from selenium.common.exceptions import StaleElementReferenceException
 
 def main():
     global fileName
-    fileName = "TripAdvisor_Munich_Activities_dataset" + datetime.now().strftime('%Y%m%d_%H%M') + ".csv"
+    fileName = "English Garden.csv"
     global titleList
     titleList = []
     global writer
     fw = open(fileName, "w", newline='', encoding="utf-8")
     writer = csv.writer(fw, delimiter=',', quoting=csv.QUOTE_MINIMAL)
     writer.writerow(['date', 'title', 'text', 'rating', 'visitor_origin', 'visit'])
-    url = "https://www.tripadvisor.de/Attraction_Review-g187309-d3590402-Reviews-FC_Bayern_Museum-Munich_Upper_Bavaria_Bavaria.html"
-
+    url = "https://www.tripadvisor.com/Attraction_Review-g187309-d242776-Reviews-English_Garden-Munich_Upper_Bavaria_Bavaria.html"
     options = webdriver.ChromeOptions()
+    options.add_argument('--lang=en')
     driver = webdriver.Chrome(options=options)
     driver.get(url)
     ignored_exceptions = (NoSuchElementException, StaleElementReferenceException)
+    all_languages = WebDriverWait(driver, 40, ignored_exceptions=ignored_exceptions).until(find_languages)
+    all_languages.click()
     try:
-        driver.implicitly_wait(2)
-        button = WebDriverWait(driver, 20, ignored_exceptions=ignored_exceptions).until(findReadmore)
+        driver.implicitly_wait(4)
+        button = WebDriverWait(driver, 40, ignored_exceptions=ignored_exceptions).until(findReadmore)
         button.click()
     except exceptions.StaleElementReferenceException as e:
         print(e)
         pass
 
     iteration = 0
-    totalNumPages = 30
+    totalNumPages = 170
     analyzeIndexPage(driver)
     while url != None and iteration < totalNumPages:
         iteration = iteration + 1
-        driver.implicitly_wait(3)
+        driver.implicitly_wait(4)
         for i in range(4):
             try:
-                driver.implicitly_wait(1)
-                Next = WebDriverWait(driver, 20, ignored_exceptions=ignored_exceptions).until(findNext)
+                driver.implicitly_wait(4)
+                Next = WebDriverWait(driver, 40, ignored_exceptions=ignored_exceptions).until(findNext)
                 Next.click()
                 break
             except exceptions.StaleElementReferenceException as e:
@@ -50,8 +52,8 @@ def main():
 
         for i in range(4):
             try:
-                driver.implicitly_wait(2)
-                button = WebDriverWait(driver, 20, ignored_exceptions=ignored_exceptions).until(findReadmore)
+                driver.implicitly_wait(4)
+                button = WebDriverWait(driver, 40, ignored_exceptions=ignored_exceptions).until(findReadmore)
                 button.click()
                 break
             except exceptions.StaleElementReferenceException as e:
@@ -64,13 +66,20 @@ def main():
 
 def findReadmore(driver):
     element = driver.find_elements_by_xpath(
-        "//span[starts-with(@class,'location-review-review-list-parts-ExpandableReview__cta--2mR2g')]")
+        "//span[starts-with(@class,'_3maEfNCR')]")
     if element:
         print('found button readmore')
         return element[0]
     else:
         return False
 
+def find_languages(driver):
+    element = driver.find_elements_by_xpath("//span[starts-with(@class,'_1wk-I7LS')]")[0]
+    if element:
+        print('found button All Languages')
+        return element
+    else:
+        return False
 
 def findNext(driver):
     element = driver.find_elements_by_xpath("//a[@class='ui_button nav next primary ']")[0]
@@ -88,9 +97,9 @@ def analyzeIndexPage(driver):
     listRatings = []
     listExpDates = []
     listVisittype = []
-    for section in soup.find_all("div", attrs={"class": re.compile(r"^location-review-card-Card__ui_card.*")}):
+    for section in soup.find_all("div", attrs={"class": re.compile(r"Dq9MAugU T870kzTX LnVzGwUB")}):
         review = section.find("q", attrs={
-            "class": re.compile(r"^location-review-review-list-parts-ExpandableReview__reviewText.*")})
+            "class": re.compile(r"IRsGHoPm")})
         content = review.findChildren("span")[0].get_text()
         if content != None:
             listReviews.append(content)
@@ -98,7 +107,7 @@ def analyzeIndexPage(driver):
             listReviews.append("")
 
         title = section.find("a", attrs={
-            "class": re.compile(r"^location-review-review-list-parts-ReviewTitle__reviewTitleText.*")})
+            "class": re.compile(r"ocfR3SKN")})
 
         text = title.findChildren("span")[0].get_text()
         if text != None:
@@ -113,21 +122,21 @@ def analyzeIndexPage(driver):
             listRatings.append("")
 
         visit = section.find("span", attrs={
-            "class": re.compile(r"^location-review-review-list-parts-TripType__trip_type.*")})
+            "class": re.compile(r"_2bVY3aT5")})
         if visit != None:
             listVisittype.append(visit.get_text())
         else:
             listVisittype.append("")
 
         location = section.find("span",
-                                attrs={"class": re.compile(r"^social-member-common-MemberHometown__hometown.*")})
+                                attrs={"class": re.compile(r"default _3J15flPT small")})
         if location != None:
             listLocations.append(location.get_text())
         else:
             listLocations.append("")
 
         expdate = section.find("span", attrs={
-            "class": re.compile(r"^location-review-review-list-parts-EventDate__event_date.*")})
+            "class": re.compile(r"34Xs-BQm")})
         if expdate != None:
             listExpDates.append(expdate.get_text())
         else:
