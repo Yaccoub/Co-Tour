@@ -1,0 +1,37 @@
+{% extends "webapp/base.html" %}
+{% load static %}
+{% block styles %}
+<link href="{% static 'webapp/css/tfh.css' %}" rel="stylesheet" type="text/css">
+{% endblock styles %}
+{% block content %}
+<section class="analysis_clustering">
+    <div class="row">
+        <div class="column col-md-6">
+            <h3 class="heading-3">Tourist Hot Spot Forecast</h3>
+            <p class="paragraph-2">A Machine Learning Model To forecast tourist hot spots for the upcoming
+                month using historical data</p>
+            <form>
+                <label class="sr-only" for="tfh_month_select">Select an upcoming Month: </label>
+                <select class="form-control" id="tfh_month_select">
+                    <option selected>Select an upcoming Month</option>
+                    <option value="2020-07-01">July 2020</option>
+                    <option value="2020-08-01">August 2020</option>
+                    <option value="2020-09-01">September 2020</option>
+                    <option value="2020-10-01">October 2020</option>
+                </select>
+                <button class="btn btn-primary forecast-btn" type="submit">Start Forecasting</button>
+            </form>
+        </div>
+        <div class="column-map col-md-6">
+            {{map.header.render|safe}}
+            {{map.html.render|safe}}
+            <script>
+                  {{map.script.render|safe}}
+            </script>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+{% block javascripts %}
+<script src="{% static 'webapp/js/tfh.js' %}"></script>
+{% endblock javascripts %}
