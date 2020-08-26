@@ -17,7 +17,7 @@ from googletrans import Translator
 geolocator = Nominatim(user_agent="AMI")
 
 
-def Origin(df):
+def origin(df):
     # extract relevant columns of dataframe
     df = df[['text', 'visitor_origin']]
     df = df.rename(columns={'text': 'review_number'})
@@ -47,12 +47,12 @@ def Origin(df):
     return df
 
 
-def Markersize(number):
+def markersize(number):
     size = 2 + math.ceil(number)
     return size
 
 
-def Visualise(df):
+def visualise(df):
     # create a map centered on munich
     map1 = folium.Map(
         location=[geolocator.geocode('Munich, Germany').latitude, geolocator.geocode('Munich, Germany').longitude],
@@ -62,7 +62,7 @@ def Visualise(df):
         min_zoom=2,
     )
     # add a marker on each country propotional to the number of visitors to the selected location
-    df.apply(lambda row: folium.CircleMarker(radius=Markersize(row["flux density"]),
+    df.apply(lambda row: folium.CircleMarker(radius=markersize(row["flux density"]),
                                              location=[geolocator.geocode(row["country"]).latitude,
                                                        geolocator.geocode(row["country"]).longitude], tooltip=str(
             round(row["flux density"], 1)) + '% of visitors originate from ' + str(row["country"])).add_to(map1),
