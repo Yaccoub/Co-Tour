@@ -1,6 +1,4 @@
 from datetime import datetime
-from datetime import timedelta
-import statsmodels.api as sm
 import matplotlib.pyplot as plt
 import mlflow.tensorflow
 import numpy as np
@@ -11,8 +9,6 @@ from keras.layers import MaxPooling1D
 from keras.layers import Flatten
 from keras.callbacks import EarlyStopping
 from keras.models import Sequential
-from sklearn.metrics import mean_squared_error
-from statsmodels.tsa.stattools import adfuller
 
 # Create Experiment in Mlflow for tracking
 try:

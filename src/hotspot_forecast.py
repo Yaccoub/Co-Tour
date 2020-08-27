@@ -27,6 +27,7 @@ def create_sequences(dataset,timesteps=1,dropNa=True):
         dataX.append(dataset[i:endIdx,:])
         dataY.append(dataset[endIdx,:])
     return np.array(dataX), np.array(dataY)
+
 def test_train(datasetsize,testsize,shuffle=True):
     if shuffle == True:
         ntest = int(np.ceil(testsize * datasetsize))
@@ -41,6 +42,7 @@ def test_train(datasetsize,testsize,shuffle=True):
         test_index = idx[datasetsize-ntest:]
         train_index = idx[:datasetsize-ntest]
         return train_index, test_index
+
 def LSTM_model():
     model = Sequential()
     model.add(LSTM(units=50, return_sequences=True, input_shape=(X_train.shape[1], 1)))
