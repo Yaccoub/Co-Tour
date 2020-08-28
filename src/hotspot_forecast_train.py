@@ -1,11 +1,13 @@
 from datetime import datetime
-
-import mlflow.tensorflow
 import numpy as np
 import pandas as pd
-from keras.layers import Dense
-from keras.layers import LSTM
 from keras.models import Sequential
+from keras.layers import Input, GRU, Dense,Flatten,Dropout,Conv1D, MaxPooling1D
+from keras.callbacks import EarlyStopping
+from keras.losses import mean_squared_error
+import mlflow.tensorflow
+import matplotlib.pyplot as plt
+from scipy.stats import pearsonr
 
 
 def create_sequences(dataset, timesteps=1, dropNa=True):
@@ -26,7 +28,6 @@ def create_sequences(dataset, timesteps=1, dropNa=True):
         dataY.append(dataset[endIdx, :])
     return np.array(dataX), np.array(dataY)
 
-
 def test_train(datasetsize, testsize, shuffle=True):
     """Returns two dataset to train and test machine learning models"""
     if shuffle:
@@ -38,7 +39,7 @@ def test_train(datasetsize, testsize, shuffle=True):
         return train_index, test_index
     else:
         #TODO: Check datasplitting use int(np.ceil(testsize * datasetsize))
-        ntest = 1  # int(np.ceil(testsize * datasetsize))
+        ntest = int(np.ceil(testsize * datasetsize))
         idx = np.arange(0, datasetsize)
         test_index = idx[datasetsize - ntest:]
         train_index = idx[:datasetsize - ntest]
@@ -46,13 +47,30 @@ def test_train(datasetsize, testsize, shuffle=True):
 
 
 def LSTM_model():
+    model = ks.Sequential()
+    model.add(ks.layers.LSTM(units=50, return_sequences=True, input_shape=(X_train.shape[1], 1)))
+    model.add(ks.layers.LSTM(units=50, return_sequences=False))
+    model.add(ks.layers.Dense(units=25))
+    model.add(ks.layers.Dense(units=1))
+    model.compile(optimizer='adam',
+                  loss='mse',
+                  metrics=['mean_squared_error', 'mean_absolute_error', 'mean_absolute_percentage_error', 'cosine_proximity']
+                 )
+
+def build_model_cnn(n_steps,n_feats,n_fore=1):
     model = Sequential()
-    model.add(LSTM(units=50, return_sequences=True, input_shape=(X_train.shape[1], 1)))
-    # model.add(LSTM(units=50, return_sequences=True,input_shape=(x_train.shape[1],2))) # For multivariate lstm
-    model.add(LSTM(units=50, return_sequences=False))
-    model.add(Dense(units=25))
-    model.add(Dense(units=1))
-    model.compile(loss='mean_squared_error', optimizer='adam')
+    model.add(Conv1D(filters=50, kernel_size=3, activation='relu',input_shape=(n_steps,n_feats)))
+    #model.add(Conv1D(filters=256, kernel_size=3, activation='relu'))
+    model.add(MaxPooling1D(2))
+    model.add(Flatten())
+    #model.add(Dropout(0.20))
+    #model.add(Dense(128, activation='relu'))
+    #model.add(Dense(32, activation='relu'))
+    model.add(Dense(n_fore, activation='linear'))
+    model.compile(optimizer='adam',
+                  loss='mse',
+                  metrics=['mean_squared_error', 'mean_absolute_error', 'mean_absolute_percentage_error', 'cosine_proximity']
+                 )
     return model
 
 # Create Experiment in Mlflow for tracking
@@ -61,40 +79,119 @@ try:
 except:
     experiment_id = mlflow.get_experiment_by_name(name='Lstm').experiment_id
 
+# Set random seed for data splitting
 np.random.seed(7)
 dataset = pd.read_csv('../data/Forecast Data/dataset.csv')
 dataset['DATE'] = [datetime.strptime(date, '%Y-%m-%d') for date in dataset['DATE']]
 dataset = dataset.set_index('DATE')
 
-dataset_d = dataset.drop(dataset.index[len(dataset) - 2:len(dataset)])
+# Throw an exception when containing NaN values
+if dataset.isnull().sum().sum() != 0:
+    raise Exception("The dataset contains NaN values")
 
-timesteps = 20
+# Preprocessing setup
+n_steps = 5
 dropNan = False
-shuffle = False
-for place in dataset_d.columns[2:4]:
-    X_Data, y_Data = create_sequences(dataset_d[place], timesteps, dropNan)
-    y_Data = pd.DataFrame(y_Data)
+shuffle = True
 
-    y_Data = y_Data.rename(columns={0: place})
-    y_Data_c = y_Data.set_index(dataset_d.index[timesteps:])
+X_Data, y_Data_comp = create_sequences(dataset, n_steps, dropNan)
+# Drop the featurs that we don't want to predict
+y_Data = y_Data_comp[:,:28]
 
-    train_index, test_index = test_train(len(X_Data), 0.33, shuffle)
+# Test train split
+train_index, test_index = test_train(len(X_Data), 0.33, shuffle)
 
-    # rename the columns of y_Data
-    X_train = X_Data[train_index]
-    X_test = X_Data[test_index]
-    y_train = y_Data.loc[train_index]
-    y_test = y_Data.loc[test_index]
+# rename the columns of y_Data
+X_train = X_Data[train_index]
+X_test = X_Data[test_index]
+y_train = y_Data[train_index]
+y_test = y_Data[test_index]
 
-    # Logging
-    mlflow.start_run(experiment_id=experiment_id, run_name=place)
-    # For multivariate lstm
-    # mlflow.start_run(run_name='Multivariate LSTM')
+# Parameters for model setup
+n_feats = X_train.shape[2]
+n_fore = y_Data.shape[1]
 
-    mlflow.tensorflow.autolog()
-    # create and fit the LSTM network
+# Setup model logging
+#mlflow.start_run(experiment_id=experiment_id, run_name=place)
 
-    model = LSTM_model()
-    model.fit(X_train, y_train, batch_size=1, epochs=2)
-    model.save('../ML_models/{}.h5'.format(place))
-    mlflow.end_run()
+#mlflow.tensorflow.autolog()
+
+# Create and build the model
+model = build_model_cnn(n_steps,n_feats,n_fore)
+model.summary()
+
+# Train the model
+history = model.fit(
+    X_train,
+    y_train,
+    batch_size=32,
+    epochs=100,
+    validation_data=(X_test, y_test),
+    callbacks=[
+        EarlyStopping(patience=10),
+    ],
+)
+
+# Save the model
+#model.save('../ML_models/{}.h5'.format(place))
+
+# summarize history for accuracy
+plt.figure()
+plt.plot(history.history['mean_squared_error'])
+plt.plot(history.history['val_mean_squared_error'])
+plt.title('model mse')
+plt.ylabel('mean suqared error')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.show()
+
+plt.figure()
+plt.plot(history.history['mean_absolute_error'])
+plt.plot(history.history['val_mean_absolute_error'])
+plt.title('model mae')
+plt.ylabel('mean absolute error')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.show()
+
+plt.figure()
+plt.plot(history.history['mean_absolute_percentage_error'])
+plt.plot(history.history['val_mean_absolute_percentage_error'])
+plt.title('model mean absolute percentage error')
+plt.ylabel('mean absolute percentage error')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.show()
+
+plt.figure()
+plt.plot(history.history['cosine_proximity'])
+plt.plot(history.history['val_cosine_proximity'])
+plt.title('model cosine proximity')
+plt.ylabel('cosine proximity')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.show()
+
+# Create Predictions
+predictions = model.predict(X_test)
+
+# Visualize the predicted data
+plt.figure()
+plt.scatter(predictions,y_test)
+plt.grid(True)
+plt.title("title")
+plt.xlabel("x-label")
+plt.ylabel("y-label")
+plt.show()
+
+# Calculate Pearson's correlation
+li = []
+for i in np.arange(predictions.shape[1]):
+    corr, _ = pearsonr(predictions[i],y_test[i])
+    li.append(corr)
+# Calcuate the mean Pearson's correlation
+corr_mean = np.mean(li)
+print('Mean Pearsons correlation: %.3f' % corr_mean)
+
+# End logging
+#mlflow.end_run()
