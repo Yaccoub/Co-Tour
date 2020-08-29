@@ -2,7 +2,7 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 from keras.models import Sequential
-from keras.layers import Dense,Flatten,Dropout,Conv1D, MaxPooling1D, LSTM
+from keras.layers import Dense,Flatten,Dropout,Conv1D, MaxPooling1D,LSTM
 from keras.callbacks import EarlyStopping
 from keras.losses import mean_squared_error
 import mlflow.keras
@@ -46,16 +46,19 @@ def test_train(datasetsize, testsize, shuffle=True):
         return train_index, test_index
 
 
-def LSTM_model():
+def build_model_lstm(n_steps,n_feats,n_fore=1):
     model = Sequential()
-    model.add(LSTM(units=50, return_sequences=True, input_shape=(X_train.shape[1], 1)))
-    model.add(LSTM(units=50, return_sequences=False))
-    model.add(Dense(units=25))
-    model.add(Dense(units=1))
+    model.add(LSTM(units=128, return_sequences=True, input_shape=(n_steps,n_feats)))
+    model.add(LSTM(units=256, return_sequences=False))
+    model.add(Dropout(0.20))
+    model.add(Dense(128, activation='relu'))
+    #model.add(Dense(units=25))
+    model.add(Dense(units=n_fore))
     model.compile(optimizer='adam',
                   loss='mse',
                   metrics=['mean_squared_error', 'mean_absolute_error', 'mean_absolute_percentage_error', 'cosine_proximity']
                  )
+    return model
 
 def build_model_cnn(n_steps,n_feats,n_fore=1):
     model = Sequential()
@@ -75,10 +78,10 @@ def build_model_cnn(n_steps,n_feats,n_fore=1):
 
 # Create Experiment in Mlflow for tracking
 try:
-    experiment_id = mlflow.create_experiment(name='1D-CNN')
+    experiment_id = mlflow.create_experiment(name='LSTM')
     print("Created mlflow experiment")
 except:
-    experiment_id = mlflow.get_experiment_by_name(name='1D-CNN').experiment_id
+    experiment_id = mlflow.get_experiment_by_name(name='LSTM').experiment_id
 
 # Set random seed for data splitting
 np.random.seed(7)
@@ -91,14 +94,14 @@ if dataset.isnull().sum().sum() != 0:
     raise Exception("The dataset contains NaN values")
 
 # Iterator for testing
-#for iterator in [1,2,8,16,32,64,128]:
-    #print("Test model with ",iterator)
+for iterator in [1,2,8,16,32,64,128]:
+    print("Test model with ",iterator)
 # Switch of the iterator
-if True:
+#if True:
     # Preprocessing setup
-    n_steps = 5
+    n_steps = iterator
     dropNan = False
-    shuffle = True
+    shuffle = False
 
     X_Data, y_Data_comp = create_sequences(dataset, n_steps, dropNan)
     # Drop the featurs that we don't want to predict
@@ -118,13 +121,13 @@ if True:
     n_fore = y_Data.shape[1]
 
     # Setup model logging
-    run_name = "final_test"
+    run_name = str(iterator)+"_timesteps"
     mlflow.start_run(experiment_id=experiment_id, run_name=run_name)
 
     mlflow.keras.autolog()
 
     # Create and build the model
-    model = build_model_cnn(n_steps,n_feats,n_fore)
+    model = build_model_lstm(n_steps,n_feats,n_fore)
     model.summary()
 
     # Train the model
@@ -141,7 +144,7 @@ if True:
     )
 
     # Save the model
-    model.save('../ML_models/{}.h5'.format("1D-CNN"))
+    model.save('../ML_models/{}.h5'.format("LSTM"))
 
     # summarize history for accuracy
     fig = plt.figure()
