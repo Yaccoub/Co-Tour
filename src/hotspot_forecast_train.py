@@ -62,12 +62,12 @@ def build_model_lstm(n_steps,n_feats,n_fore=1):
 
 def build_model_cnn(n_steps,n_feats,n_fore=1):
     model = Sequential()
-    model.add(Conv1D(filters=50, kernel_size=3, activation='relu',input_shape=(n_steps,n_feats)))
-    #model.add(Conv1D(filters=256, kernel_size=3, activation='relu'))
+    model.add(Conv1D(filters=50, kernel_size=7, activation='relu',input_shape=(n_steps,n_feats)))
+    model.add(Conv1D(filters=256, kernel_size=3, activation='relu'))
     model.add(MaxPooling1D(2))
     model.add(Flatten())
     model.add(Dropout(0.20))
-    #model.add(Dense(128, activation='relu'))
+    model.add(Dense(128, activation='relu'))
     #model.add(Dense(32, activation='relu'))
     model.add(Dense(n_fore, activation='linear'))
     model.compile(optimizer='adam',
@@ -78,10 +78,10 @@ def build_model_cnn(n_steps,n_feats,n_fore=1):
 
 # Create Experiment in Mlflow for tracking
 try:
-    experiment_id = mlflow.create_experiment(name='LSTM')
+    experiment_id = mlflow.create_experiment(name='1D-CNN-Places')
     print("Created mlflow experiment")
 except:
-    experiment_id = mlflow.get_experiment_by_name(name='LSTM').experiment_id
+    experiment_id = mlflow.get_experiment_by_name(name='1D-CNN-Places').experiment_id
 
 # Set random seed for data splitting
 np.random.seed(7)
@@ -93,19 +93,21 @@ dataset = dataset.set_index('DATE')
 if dataset.isnull().sum().sum() != 0:
     raise Exception("The dataset contains NaN values")
 
-# Iterator for testing
-for iterator in [1,2,8,16,32,64,128]:
-    print("Test model with ",iterator)
-# Switch of the iterator
-#if True:
-    # Preprocessing setup
-    n_steps = iterator
-    dropNan = False
-    shuffle = False
+# Preprocessing setup
+n_steps = 16
+dropNan = False
+shuffle = True
 
-    X_Data, y_Data_comp = create_sequences(dataset, n_steps, dropNan)
-    # Drop the featurs that we don't want to predict
-    y_Data = y_Data_comp[:,:28]
+X_Data, y_Data_comp = create_sequences(dataset, n_steps, dropNan)
+# Drop the featurs that we don't want to predict
+
+places = dataset.columns[:28]
+# Iterator over different places
+for idx in np.arange(len(places)):
+    place = places[idx]
+    print("Start training model for: ",place)
+
+    y_Data = y_Data_comp[:,idx]
 
     # Test train split
     train_index, test_index = test_train(len(X_Data), 0.33, shuffle)
@@ -118,25 +120,24 @@ for iterator in [1,2,8,16,32,64,128]:
 
     # Parameters for model setup
     n_feats = X_train.shape[2]
-    n_fore = y_Data.shape[1]
 
     # Setup model logging
-    run_name = str(iterator)+"_timesteps"
+    run_name = place
     mlflow.start_run(experiment_id=experiment_id, run_name=run_name)
 
     mlflow.keras.autolog()
 
     # Create and build the model
-    model = build_model_lstm(n_steps,n_feats,n_fore)
-    model.summary()
+    model = build_model_cnn(n_steps,n_feats)
+    #model.summary()
 
     # Train the model
     history = model.fit(
         X_train,
         y_train,
-        batch_size=1,
+        batch_size=10,
         epochs=1000,
-        verbose=1,
+        verbose=0,
         validation_data=(X_test, y_test),
         callbacks=[
             EarlyStopping(patience=10),
@@ -144,7 +145,7 @@ for iterator in [1,2,8,16,32,64,128]:
     )
 
     # Save the model
-    model.save('../ML_models/{}.h5'.format("LSTM"))
+    model.save('../ML_models/{}.h5'.format(place))
 
     # summarize history for accuracy
     fig = plt.figure()
@@ -210,15 +211,12 @@ for iterator in [1,2,8,16,32,64,128]:
     #plt.show()
     mlflow.log_artifact(Figure)
 
+    #TODO: Calculate the Pearson's correlation
+
     # Calculate Pearson's correlation
-    li = []
-    for i in np.arange(predictions.shape[1]):
-        corr, _ = pearsonr(predictions[i],y_test[i])
-        li.append(corr)
-    # Calcuate the mean Pearson's correlation
-    corr_mean = np.mean(li)
-    print("Mean Pearsons correlation: %.3f" % corr_mean)
-    mlflow.log_param("pearson_correlation", corr_mean)
+    #corr, _ = pearsonr(predictions,y_test)
+    #print("Pearsons correlation: %.3f" % corr)
+    #mlflow.log_param("pearson_correlation", corr)
 
     # End logging
     mlflow.end_run()
