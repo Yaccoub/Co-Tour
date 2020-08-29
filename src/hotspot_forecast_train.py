@@ -10,7 +10,7 @@ from mlflow.entities import Param,Metric,RunTag
 import matplotlib.pyplot as plt
 from scipy.stats import pearsonr
 
-def create_sequences(dataset, timesteps=1, dropNa=True):
+def create_sequences(dataset, in_steps=1, out_steps=1, dropNa=True):
     """Converts time series into a data set for supervised machine learning models"""
     # drop row's which include Nan elements (data preprocessing)
     df = pd.DataFrame(dataset)
@@ -20,12 +20,12 @@ def create_sequences(dataset, timesteps=1, dropNa=True):
     # create x and y out of dataset
     dataX, dataY = [], []
     for i in range(len(dataset)):
-        endIdx = i + timesteps
+        endIdx = i + in_steps + out_steps
         # stop if reached the end of dataset
-        if endIdx + 1 > len(dataset):
+        if endIdx > len(dataset):
             break
-        dataX.append(dataset[i:endIdx, :])
-        dataY.append(dataset[endIdx, :])
+        dataX.append(dataset[i:endIdx-out_steps, :])
+        dataY.append(dataset[endIdx-out_steps:endIdx, :])
     return np.array(dataX), np.array(dataY)
 
 def test_train(datasetsize, testsize, shuffle=True):
@@ -38,7 +38,6 @@ def test_train(datasetsize, testsize, shuffle=True):
         test_index = idx[:ntest]
         return train_index, test_index
     else:
-        #TODO: Check datasplitting use int(np.ceil(testsize * datasetsize))
         ntest = int(np.ceil(testsize * datasetsize))
         idx = np.arange(0, datasetsize)
         test_index = idx[datasetsize - ntest:]
@@ -76,15 +75,20 @@ def build_model_cnn(n_steps,n_feats,n_fore=1):
                  )
     return model
 
+# Turn on of logging messages
+logging = True
+
 # Create Experiment in Mlflow for tracking
 try:
-    experiment_id = mlflow.create_experiment(name='1D-CNN-Places')
+    experiment_id = mlflow.create_experiment(name='Default')
     print("Created mlflow experiment")
 except:
-    experiment_id = mlflow.get_experiment_by_name(name='1D-CNN-Places').experiment_id
+    experiment_id = mlflow.get_experiment_by_name(name='Default').experiment_id
 
 # Set random seed for data splitting
 np.random.seed(7)
+
+# Reading the dataset
 dataset = pd.read_csv('../data/Forecast Data/dataset.csv')
 dataset['DATE'] = [datetime.strptime(date, '%Y-%m-%d') for date in dataset['DATE']]
 dataset = dataset.set_index('DATE')
@@ -95,19 +99,22 @@ if dataset.isnull().sum().sum() != 0:
 
 # Preprocessing setup
 n_steps = 16
+output_len = 4
 dropNan = False
 shuffle = True
 
-X_Data, y_Data_comp = create_sequences(dataset, n_steps, dropNan)
-# Drop the featurs that we don't want to predict
+X_Data, y_Data_comp = create_sequences(dataset, n_steps, output_len, dropNan)
 
+# Get the places that we wanna predict
 places = dataset.columns[:28]
+
 # Iterator over different places
-for idx in np.arange(len(places)):
+#for idx in np.arange(len(places)):
+for idx in np.arange(2):
     place = places[idx]
     print("Start training model for: ",place)
 
-    y_Data = y_Data_comp[:,idx]
+    y_Data = y_Data_comp[:,:,idx]
 
     # Test train split
     train_index, test_index = test_train(len(X_Data), 0.33, shuffle)
@@ -120,16 +127,17 @@ for idx in np.arange(len(places)):
 
     # Parameters for model setup
     n_feats = X_train.shape[2]
-
+    n_fore = y_Data.shape[1]
     # Setup model logging
-    run_name = place
-    mlflow.start_run(experiment_id=experiment_id, run_name=run_name)
+    if logging:
+        run_name = place
+        mlflow.start_run(experiment_id=experiment_id, run_name=run_name)
 
-    mlflow.keras.autolog()
+        mlflow.keras.autolog()
 
     # Create and build the model
-    model = build_model_cnn(n_steps,n_feats)
-    #model.summary()
+    model = build_model_cnn(n_steps,n_feats,n_fore)
+    model.summary()
 
     # Train the model
     history = model.fit(
@@ -157,8 +165,10 @@ for idx in np.arange(len(places)):
     plt.legend(['train', 'test'], loc='upper left')
     Figure = "../img/val_mean_squared_error.png"
     fig.savefig(Figure)
-    #plt.show()
-    mlflow.log_artifact(Figure)
+    if logging:
+        mlflow.log_artifact(Figure)
+    else:
+        plt.show()
 
     fig = plt.figure()
     plt.plot(history.history['mean_absolute_error'])
@@ -169,8 +179,10 @@ for idx in np.arange(len(places)):
     plt.legend(['train', 'test'], loc='upper left')
     Figure = "../img/val_mean_absolute_error.png"
     fig.savefig(Figure)
-    #plt.show()
-    mlflow.log_artifact(Figure)
+    if logging:
+        mlflow.log_artifact(Figure)
+    else:
+        plt.show()
 
     fig = plt.figure()
     plt.plot(history.history['mean_absolute_percentage_error'])
@@ -181,8 +193,10 @@ for idx in np.arange(len(places)):
     plt.legend(['train', 'test'], loc='upper left')
     Figure = "../img/val_mean_absolute_percentage_error.png"
     fig.savefig(Figure)
-    #plt.show()
-    mlflow.log_artifact(Figure)
+    if logging:
+        mlflow.log_artifact(Figure)
+    else:
+        plt.show()
 
     fig = plt.figure()
     plt.plot(history.history['cosine_proximity'])
@@ -193,30 +207,50 @@ for idx in np.arange(len(places)):
     plt.legend(['train', 'test'], loc='upper left')
     Figure = "../img/val_cosine_proximity.png"
     fig.savefig(Figure)
-    #plt.show()
-    mlflow.log_artifact(Figure)
+    if logging:
+        mlflow.log_artifact(Figure)
+    else:
+        plt.show()
 
     # Create Predictions
     predictions = model.predict(X_test)
 
     # Visualize the predicted data
-    fig = plt.figure()
-    plt.scatter(y_test,predictions)
-    plt.grid(True)
-    plt.title("correlation prediction - test data")
-    plt.xlabel("actual test data")
-    plt.ylabel("predictions")
-    Figure = "../img/correlation.png"
-    fig.savefig(Figure)
-    #plt.show()
-    mlflow.log_artifact(Figure)
+    month = ["first", "second", "third", "fourth"]
+    for i in np.arange(predictions.shape[1]):
+        fig = plt.figure()
+        plt.scatter(y_test[:, i], predictions[:, i])
+        plt.grid(True)
+        plt.title("Correlation of the forecast for the " + month[i] + " month")
+        plt.xlabel("actual test data")
+        plt.ylabel("predictions")
+        Figure = "../img/correlation_{}.png".format(month[i])
+        fig.savefig(Figure)
+        if logging:
+            mlflow.log_artifact(Figure)
+        else:
+            plt.show()
+
+    model.save('../ML_models/{}.h5'.format(place))
 
     #TODO: Calculate the Pearson's correlation
 
     # Calculate Pearson's correlation
-    #corr, _ = pearsonr(predictions,y_test)
-    #print("Pearsons correlation: %.3f" % corr)
-    #mlflow.log_param("pearson_correlation", corr)
+    li = []
+    for i in np.arange(predictions.shape[1]):
+        corr, _ = pearsonr(y_test[:, i], predictions[:, i])
+        li.append(corr)
+        print('Pearsons correlation for the',month[i],'month: %.3f' % corr)
+        if logging:
+            param_name = month[i]+"_pearson_correlation"
+            mlflow.log_param(param_name, corr)
+
+    # Calcuate the mean Pearson's correlation
+    corr_mean = np.mean(li)
+    print('Mean Pearsons correlation: %.3f' % corr_mean)
+    if logging:
+        mlflow.log_param("mean_pearson_correlation", corr_mean)
 
     # End logging
-    mlflow.end_run()
+    if logging:
+        mlflow.end_run()
