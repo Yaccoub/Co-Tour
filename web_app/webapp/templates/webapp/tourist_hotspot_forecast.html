@@ -1,6 +1,6 @@
 {% extends "webapp/base.html" %}
 {% load static %}
-
+{% block map_styles %} {{map.header.render|safe}} {{map2.header.render|safe}}{% endblock map_styles %}
 {% block styles %}
 <link href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
 <link href="{% static 'webapp/css/tfh.css' %}" rel="stylesheet" type="text/css">
@@ -14,12 +14,12 @@
         <div class="column col-md-3">
             <h3 class="heading-3 font-weight-bold">Tourist Hot Spot Forecast</h3>
             <p class="paragraph-2 font-weight-light">A Machine Learning Model To forecast tourist hot spots for the
-                upcoming
-                month using historical data</p>
+                upcoming month using historical data</p>
             <form>
+                {% csrf_token %}
                 <label class="sr-only" for="tfh_month_select">Select an upcoming Month: </label>
-                <select class="form-control" id="tfh_month_select">
-                    <option selected>Select an upcoming Month</option>
+                <select class="form-control" id="tfh_month_select" name="tfh_month_select">
+                    <option disabled selected value="2020-04-01">Select an upcoming Month</option>
                     <option value="2020-07-01">July 2020</option>
                     <option value="2020-08-01">August 2020</option>
                     <option value="2020-09-01">September 2020</option>
@@ -30,28 +30,31 @@
             <p class="paragraph-2 font-weight-light">Need to add place here to display top 10 places {{Text}}</p>
         </div>
         <div class="column-map col-md-9">
-            {{map.header.render|safe}}
             {{map.html.render|safe}}
             <script>
                   {{map.script.render|safe}}
-
 
             </script>
         </div>
     </div>
     <div class="historical-data">
         <h3 class="heading-4 font-weight-bold">Historical Data</h3>
-        <label class="paragraph-3 font-weight-light">To view historical data click here: </label>
-        <input id="month_picker" min="2018-03" name="month_picker" type="month" value="2020-05">
-        <div class="row hist-map">
-            <div class="column-map col-md-12">
-                {{map2.header.render|safe}}
-                {{map2.html.render|safe}}
-                <script>
+        <form>
+            {% csrf_token %}
+            <label class="paragraph-3 font-weight-light">To view historical data click here: </label>
+            <input id="month_picker" name="month_picker" type="month" value="{{month_picker}}">
+
+            <button class="btn btn-secondary historical-btn" type="submit">Explore Historical Data</button>
+        </form>
+            <div class="row hist-map">
+                <div class="column-map col-md-12">
+                    {{map2.html.render|safe}}
+                    <script>
                   {{map2.script.render|safe}}
-                </script>
+
+                    </script>
+                </div>
             </div>
-        </div>
     </div>
 </div>
 {% endblock content %}

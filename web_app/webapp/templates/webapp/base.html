@@ -6,6 +6,7 @@
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
 
     <!-- Bootstrap CSS -->
+    {% block map_styles %} {% endblock map_styles %}
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" rel="stylesheet">
     <link href="{% static 'webapp/css/main.css' %}" rel="stylesheet" type="text/css">
@@ -43,10 +44,10 @@
                         <a class="nav-link" href="{% url 'thf'%}">Tourist Hotspot Forecast</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Tourism Recommendation System</a>
+                        <a class="nav-link" href="{% url 'trs'%}">Tourism Recommendation System</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link" href="{% url 'contact'%}">Contact</a>
                     </li>
                 </ul>
             </div>
@@ -56,9 +57,9 @@
     {% endblock parallax %}
 </header>
 <main class="main" role="main">
-    <div class="container-fluid">
+
         {% block content %}{% endblock content %}
-    </div>
+
 </main>
 
 <!-- Optional JavaScript -->
