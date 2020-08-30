@@ -22,11 +22,6 @@ state = pd.read_csv('../data/munich_visitors/munich_visitors.csv', engine='pytho
 state['DATE'] = [datetime.strptime(date, '%d/%b/%Y') for date in state['DATE']]
 state = state.set_index('DATE')
 
-# Normalizing munich visitor data
-#TODO: The error is located here
-for i in range(len(state)):
-    state.iloc[i] = state.iloc[i] / state.iloc[i].sum()
-
 # Read airbnb data
 listings = pd.read_csv('../data/Airbnb_data/listings.csv', low_memory=False)
 listings['Datum']= [datetime.strptime(date, '%d/%b/%Y')for date in listings['Datum']]
@@ -37,8 +32,6 @@ for i in range(len(listings)):
     for district in listings.columns:
         listings.iloc[i][district] = ast.literal_eval(listings.iloc[i][district])
         listings.iloc[i][district]= listings.iloc[i][district][0]* 10 + listings.iloc[i][district][1]
-    #TODO: Write the normalization somewhre else
-    listings.iloc[i] = listings.iloc[i] / listings.iloc[i].sum()
 
 # Tripadvisor setup
 path = "../Tripadvisor_web_scraper/data/*.csv"
@@ -106,9 +99,6 @@ for place in places:
 
 # Concat the feature table
 df_clean = pd.concat(ret, axis=1, sort=True)
-#TODO: Write the normalization somewhre else
-for i in range(len(df_clean)):
-    df_clean.iloc[i] = df_clean.iloc[i] / df_clean.iloc[i].sum()
 
 for place in places:
     if y[place] != '':
@@ -131,9 +121,10 @@ dataset = pd.concat([dataset, Covid_19], axis=1)
 dataset = dataset.reset_index()
 dataset = dataset.rename(columns={"index": "DATE"})
 dataset['AnzahlFall'] = dataset['AnzahlFall'].fillna(0)
-#TODO: Replace NaN values
 
 # Drop the last rows as this data is not complete
-dataset = dataset.fillna(0)[:-3]
+dataset = dataset[dataset.DATE <= datetime.strptime("2020-04-01", '%Y-%m-%d')].copy()
+
+# Save data to csv file
 dataset.to_csv('../data/Forecast Data/dataset.csv', index=False)
 

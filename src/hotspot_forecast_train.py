@@ -1,12 +1,12 @@
 from datetime import datetime
 import numpy as np
 import pandas as pd
+from sklearn.preprocessing import StandardScaler
+from pickle import dump
 from keras.models import Sequential
 from keras.layers import Dense,Flatten,Dropout,Conv1D, MaxPooling1D,LSTM
 from keras.callbacks import EarlyStopping
-from keras.losses import mean_squared_error
 import mlflow.keras
-from mlflow.entities import Param,Metric,RunTag
 import matplotlib.pyplot as plt
 from scipy.stats import pearsonr
 
@@ -109,8 +109,7 @@ X_Data, y_Data_comp = create_sequences(dataset, n_steps, output_len, dropNan)
 places = dataset.columns[:28]
 
 # Iterator over different places
-#for idx in np.arange(len(places)):
-for idx in np.arange(2):
+for idx in np.arange(len(places)):
     place = places[idx]
     print("Start training model for: ",place)
 
@@ -124,6 +123,26 @@ for idx in np.arange(2):
     X_test = X_Data[test_index]
     y_train = y_Data[train_index]
     y_test = y_Data[test_index]
+
+    # Scale input data
+    xscalers = {}
+    X_train_scaled = X_train
+    X_test_scaled = X_test
+    for i in range(X_train.shape[2]):
+        xscalers[i] = StandardScaler()
+        X_train_scaled[:, :, i] = xscalers[i].fit_transform(X_train[:, :, i])
+
+    for i in range(X_train.shape[2]):
+        X_test_scaled[:, :, i] = xscalers[i].transform(X_test[:, :, i])
+
+    # Scale output data
+    yscaler = StandardScaler()
+    y_train_scaled = yscaler.fit_transform(y_train)
+    y_test_scaled = yscaler.transform(y_test)
+
+    # Save the standard scaler
+    dump(xscalers, open('../data_scaler/xscalers.pkl', 'wb'))
+    dump(yscaler, open('../data_scaler/yscaler/{}.pkl'.format(place), 'wb'))
 
     # Parameters for model setup
     n_feats = X_train.shape[2]
@@ -141,12 +160,12 @@ for idx in np.arange(2):
 
     # Train the model
     history = model.fit(
-        X_train,
-        y_train,
+        X_train_scaled,
+        y_train_scaled,
         batch_size=10,
         epochs=1000,
         verbose=0,
-        validation_data=(X_test, y_test),
+        validation_split=0.1,
         callbacks=[
             EarlyStopping(patience=10),
         ],
@@ -213,13 +232,14 @@ for idx in np.arange(2):
         plt.show()
 
     # Create Predictions
-    predictions = model.predict(X_test)
+    y_pred_train = yscaler.inverse_transform(model.predict(X_train_scaled))
+    y_pred_test = yscaler.inverse_transform(model.predict(X_test_scaled))
 
     # Visualize the predicted data
     month = ["first", "second", "third", "fourth"]
-    for i in np.arange(predictions.shape[1]):
+    for i in np.arange(y_pred_test.shape[1]):
         fig = plt.figure()
-        plt.scatter(y_test[:, i], predictions[:, i])
+        plt.scatter(y_test[:, i], y_pred_test[:, i])
         plt.grid(True)
         plt.title("Correlation of the forecast for the " + month[i] + " month")
         plt.xlabel("actual test data")
@@ -231,14 +251,10 @@ for idx in np.arange(2):
         else:
             plt.show()
 
-    model.save('../ML_models/{}.h5'.format(place))
-
-    #TODO: Calculate the Pearson's correlation
-
     # Calculate Pearson's correlation
     li = []
-    for i in np.arange(predictions.shape[1]):
-        corr, _ = pearsonr(y_test[:, i], predictions[:, i])
+    for i in np.arange(y_pred_test.shape[1]):
+        corr, _ = pearsonr(y_test[:, i], y_pred_test[:, i])
         li.append(corr)
         print('Pearsons correlation for the',month[i],'month: %.3f' % corr)
         if logging:

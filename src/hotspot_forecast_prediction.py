@@ -1,20 +1,11 @@
 from datetime import datetime
-import math
-
 import keras
-import matplotlib.pyplot as plt
-import mlflow.tensorflow
 import numpy as np
 import pandas as pd
-from keras.layers import Dense
-from keras.layers import LSTM
-from keras.models import Sequential
-import folium
-from folium import plugins
-from geopy.geocoders import Nominatim
+from pickle import load
 
-
-def create_sequences(dataset, timesteps=1, dropNa=True):
+def create_sequences(dataset, in_steps=1, out_steps=1, dropNa=True):
+    """Converts time series into a data set for supervised machine learning models"""
     # drop row's which include Nan elements (data preprocessing)
     df = pd.DataFrame(dataset)
     if dropNa:
@@ -23,58 +14,79 @@ def create_sequences(dataset, timesteps=1, dropNa=True):
     # create x and y out of dataset
     dataX, dataY = [], []
     for i in range(len(dataset)):
-        endIdx = i + timesteps
+        endIdx = i + in_steps + out_steps
         # stop if reached the end of dataset
-        if endIdx + 1 > len(dataset):
+        if endIdx > len(dataset):
             break
-        dataX.append(dataset[i:endIdx, :])
-        dataY.append(dataset[endIdx, :])
+        dataX.append(dataset[i:endIdx-out_steps, :])
+        dataY.append(dataset[endIdx-out_steps:endIdx, :])
     return np.array(dataX), np.array(dataY)
 
-
-def test_train(datasetsize, testsize, shuffle=True):
-    if shuffle:
-        ntest = int(np.ceil(testsize * datasetsize))
-        idx = np.arange(0, datasetsize)
-        np.random.shuffle(idx)
-        test_index = idx[:ntest]
-        return test_index
-    else:
-        ntest = 1  # int(np.ceil(testsize * datasetsize))
-        idx = np.arange(0, datasetsize)
-        test_index = idx[datasetsize - ntest:]
-        return test_index
-
-
-np.random.seed(7)
+# Reading the dataset
 dataset = pd.read_csv('../data/Forecast Data/dataset.csv')
 dataset['DATE'] = [datetime.strptime(date, '%Y-%m-%d') for date in dataset['DATE']]
 dataset = dataset.set_index('DATE')
 
-timesteps = 20
+# Throw an exception when containing NaN values
+if dataset.isnull().sum().sum() != 0:
+    raise Exception("The dataset contains NaN values")
+
+# Preprocessing setup
+# Attention: This setup must be the same as in hotspot_forecast_train.py except output_len = 0. Otherwise the models wont match.
+n_steps = 16
+output_len = 0
 dropNan = False
-shuffle = False
-for i in range(2, -1, -1):
-    dataset_d = dataset.drop(dataset.index[len(dataset) - i:len(dataset)])
-    for place in dataset_d.columns[2:4]:
-        reconstructed_model = keras.models.load_model("../ML_models/{}.h5".format(place))
-        X_Data, y_Data = create_sequences(dataset_d[place], timesteps, dropNan)
-        y_Data = pd.DataFrame(y_Data)
 
-        y_Data = y_Data.rename(columns={0: place})
-        y_Data_c = y_Data.set_index(dataset_d.index[timesteps:])
+# Create dataset for prediction
+X_data_all, y_data = create_sequences(dataset, n_steps, output_len, dropNan)
+X_data = X_data_all[len(X_data_all)-1]
 
-        test_index = test_train(len(X_Data), 0.33, shuffle)
+# Reshape the input data to a 3 dim array
+X_data = np.reshape(X_data, (1,X_data.shape[0],X_data.shape[1]))
 
-        # rename the columns of y_Data
-        X_test = X_Data[test_index]
-        y_test = y_Data.loc[test_index]
-        predictions = reconstructed_model.predict(X_test)
+# Load the xscaler
+xscalers = load(open('../data_scaler/xscalers.pkl', 'rb'))
 
-        valid = pd.DataFrame(y_test)
-        valid['Predictions'] = predictions
-        dataset[place][dataset.index[len(dataset) - i - 1]] = predictions
+X_data_scaled = X_data
+for i in range(X_data.shape[2]):
+    X_data_scaled[:, :, i] = xscalers[i].transform(X_data[:, :, i])
 
-dataset = dataset.reset_index()
-dataset = dataset.rename(columns={"index": "DATE"})
-dataset.to_csv('../data/Forecast Data/dataset_predicted.csv', index=False)
+# Get the places that we wanna predict
+places = dataset.columns[:28]
+
+ret = []
+
+# Iterator over different places
+for idx in np.arange(len(places)):
+    place = places[idx]
+    print("Start prediction for:",place)
+
+    # Load the traind model
+    model = keras.models.load_model("../ML_models/{}.h5".format(place))
+
+    # Load the xscaler
+    yscaler = load(open('../data_scaler/yscaler/{}.pkl'.format(place), 'rb'))
+
+    # Predict
+    y_pred = yscaler.inverse_transform(model.predict(X_data_scaled))
+
+    # Append prediction to the list of different places
+    ret.append(pd.DataFrame(np.reshape(y_pred, y_pred.shape[1]), columns=[place]))
+
+# Generate new indices
+indices = []
+for i in np.arange(4):
+    indices.append(dataset.index[-1] + pd.DateOffset(months=i + 1))
+
+# Append timestamps to
+ret.append(pd.DataFrame(indices, columns=['DATE']))
+predictions = pd.concat(ret, axis=1, sort=True)
+
+# Set date as index
+predictions = predictions.set_index('DATE')
+
+# Deal with negative predichtios
+predictions[predictions < 0] = 0
+
+#Save file
+predictions.to_csv('../data/Forecast Data/dataset_predicted.csv', index=True)
