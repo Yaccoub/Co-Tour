@@ -58,3 +58,9 @@
 .container-fluid{
     width: 90%;
 }
+.column{
+    border-radius: 5px;
+    padding-top: 10px;
+    box-sizing: border-box;
+    background-color: #FFFFFF;
+}

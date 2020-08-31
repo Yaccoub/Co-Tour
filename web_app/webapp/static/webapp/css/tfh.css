@@ -99,6 +99,8 @@
 .historical-btn {
   margin-top: 10px;
   margin-bottom: 10px;
-
+}
+.container-fluid{
+    width: 90%;
 }
 

@@ -12,7 +12,7 @@ from geopy.geocoders import Nominatim
 geolocator = Nominatim(user_agent="UX")
 
 
-def get_geo_data(geolocator, date):
+def get_geo_data(geocoder, date):
     dataset = pd.read_csv('../data/Forecast Data/dataset_predicted.csv')
     dataset['DATE'] = [datetime.strptime(date, '%Y-%m-%d') for date in dataset['DATE']]
     dataset = dataset.set_index('DATE')
@@ -23,8 +23,9 @@ def get_geo_data(geolocator, date):
     geo['Weights'] = ''
     for place in geo.index:
         print(place)
-        geo_info = geolocator.geocode(query=place, timeout=3)
+        geo_info = geocoder.geocode(query=place, timeout=3)
         try:
+
             geo['Latitude'][place] = geo_info.latitude
             geo['Longitude'][place] = geo_info.longitude
         except:
@@ -77,7 +78,7 @@ class ThfView(TemplateView):
         # self.geolocator = Nominatim(user_agent="UX")
 
     def get_date_forecast(self):
-        tfh_month_select = self.request.GET.get('tfh_month_select', '2020-02-01')
+        tfh_month_select = self.request.GET.get('tfh_month_select', '2020-05-01')
         print(tfh_month_select)
         return tfh_month_select
 

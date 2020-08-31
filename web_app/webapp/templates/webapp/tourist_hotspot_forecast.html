@@ -10,53 +10,55 @@
 
 {% block content %}
 <div class="forecast_analysis">
-    <div class="row">
-        <div class="column col-md-3">
-            <h3 class="heading-3 font-weight-bold">Tourist Hot Spot Forecast</h3>
-            <p class="paragraph-2 font-weight-light">A Machine Learning Model To forecast tourist hot spots for the
-                upcoming month using historical data</p>
-            <form>
-                {% csrf_token %}
-                <label class="sr-only" for="tfh_month_select">Select an upcoming Month: </label>
-                <select class="form-control" id="tfh_month_select" name="tfh_month_select">
-                    <option disabled selected value="2020-04-01">Select an upcoming Month</option>
-                    <option value="2020-07-01">July 2020</option>
-                    <option value="2020-08-01">August 2020</option>
-                    <option value="2020-09-01">September 2020</option>
-                    <option value="2020-10-01">October 2020</option>
-                </select>
-                <button class="btn btn-primary forecast-btn" type="submit">Start Forecasting</button>
-            </form>
-            <p class="paragraph-2 font-weight-light">Need to add place here to display top 10 places {{Text}}</p>
-        </div>
-        <div class="column-map col-md-9">
-            {{map.html.render|safe}}
-            <script>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="column col-md-3">
+                <h3 class="heading-3 font-weight-bold">Tourist Hot Spot Forecast</h3>
+                <p class="paragraph-2 font-weight-light">A Machine Learning Model To forecast tourist hot spots for the
+                    upcoming month using historical data</p>
+                <form>
+                    {% csrf_token %}
+                    <label class="sr-only" for="tfh_month_select">Select an upcoming Month: </label>
+                    <select class="form-control" id="tfh_month_select" name="tfh_month_select">
+                        <option disabled selected>Select an upcoming Month</option>
+                        <option value="2020-07-01">July 2020</option>
+                        <option value="2020-08-01">August 2020</option>
+                        <option value="2020-09-01">September 2020</option>
+                        <option value="2020-10-01">October 2020</option>
+                    </select>
+                    <button class="btn btn-primary forecast-btn" type="submit">Start Forecasting</button>
+                </form>
+                <p class="paragraph-2 font-weight-light">Need to add place here to display top 10 places {{Text}}</p>
+            </div>
+            <div class="column-map col-md-9">
+                {{map.html.render|safe}}
+                <script>
                   {{map.script.render|safe}}
-
-            </script>
+                </script>
+            </div>
         </div>
     </div>
-    <div class="historical-data">
+</div>
+<div class="historical-data">
+    <div class="container-fluid">
         <h3 class="heading-4 font-weight-bold">Historical Data</h3>
         <form>
             {% csrf_token %}
             <label class="paragraph-3 font-weight-light">To view historical data click here: </label>
             <input id="month_picker" name="month_picker" type="month" value="{{month_picker}}">
-
             <button class="btn btn-secondary historical-btn" type="submit">Explore Historical Data</button>
         </form>
-            <div class="row hist-map">
-                <div class="column-map col-md-12">
-                    {{map2.html.render|safe}}
-                    <script>
+        <div class="row hist-map">
+            <div class="column-map col-md-12">
+                {{map2.html.render|safe}}
+                <script>
                   {{map2.script.render|safe}}
-
-                    </script>
-                </div>
+                </script>
             </div>
+        </div>
     </div>
 </div>
+
 {% endblock content %}
 
 {% block javascripts %}
@@ -65,6 +67,6 @@
         src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
 <script src="{% static 'webapp/js/tfh.js' %}"></script>
-<script src="{% static 'webapp/js/MonthPicker.min.js' %}"></script>
+<!--<script src="{% static 'webapp/js/MonthPicker.min.js' %}"></script>-->
 
 {% endblock javascripts %}

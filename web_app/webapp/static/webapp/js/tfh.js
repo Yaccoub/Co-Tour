@@ -1,9 +1,9 @@
 $(document).ready(function() {
               $('.navbar').removeClass('fixed-top');
-              $("#month_picker").MonthPicker({
-                ShowIcon: false,
-                StartYear: 2020
-              });
+//              $("#month_picker").MonthPicker({
+//                ShowIcon: false,
+//                StartYear: 2020
+//              });
               $(".forecast-btn").click(function(){
                     var tfh_month_select = $("#tfh_month_select").children("option:selected").val();
                     data = {'tfh_month_select' : tfh_month_select };
