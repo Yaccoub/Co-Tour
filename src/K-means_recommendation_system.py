@@ -145,6 +145,20 @@ def predict_score(kmeans, df, ori, visit, my_dict):
 
     return res_sco
 
+
+"""Accepted strings are 
+- ori :
+'provenance_EU apart from GER'
+'provenance_Munich'
+'provenance_Outisde EU'
+'provenance_outside Munich'
+- visit :
+'visit_Traveled as a couple'
+'visit_Traveled on business'
+'visit_Traveled solo'
+'visit_Traveled with family'
+'visit_Traveled with friends'"""
+
 #examples:
 provenance = 'provenance_outside Munich'
 visit = 'visit_Traveled as a couple'
