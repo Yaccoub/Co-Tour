@@ -9,7 +9,7 @@ import geopy
 
 locale.setlocale(locale.LC_ALL, 'en_US')
 EU_countries = EUROPEAN_UNION.names
-path = "C:/Users/yacco/Documents/TUM/Applied Machine Learning/group16/data/Tripadvisor_datasets/*.csv"
+path = "../data/Tripadvisor_datasets/*.csv"
 
 def preprocessing(df):
     df['date'] = df['date'].replace({'Date of experience: ': ''}, regex=True)
@@ -70,7 +70,7 @@ def kmeans(data):
     kmeans = KMeans(n_clusters=3)
     data = data.fillna(0)
     data['Cluster'] = kmeans.fit_predict(data)
-    data.to_csv('clusters.csv')
+    data.to_csv('../data/K_means_data/clusters.csv')
     return data
 
 
@@ -106,7 +106,7 @@ def get_file(path):
         ['visitors_from_munich', 'visitors_outside_munich', 'visitors_outside_eu', 'visitors_from_eu']].div(
         data[['visitors_from_munich', 'visitors_outside_munich', 'visitors_outside_eu', 'visitors_from_eu']].sum(
             axis=1), axis=0)
-    data.to_csv('k_means_data.csv')
+    data.to_csv('../data/K_means_data/k_means_data.csv')
 
     return data
 
