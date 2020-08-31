@@ -67,7 +67,7 @@ def get_visitors(visitors_by_country, visitors_by_city):
     return visitors_from_munich, visitors_outside_munich, visitors_outside_eu, visitors_from_eu
 
 def kmeans(data):
-    kmeans = KMeans(n_clusters=3)
+    kmeans = KMeans(n_clusters=4)
     data = data.fillna(0)
     data['Cluster'] = kmeans.fit_predict(data)
     data.to_csv('../data/K_means_data/clusters.csv')
