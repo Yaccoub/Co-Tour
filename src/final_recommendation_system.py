@@ -17,10 +17,10 @@ import matplotlib
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import plotly.express as px
-#from countrygroups import EUROPEAN_UNION
+from countrygroups import EUROPEAN_UNION
 import re
 import os.path 
-get_ipython().run_line_magic('matplotlib', 'inline')
+#get_ipython().run_line_magic('matplotlib', 'inline')
 import pycountry
 #from googletrans import Translator
 import glob
@@ -28,14 +28,13 @@ import geopy
 import ntpath
 from sklearn.cluster import KMeans
 
-
 # In[33]:
 
 
 import locale
 locale.setlocale(locale.LC_ALL, 'en_US')
 EU_countries = EUROPEAN_UNION.names
-path = "C:/Users/Oumaima/Documents/AMI/data/*.csv"
+path = "../data/Tripadvisor_datasets/*.csv"
 
 
 # In[34]:
@@ -200,16 +199,12 @@ def predict_score(kmeans, df, ori, visit):
 
 
 
-file_path = glob.glob("C:/Users/Oumaima/Documents/AMI/data/*.csv")
+file_path = glob.glob("../data/Tripadvisor_datasets/*.csv")
 df, names = data_processing(file_path)
 num_clusters=10
 kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(df[df.columns[1:]])
 S = predict_score(kmeans, df, 'provenance_outside Munich', 'visit_Traveled solo')
-#S['score']=  (S['score']-S['score'].min())/(S['score'].max()-S['score'].min())
 print(S)
-
-
-# In[45]:
 
 
 def preprocessing(df):
@@ -268,20 +263,11 @@ def place_type(df):
     return df
 
 
-# In[49]:
-
-
-df_metrics = pd.read_csv('C:/Users/Oumaima/Documents/AMI/dataset_predicted.csv')
+df_metrics = pd.read_csv('../data/Forecast Data/dataset_predicted.csv')
 all_metric_score = get_metrics(df_metrics)
-     
 
-rec_dataset = pd.read_csv('C:/Users/Oumaima/Documents/AMI/rec_dataset.csv')
-places_features= extract_places_features(rec_dataset,all_metric_score)
-
-
-# In[50]:
-
-
+rec_dataset = pd.read_csv('../data/Recommendation data/rec_dataset.csv')
+places_features = extract_places_features(rec_dataset, all_metric_score)
 
 df = preprocessing(places_features)
 user = {'origin': 'Berlin', 'accomodation': 'Maxvorstadt', 'visit_type': 'alone', 'place_pref': 'indoors','date':'07.2020'}
@@ -290,33 +276,23 @@ for index, row in df.iterrows():
 dataframe = reshape_df(df)
 
 
-# In[51]:
-
-
 def merge_dfs(df1,df2):
-    df1.rename(columns={'score':'place_score'}, inplace=True)
-    df2.rename(columns={'place':'place_name'}, inplace=True)
-    for index,row in df1.iterrows():
-        if df1['place_name'][index]=='Deutsches_Museum':
-            df1['place_name'][index]='Deutsches Museum'
-        if df1['place_name'][index]=='Alte_Pinakothek':
-            df1['place_name'][index]='Alte Pinakothek'
-        if df1['place_name'][index]=="St.Peter's Church":
-            df1['place_name'][index]='St.Peters Church'
-    for index1,row1 in df1.iterrows():
-        for index2,row2 in df2.iterrows():
-           # print(df1['place_name'][index1],df2['place_name'][index2])
-            if df2['place_name'][index2]==df1['place_name'][index1]:
-                df2['place_score'][index2]=(df1['place_score'][index1]+df2['place_score'][index2])/2
-                df1=df1.drop([index1])
+    df1.rename(columns={'score': 'place_score'}, inplace=True)
+    df2.rename(columns={'place': 'place_name'}, inplace=True)
+    for index1, row1 in df1.iterrows():
+        for index2, row2 in df2.iterrows():
+            if row1.place_name == row2.place_name:
+                print(row1.place_name)
+                row2.place_score = (row1.place_score + row2.place_score) / 2
+                df1 = df1.drop([index1])
                 
     return(df1,df2)
 
-
-# In[52]:
-
-
 dataframe1, dataframe2 = merge_dfs(S,dataframe)
 df=pd.concat([dataframe1,dataframe2]).drop_duplicates(keep=False)
+df = df.reset_index(drop=True)
+
+# Save data to csv
+#df.to_csv('../data/Test.csv',index=False)
 
 
