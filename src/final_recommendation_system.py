@@ -1,14 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[57]:
-
-
-pip install dateparser
-
-
-# In[55]:
-
 
 # Standard data science libraries
 import pandas as pd
@@ -206,19 +198,6 @@ def predict_score(kmeans, df, ori, visit):
     return cluster_i[int(kmeans.predict(user_eingaben.reshape(1, -1)))]
     
 
-Accepted strings are 
-- ori :
-'provenance_EU apart from GER'
-'provenance_Munich'
-'provenance_Outisde EU'
-'provenance_outside Munich'
-- visit :
-'visit_Traveled as a couple'
-'visit_Traveled on business'
-'visit_Traveled solo'
-'visit_Traveled with family'
-'visit_Traveled with friends'
-# In[44]:
 
 
 file_path = glob.glob("C:/Users/Oumaima/Documents/AMI/data/*.csv")
@@ -339,5 +318,5 @@ def merge_dfs(df1,df2):
 
 dataframe1, dataframe2 = merge_dfs(S,dataframe)
 df=pd.concat([dataframe1,dataframe2]).drop_duplicates(keep=False)
-print(dataframe1)
+
 
