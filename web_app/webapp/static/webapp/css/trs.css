@@ -1,4 +1,20 @@
-
+html{
+    background-image: url("https://cdn.filepicker.io/api/file/1WxRtkAQG5h70aoPQdGA/convert?format=jpeg&quality=50");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-width: 100%;
+    min-height: 100%;
+}
+body{
+    background-color: unset;
+}
+.main{
+    all: unset;
+}
+.card {
+    background: rgba(255, 255, 255, 0.58);
+}
 .navbar {
     background-color: #F2F2F2;
     box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.1);
@@ -21,22 +37,14 @@
     color: #555;
 }
 
-.forecast_analysis{
-    box-sizing: border-box;
-    display: block;
-    height: auto;
-    padding-top: 30px;
+.recommendation-system {
+    padding-top: 100px;
     padding-bottom: 60px;
     -webkit-box-pack: center;
     justify-content: center;
     -webkit-box-align: center;
     align-items: center;
-    max-width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: #F5F5F5;
 }
-
 .column{
     border-radius: 5px;
     padding-top: 10px;
@@ -50,7 +58,7 @@
 }
 .heading-3 {
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   text-align: left;
 }
 .paragraph-2 {
@@ -64,21 +72,7 @@
   margin-bottom: 10px;
   float: right;
 }
-.hotspot-map {
-    box-sizing: border-box;
-    display: block;
-    height: auto;
-    padding-top: 30px;
-    padding-bottom: 60px;
-    -webkit-box-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    align-items: center;
-    max-width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: #8ea3b8;
-}
+
 .historical-data {
     background-color: #8ea3b8;
     margin-top: 10px;

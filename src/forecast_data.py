@@ -19,8 +19,9 @@ def special_characters_col(data):
 
 # Read munich visitor data
 state = pd.read_csv('../data/munich_visitors/munich_visitors.csv', engine='python')
-state['DATE'] = [datetime.strptime(date, '%d/%b/%Y') for date in state['DATE']]
+state['DATE'] = [datetime.strptime(date, '%d/%m/%Y') for date in state['DATE']]
 state = state.set_index('DATE')
+state = state.drop(['Ausland (Tourismus)', 'Inland (Tourismus)', 'Kinos', 'Muenchner Philharmoniker', 'Schauburg - Theater fuer junges Publikum'], axis = 1)
 
 # Read airbnb data
 listings = pd.read_csv('../data/Airbnb_data/listings.csv', low_memory=False)
@@ -34,19 +35,19 @@ for i in range(len(listings)):
         listings.iloc[i][district]= listings.iloc[i][district][0]* 10 + listings.iloc[i][district][1]
 
 # Tripadvisor setup
-path = "../Tripadvisor_web_scraper/data/*.csv"
+path = "../data/Tripadvisor_datasets/*.csv"
 dataframe = pd.DataFrame()
 
-# Read and reformate tripadvisor data
+# Read and reformat tripadvisor data
 for fname in glob.glob(path):
     x = pd.read_csv(fname, low_memory=False)
     x = x.dropna(subset=['date'])
-    x['date'] = [date.replace('Erlebnisdatum: ', '') for date in x['date']]
+    x['date'] = [date.replace('Date of experience: ', '') for date in x['date']]
     x['date'] = [dateparser.parse(date).strftime('%d/%m/%Y') for date in x['date']]
     x['date'] = [datetime.strptime(date, '%d/%m/%Y') for date in x['date']]
     x['place'] = Path(fname).stem
     x['visit'].fillna('', inplace=True)
-    x['visit'] = [visit_type.replace('Reiseart: ', '') for visit_type in x['visit']]
+    x['visit'] = [visit_type.replace('Trip Type: ', '') for visit_type in x['visit']]
     x = x[['date', 'place', 'rating', 'visit']]
     dataframe = pd.concat([dataframe, x], axis=0)
 
@@ -54,37 +55,22 @@ for fname in glob.glob(path):
 df = dataframe.groupby(['date', 'place'], as_index=False)[['rating']].mean()
 df2 = dataframe.groupby(['date', 'place'])[['date']].count()
 df['#_of_visits'] = df2['date'].values
-df['city_district'] = df['place']
-
-# Special character treatment
+# df['city_district'] = df['place']
+df['date']= df['date'] + timedelta(days=1)
 df = special_characters_col(df)
+# Special character treatment
 
-city_district = ['Altstadt-Lehel', 'Ludwigsvorstadt-Isarvorstadt', 'Maxvorstadt', 'Schwabing-West'
-    , 'Au-Haidhausen', 'Sendling', 'Sendling-Westpark', 'Schwanthalerhöhe'
-    , 'Neuhausen-Nymphenburg', 'Muenchen-Moosach', 'Milbertshofen-Am Hart', 'Schwabing-Freimann'
-    , 'Bogenhausen', 'Berg am Laim', 'Trudering-Riem', 'Ramersdorf-Perlach', 'Obergiesing'
-    , 'Untergiesing-Harlaching', 'Thalkirchen-Obersendling-Forstenried-Fürstenried-Solln', 'Hadern'
-    , 'Pasing-Obermenzing', 'Aubing-Lochhausen-Langwied', 'Allach-Untermenzing', 'Feldmoching-Hasenbergl'
-    , 'Laim']
+geo_coords = pd.read_csv('../data/geocoordinates/geoattractions.csv', low_memory=False)
+geo_coords = geo_coords.set_index('place')
 places = df['place'].unique()
-y = {}
-geolocator = Nominatim(user_agent='salut', timeout=3)
 
-for place in places:
-    try:
-        print(place)
-        location = geolocator.geocode(place, addressdetails=True, country_codes='de')
-        location2 = location.address
-        for district in city_district:
-            if district in location2:
-                y[place] = district
-    except:
-        #TODO: No entry in: Bayerisches Staatsorchester, Muenchner Philharmoniker, Staedtische Galerie im Lenbachhaus
-        y[place] = ''
+# for place in places:
+#     df['city_district'] =
 
+#
 for index, row in df.iterrows():
-    df['city_district'][index] = y[row['place']]
-
+    df['city_district'][index] = geo_coords.loc[row['place']]['city_district']
+#
 ret = []
 for place in places:
     name = place
@@ -100,15 +86,31 @@ for place in places:
 # Concat the feature table
 df_clean = pd.concat(ret, axis=1, sort=True)
 
-for place in places:
-    if y[place] != '':
-        arr = np.array([df_clean[place][listings.index],state[place][listings.index],listings[y[place]]])
-        arr = pd.DataFrame(arr).replace(float('nan'), np.nan)
-        state[place][listings.index] = arr.mean()
+list__ = list(df_clean.columns)
+for x in state.columns:
+    if x not in list__:
+        list__.append(x)
+alpha = pd.DataFrame(index = state.index,columns=list__)
+state = pd.DataFrame(state,index = state.index,columns=list__)
+df_clean= pd.DataFrame(df_clean,index = state.index,columns=list__)
+listings= pd.DataFrame(listings,index = state.index)
+#
+#
 
-dataset = pd.DataFrame(state)
+for place in alpha.columns:
+    arr = np.array([df_clean[place][listings.index],state[place][listings.index], listings[geo_coords.loc[place]['city_district']]])
+    arr = pd.DataFrame(arr).replace(float('nan'), np.nan)
+    alpha[place][listings.index] = arr.mean()
+#         else:
+#             arr = np.array([df_clean[place][listings.index],
+#                             listings[geo_coords.loc[place]['city_district']]])
+#             arr = pd.DataFrame(arr).replace(float('nan'), np.nan)
+#             alpha[place][listings.index] = arr.mean()
+#
+#
+dataset = pd.DataFrame(alpha)
 dataset.div(dataset.sum(axis=1), axis=0)
-
+#
 # Read COVID-19 data
 Covid_19 = pd.read_csv('../data/covid_19_data/rki/COVID_19_Cases_SK_Muenchen.csv', low_memory=False)
 Covid_19['Refdatum'] = [datetime.strptime(date, '%Y-%m-%d') for date in Covid_19['Refdatum']]
@@ -127,4 +129,4 @@ dataset = dataset[dataset.DATE <= datetime.strptime("2020-04-01", '%Y-%m-%d')].c
 
 # Save data to csv file
 dataset.to_csv('../data/Forecast Data/dataset.csv', index=False)
-
+#
