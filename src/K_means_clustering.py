@@ -4,7 +4,6 @@ from countrygroups import EUROPEAN_UNION
 import os.path
 import glob
 import locale
-from sklearn.cluster import KMeans
 import geopy
 
 locale.setlocale(locale.LC_ALL, 'en_US')
@@ -37,12 +36,15 @@ def get_season(df):
     return summer_pre_covid, winter_pre_covid, winter_post_covid, summer_post_covid
 
 
-def feature_extraction(df):
+def feature_extraction(df, file_name):
     df = preprocessing(df)
     df = clustering_process(df)
     visitors_by_country = df.groupby('country').count().sort_values('visit', ascending=True)
-    type_of_visitors = df.groupby('visit').count().sort_values('country', ascending=True)
-    visitors_by_city = df.groupby('city').count().sort_values('visit', ascending=True)
+    type_of_visitors    = df.groupby('visit').count().sort_values('country', ascending=True)
+    type_of_visitors    = type_of_visitors.T.drop(index=['city', 'country' , 'extra'])
+    visitors_by_city    = df.groupby('city').count().sort_values('visit', ascending=True)
+
+    type_of_visitors.index.rename(file_name)
 
     return visitors_by_country, type_of_visitors, visitors_by_city
 
@@ -87,9 +89,21 @@ def get_file(path):
         print(i)
     data.reset_index()
     data.set_index('attraction_name', inplace=True)
+    data[['Traveled on business', 'Traveled solo', 'Traveled with friends', 'Traveled as a couple',
+          'Traveled with family']] = data[
+        ['Traveled on business', 'Traveled solo', 'Traveled with friends', 'Traveled as a couple',
+         'Traveled with family']].div(data[['Traveled on business', 'Traveled solo', 'Traveled with friends',
+                                            'Traveled as a couple', 'Traveled with family']].sum(axis=1), axis=0)
+    data[['visitors_from_munich', 'visitors_outside_munich', 'visitors_outside_eu', 'visitors_from_eu']] = data[
+        ['visitors_from_munich', 'visitors_outside_munich', 'visitors_outside_eu', 'visitors_from_eu']].div(
+        data[['visitors_from_munich', 'visitors_outside_munich', 'visitors_outside_eu', 'visitors_from_eu']].sum(
+            axis=1), axis=0)
     data.to_csv('k_means_data.csv')
 
     return data
+
+
+data = get_file(path)
 
 
 data = get_file(path)
