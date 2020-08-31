@@ -2,6 +2,7 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
+import os
 from pickle import dump
 from keras.models import Sequential
 from keras.layers import Dense,Flatten,Dropout,Conv1D, MaxPooling1D,LSTM
@@ -48,10 +49,9 @@ def test_train(datasetsize, testsize, shuffle=True):
 def build_model_lstm(n_steps,n_feats,n_fore=1):
     model = Sequential()
     model.add(LSTM(units=128, return_sequences=True, input_shape=(n_steps,n_feats)))
-    model.add(LSTM(units=256, return_sequences=False))
+    model.add(LSTM(units=128, return_sequences=False))
     model.add(Dropout(0.20))
-    model.add(Dense(128, activation='relu'))
-    #model.add(Dense(units=25))
+    model.add(Dense(64, activation='relu'))
     model.add(Dense(units=n_fore))
     model.compile(optimizer='adam',
                   loss='mse',
@@ -98,7 +98,7 @@ if dataset.isnull().sum().sum() != 0:
     raise Exception("The dataset contains NaN values")
 
 # Preprocessing setup
-n_steps = 16
+n_steps = 8
 output_len = 4
 dropNan = False
 shuffle = True
@@ -141,7 +141,12 @@ for idx in np.arange(len(places)):
     y_test_scaled = yscaler.transform(y_test)
 
     # Save the standard scaler
+    if not os.path.exists('../data_scaler'):
+        os.makedirs('../data_scaler')
     dump(xscalers, open('../data_scaler/xscalers.pkl', 'wb'))
+
+    if not os.path.exists('../data_scaler/yscaler'):
+        os.makedirs('../data_scaler/yscaler')
     dump(yscaler, open('../data_scaler/yscaler/{}.pkl'.format(place), 'wb'))
 
     # Parameters for model setup
@@ -155,14 +160,14 @@ for idx in np.arange(len(places)):
         mlflow.keras.autolog()
 
     # Create and build the model
-    model = build_model_cnn(n_steps,n_feats,n_fore)
+    model = build_model_lstm(n_steps,n_feats,n_fore)
     model.summary()
 
     # Train the model
     history = model.fit(
         X_train_scaled,
         y_train_scaled,
-        batch_size=10,
+        batch_size=100,
         epochs=1000,
         verbose=0,
         validation_split=0.1,

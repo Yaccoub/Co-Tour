@@ -88,8 +88,30 @@ def countrycheck(text):
         return True
 
 
+
 def main():
-    
+    path = "../data/Tripadvisor_datasets/*.csv"
+
+    # Read and reformate tripadvisor data
+    for fname in glob.glob(path):
+        x = pd.read_csv(fname, low_memory=False)
+
+        spc,wpc,wc,sc = get_season(x)
+
+        processed_spc =origin(spc)
+        processed_spc.to_csv('../data/Tripadvisor_datasets/Seasons/{}_summer_pre_covid.csv'.format(fname))
+
+        processed_wpc =origin(wpc)
+        processed_wpc.to_csv('../data/Tripadvisor_datasets/Seasons/{}_winter_pre_covid.csv'.format(fname))
+
+        processed_sc=origin(sc)
+        processed_sc.to_csv('../data/Tripadvisor_datasets/Seasons/{}_summer_covid.csv'.format(fname))
+
+        processed_wc=origin(wc)
+        processed_wc.to_csv('../data/Tripadvisor_datasets/Seasons/{}_winter_covid.csv'.format(fname))
+
+    df= pd.read_csv('../data/Tripadvisor_datasets/Seasons/Marienplatz_winter_covid.csv')
+    visualise(df)
 
 if __name__ == '__main__':
     main()
