@@ -12,8 +12,9 @@ from geopy.geocoders import Nominatim
 geolocator = Nominatim(user_agent="UX")
 
 
-def get_geo_data(geocoder, date):
-    dataset = pd.read_csv('../data/Forecast Data/dataset_predicted.csv')
+def get_geo_data_historical(geocoder, date):
+    dataset = pd.read_csv('../data/Forecast Data/dataset.csv')
+
     dataset['DATE'] = [datetime.strptime(date, '%Y-%m-%d') for date in dataset['DATE']]
     dataset = dataset.set_index('DATE')
 
@@ -38,6 +39,36 @@ def get_geo_data(geocoder, date):
     geo.sort_values(by='Weights', ascending=False)
 
     return geo
+
+
+def get_geo_data_predicted(geocoder, date):
+    dataset = pd.read_csv('../data/Forecast Data/dataset_predicted.csv')
+
+    dataset['DATE'] = [datetime.strptime(date, '%Y-%m-%d') for date in dataset['DATE']]
+    dataset = dataset.set_index('DATE')
+
+    geo = pd.DataFrame(index=dataset.columns[:-1])
+    geo['Longitude'] = ''
+    geo['Latitude'] = ''
+    geo['Weights'] = ''
+    for place in geo.index:
+        print(place)
+        geo_info = geocoder.geocode(query=place, timeout=3)
+        try:
+
+            geo['Latitude'][place] = geo_info.latitude
+            geo['Longitude'][place] = geo_info.longitude
+        except:
+            geo['Latitude'][place] = ''
+            geo['Longitude'][place] = ''
+        geo['Weights'] = dataset.loc[date]
+    geo = geo[geo['Longitude'].astype(bool)]
+
+    geo['Weights'] = geo['Weights'] * 100
+    geo.sort_values(by='Weights', ascending=False)
+
+    return geo
+
 
 
 class HomeView(TemplateView):
@@ -133,12 +164,12 @@ class ThfView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(ThfView, self).get_context_data(**kwargs)
         date = self.get_date_forecast()
-        geo = get_geo_data(geolocator, date)
+        geo = get_geo_data_predicted(geolocator, date)
         figure = self.get_map(geo)
         top_10 = self.top_ten_place(geo)
         date = self.get_date_hist()
         date = date + '-01'
-        geo = get_geo_data(geolocator, date)
+        geo = get_geo_data_historical(geolocator, date)
         figure2 = self.get_map_hist(geo)
         context['map'] = figure
         context['map2'] = figure2
