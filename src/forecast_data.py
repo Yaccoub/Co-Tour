@@ -86,10 +86,10 @@ for place in places:
 # Concat the feature table
 df_clean = pd.concat(ret, axis=1, sort=True)
 
-list__ = list(df_clean.columns)
-for x in state.columns:
-    if x not in list__:
-        list__.append(x)
+list__ = list(state.columns)
+# for x in state.columns:
+#     if x not in list__:
+#         list__.append(x)
 alpha = pd.DataFrame(index = state.index,columns=list__)
 state = pd.DataFrame(state,index = state.index,columns=list__)
 df_clean= pd.DataFrame(df_clean,index = state.index,columns=list__)
