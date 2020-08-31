@@ -58,3 +58,15 @@ detect the change in popularity of some touristic hotspots after
  friends). The review text itself could also be mapped to a 
  satisfaction level ranging from 1 to 5 giving us more insight 
  of the popularity of each attraction 
+
+This database is useful to understand classes of tourists, 
+their origin, and preferences. This dataset will help us to 
+detect the change in popularity of some touristic hotspots after
+ the corona crisis by monitoring their ratings and the number 
+ of the reviews and comparing them to the pre-Covid19 period. 
+ This dataset will also be used to cluster these attractions 
+ sites (using k-means algorithm as an example) by popularity, 
+ season of most visits and type of visit (business, family, 
+ friends). The review text itself could also be mapped to a 
+ satisfaction level ranging from 1 to 5 giving us more insight 
+ of the popularity of each attraction 

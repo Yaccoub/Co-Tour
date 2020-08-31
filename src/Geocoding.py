@@ -1,25 +1,30 @@
-import os
-import matplotlib as mlt
-import matplotlib.pyplot as plt
-import seaborn as sb
-import statistics
 import pandas as pd
 import numpy as np
 import math
-import geopandas as gpd
-from pandas.plotting import lag_plot
 from geopy.geocoders import Nominatim
-from flask import Flask
 import folium
 import pycountry
-from googletrans import Translator
+from datetime import datetime
 
 geolocator = Nominatim(user_agent="AMI")
 
 
+def get_season(df):
+    df = df[['date', 'text', 'visitor_origin']]
+    df.date = df.date.replace({'Date of experience: ': ''}, regex=True)
+    # df.date = df.date.replace('Date of experience: ', '')
+    df.date = [datetime.strptime(date, '%B %Y') for date in df['date']]
+    summer_pre_covid = df[(df.date >= '2019-06-1') & (df.date <= '2019-08-01')]
+    winter_pre_covid = df[(df.date >= '2019-09-1') & (df.date <= '2020-02-01')]
+    winter_covid = df[(df.date >= '2020-03-01') & (df.date <= '2020-05-01')]
+    summer_covid = df[(df.date >= '2020-06-01')]
+
+    return summer_pre_covid, winter_pre_covid, winter_covid, summer_covid
+
+
 def origin(df):
     # extract relevant columns of dataframe
-    df = df[['text', 'visitor_origin']]
+    df = df[['date', 'text', 'visitor_origin']]
     df = df.rename(columns={'text': 'review_number'})
     # drop all rows without an origin
     df = df.dropna(subset=['visitor_origin'])
@@ -44,6 +49,14 @@ def origin(df):
     # compute the percentage of visitors from that country to the attraction
     df['flux density'] = df['review_number'] * 100 / sum(df['review_number'])
     df = df.drop(['review_number'], axis=1)
+    # specific case problem where geopy assigns the geocoordinates of Georgia (state in the USA) and not of Georgia the country
+    # so I specifically ask for the coordinates of the capital of Georgia
+    df.loc[df['country'] == 'Georgia', 'country'] = 'Tbilisi, Georgia'
+    # assign latitude and longitude values to each country
+    df['latitude'] = df.country.apply(lambda x: geolocator.geocode(x).latitude)
+    df['longitude'] = df.country.apply(lambda x: geolocator.geocode(x).longitude)
+    # rename Georgia correctly for visualisation
+    df.loc[df['country'] == 'Tbilisi, Georgia', 'country'] = 'Georgia'
     return df
 
 
@@ -63,8 +76,7 @@ def visualise(df):
     )
     # add a marker on each country propotional to the number of visitors to the selected location
     df.apply(lambda row: folium.CircleMarker(radius=markersize(row["flux density"]),
-                                             location=[geolocator.geocode(row["country"]).latitude,
-                                                       geolocator.geocode(row["country"]).longitude], tooltip=str(
+                                             location=[row["latitude"], row["longitude"]], tooltip=str(
             round(row["flux density"], 1)) + '% of visitors originate from ' + str(row["country"])).add_to(map1),
              axis=1)
     return map1
@@ -74,3 +86,32 @@ def countrycheck(text):
     # check that the given country is valid
     if pycountry.countries.get(name=text) is not None:
         return True
+
+
+
+def main():
+    path = "../data/Tripadvisor_datasets/*.csv"
+
+    # Read and reformate tripadvisor data
+    for fname in glob.glob(path):
+        x = pd.read_csv(fname, low_memory=False)
+
+        spc,wpc,wc,sc = get_season(x)
+
+        processed_spc =origin(spc)
+        processed_spc.to_csv('../data/Tripadvisor_datasets/Seasons/{}_summer_pre_covid.csv'.format(fname))
+
+        processed_wpc =origin(wpc)
+        processed_wpc.to_csv('../data/Tripadvisor_datasets/Seasons/{}_winter_pre_covid.csv'.format(fname))
+
+        processed_sc=origin(sc)
+        processed_sc.to_csv('../data/Tripadvisor_datasets/Seasons/{}_summer_covid.csv'.format(fname))
+
+        processed_wc=origin(wc)
+        processed_wc.to_csv('../data/Tripadvisor_datasets/Seasons/{}_winter_covid.csv'.format(fname))
+
+    df= pd.read_csv('../data/Tripadvisor_datasets/Seasons/Marienplatz_winter_covid.csv')
+    visualise(df)
+
+if __name__ == '__main__':
+    main()
