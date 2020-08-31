@@ -33,7 +33,7 @@ if dataset.isnull().sum().sum() != 0:
 
 # Preprocessing setup
 # Attention: This setup must be the same as in hotspot_forecast_train.py except output_len = 0. Otherwise the models wont match.
-n_steps = 16
+n_steps = 8
 output_len = 0
 dropNan = False
 
