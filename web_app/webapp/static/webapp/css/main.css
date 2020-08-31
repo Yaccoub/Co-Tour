@@ -1,3 +1,9 @@
+html{
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+}
 .navbar {
     background-color: transparent;
     border: none;
@@ -12,6 +18,7 @@
 }
 
 /* Change navbar styling on scroll */
+
 .navbar.active {
     background: #F2F2F2;
     box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.1);

@@ -1,0 +1,68 @@
+{% extends "webapp/base.html" %}
+
+{% load static %}
+{% block map_styles %} {{map.header.render|safe}}{{map2.header.render|safe}}{% endblock map_styles %}
+{% block styles %}
+
+<link href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+<link href="{% static 'webapp/css/contact.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'webapp/css/tfa.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'webapp/css/MonthPicker.min.css' %}" rel="stylesheet" type="text/css">
+
+{% endblock styles %}
+
+{% block content %}
+
+<div class="container-contact100">
+
+		<div class="wrap-contact100">
+			<form class="contact100-form validate-form">
+				<span class="contact100-form-title">
+					Send Us A Message
+				</span>
+
+				<div class="wrap-input100 validate-input" data-validate="Please enter your name">
+					<input class="input100" type="text" name="name" placeholder="Full Name">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100 validate-input" data-validate = "Please enter your email: e@a.x">
+					<input class="input100" type="text" name="email" placeholder="E-mail">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100 validate-input" data-validate = "Please enter your phone">
+					<input class="input100" type="text" name="phone" placeholder="Phone">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100 validate-input" data-validate = "Please enter your message">
+					<textarea class="input100" name="message" placeholder="Your Message"></textarea>
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="container-contact100-form-btn">
+					<button class="contact100-form-btn">
+						<span>
+							<i class="fa fa-paper-plane-o m-r-6" aria-hidden="true"></i>
+							Send
+						</span>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+
+
+{% endblock content %}
+
+{% block javascripts %}
+<script crossorigin="anonymous"
+        integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+        src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
+<script src="{% static 'webapp/js/tfa.js' %}"></script>
+<script src="{% static 'webapp/js/MonthPicker.min.js' %}"></script>
+
+{% endblock javascripts %}

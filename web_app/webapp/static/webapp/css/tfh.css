@@ -1,6 +1,12 @@
+
 .navbar {
     background-color: #F2F2F2;
     box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0px !important;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
 }
 .navbar .nav-link {
     color: #555;
@@ -15,7 +21,7 @@
     color: #555;
 }
 
-.analysis_clustering{
+.forecast_analysis{
     box-sizing: border-box;
     display: block;
     height: auto;
@@ -31,40 +37,21 @@
     background-color: #F5F5F5;
 }
 
-.row{
-    box-sizing: border-box;
-    background-color: #e4e4e4;
-    margin-left: -10px;
-    margin-right: -10px;
-}
 .column{
     border-radius: 5px;
-    border: 0.5 px solid ;
-    padding: 20px;
+    padding-top: 10px;
     box-sizing: border-box;
-    position: relative;
-    float: left;
-    min-height: 1px;
-    padding-left: 10px;
-    padding-right: 10px;
-    width: 50%;
-    background-color: #ffffff;
+    background-color: #FFFFFF;
 }
 .column-map{
-
     box-sizing: border-box;
-    position: relative;
-    float: right;
-    min-height: 1px;
-    padding-left: 10px;
-    padding-right: 10px;
-    width: 50%;
-
+    min-height: 600px !important;
+    width: 90%;
 }
 .heading-3 {
-  margin-top: 20px;
+  margin-top: 10px;
   margin-bottom: 10px;
-  text-align: center;
+  text-align: left;
 }
 .paragraph-2 {
   margin-top: 20px;
@@ -77,3 +64,43 @@
   margin-bottom: 10px;
   float: right;
 }
+.hotspot-map {
+    box-sizing: border-box;
+    display: block;
+    height: auto;
+    padding-top: 30px;
+    padding-bottom: 60px;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #8ea3b8;
+}
+.historical-data {
+    background-color: #8ea3b8;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+.heading-4 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #FFFFFF;
+}
+.paragraph-3 {
+  margin-top: 20px;
+  margin-bottom: 60px;
+  text-align: center;
+  color: #FFFFFF;
+}
+.historical-btn {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.container-fluid{
+    width: 90%;
+}
+

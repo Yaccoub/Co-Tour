@@ -1,14 +1,17 @@
 from datetime import datetime
-
-import mlflow.tensorflow
 import numpy as np
 import pandas as pd
-from keras.layers import Dense
-from keras.layers import LSTM
+from sklearn.preprocessing import StandardScaler
+from pickle import dump
 from keras.models import Sequential
+from keras.layers import Dense,Flatten,Dropout,Conv1D, MaxPooling1D,LSTM
+from keras.callbacks import EarlyStopping
+import mlflow.keras
+import matplotlib.pyplot as plt
+from scipy.stats import pearsonr
 
-
-def create_sequences(dataset, timesteps=1, dropNa=True):
+def create_sequences(dataset, in_steps=1, out_steps=1, dropNa=True):
+    """Converts time series into a data set for supervised machine learning models"""
     # drop row's which include Nan elements (data preprocessing)
     df = pd.DataFrame(dataset)
     if dropNa:
@@ -17,16 +20,16 @@ def create_sequences(dataset, timesteps=1, dropNa=True):
     # create x and y out of dataset
     dataX, dataY = [], []
     for i in range(len(dataset)):
-        endIdx = i + timesteps
+        endIdx = i + in_steps + out_steps
         # stop if reached the end of dataset
-        if endIdx + 1 > len(dataset):
+        if endIdx > len(dataset):
             break
-        dataX.append(dataset[i:endIdx, :])
-        dataY.append(dataset[endIdx, :])
+        dataX.append(dataset[i:endIdx-out_steps, :])
+        dataY.append(dataset[endIdx-out_steps:endIdx, :])
     return np.array(dataX), np.array(dataY)
 
-
 def test_train(datasetsize, testsize, shuffle=True):
+    """Returns two dataset to train and test machine learning models"""
     if shuffle:
         ntest = int(np.ceil(testsize * datasetsize))
         idx = np.arange(0, datasetsize)
@@ -35,141 +38,235 @@ def test_train(datasetsize, testsize, shuffle=True):
         test_index = idx[:ntest]
         return train_index, test_index
     else:
-        ntest = 1  # int(np.ceil(testsize * datasetsize))
+        ntest = int(np.ceil(testsize * datasetsize))
         idx = np.arange(0, datasetsize)
         test_index = idx[datasetsize - ntest:]
         train_index = idx[:datasetsize - ntest]
         return train_index, test_index
 
 
-def LSTM_model():
+def build_model_lstm(n_steps,n_feats,n_fore=1):
     model = Sequential()
-    model.add(LSTM(units=50, return_sequences=True, input_shape=(X_train.shape[1], 1)))
-    # model.add(LSTM(units=50, return_sequences=True,input_shape=(x_train.shape[1],2))) # For multivariate lstm
-    model.add(LSTM(units=50, return_sequences=False))
-    model.add(Dense(units=25))
-    model.add(Dense(units=1))
-    model.compile(loss='mean_squared_error', optimizer='adam')
+    model.add(LSTM(units=128, return_sequences=True, input_shape=(n_steps,n_feats)))
+    model.add(LSTM(units=256, return_sequences=False))
+    model.add(Dropout(0.20))
+    model.add(Dense(128, activation='relu'))
+    #model.add(Dense(units=25))
+    model.add(Dense(units=n_fore))
+    model.compile(optimizer='adam',
+                  loss='mse',
+                  metrics=['mean_squared_error', 'mean_absolute_error', 'mean_absolute_percentage_error', 'cosine_proximity']
+                 )
     return model
 
+def build_model_cnn(n_steps,n_feats,n_fore=1):
+    model = Sequential()
+    model.add(Conv1D(filters=50, kernel_size=7, activation='relu',input_shape=(n_steps,n_feats)))
+    model.add(Conv1D(filters=256, kernel_size=3, activation='relu'))
+    model.add(MaxPooling1D(2))
+    model.add(Flatten())
+    model.add(Dropout(0.20))
+    model.add(Dense(128, activation='relu'))
+    #model.add(Dense(32, activation='relu'))
+    model.add(Dense(n_fore, activation='linear'))
+    model.compile(optimizer='adam',
+                  loss='mse',
+                  metrics=['mean_squared_error', 'mean_absolute_error', 'mean_absolute_percentage_error', 'cosine_proximity']
+                 )
+    return model
 
-#
+# Turn on of logging messages
+logging = True
 
-
-# def main():
 # Create Experiment in Mlflow for tracking
 try:
-    experiment_id = mlflow.create_experiment(name='Lstm')
+    experiment_id = mlflow.create_experiment(name='Default')
+    print("Created mlflow experiment")
 except:
-    experiment_id = mlflow.get_experiment_by_name(name='Lstm').experiment_id
+    experiment_id = mlflow.get_experiment_by_name(name='Default').experiment_id
 
+# Set random seed for data splitting
 np.random.seed(7)
+
+# Reading the dataset
 dataset = pd.read_csv('../data/Forecast Data/dataset.csv')
 dataset['DATE'] = [datetime.strptime(date, '%Y-%m-%d') for date in dataset['DATE']]
 dataset = dataset.set_index('DATE')
 
-dataset_d = dataset.drop(dataset.index[len(dataset) - 2:len(dataset)])
+# Throw an exception when containing NaN values
+if dataset.isnull().sum().sum() != 0:
+    raise Exception("The dataset contains NaN values")
 
-timesteps = 20
+# Preprocessing setup
+n_steps = 16
+output_len = 4
 dropNan = False
-shuffle = False
-for place in dataset_d.columns[2:4]:
-    X_Data, y_Data = create_sequences(dataset_d[place], timesteps, dropNan)
-    y_Data = pd.DataFrame(y_Data)
+shuffle = True
 
-    y_Data = y_Data.rename(columns={0: place})
-    y_Data_c = y_Data.set_index(dataset_d.index[timesteps:])
+X_Data, y_Data_comp = create_sequences(dataset, n_steps, output_len, dropNan)
 
+# Get the places that we wanna predict
+places = dataset.columns[:28]
+
+# Iterator over different places
+for idx in np.arange(len(places)):
+    place = places[idx]
+    print("Start training model for: ",place)
+
+    y_Data = y_Data_comp[:,:,idx]
+
+    # Test train split
     train_index, test_index = test_train(len(X_Data), 0.33, shuffle)
 
     # rename the columns of y_Data
     X_train = X_Data[train_index]
     X_test = X_Data[test_index]
-    y_train = y_Data.loc[train_index]
-    y_test = y_Data.loc[test_index]
+    y_train = y_Data[train_index]
+    y_test = y_Data[test_index]
 
-    # Logging
-    mlflow.start_run(experiment_id=experiment_id, run_name=place)
-    # For multivariate lstm
-    # mlflow.start_run(run_name='Multivariate LSTM')
+    # Scale input data
+    xscalers = {}
+    X_train_scaled = X_train
+    X_test_scaled = X_test
+    for i in range(X_train.shape[2]):
+        xscalers[i] = StandardScaler()
+        X_train_scaled[:, :, i] = xscalers[i].fit_transform(X_train[:, :, i])
 
-    mlflow.tensorflow.autolog()
-    # create and fit the LSTM network
+    for i in range(X_train.shape[2]):
+        X_test_scaled[:, :, i] = xscalers[i].transform(X_test[:, :, i])
 
-    model = LSTM_model()
-    model.fit(X_train, y_train, batch_size=1, epochs=2)
+    # Scale output data
+    yscaler = StandardScaler()
+    y_train_scaled = yscaler.fit_transform(y_train)
+    y_test_scaled = yscaler.transform(y_test)
+
+    # Save the standard scaler
+    dump(xscalers, open('../data_scaler/xscalers.pkl', 'wb'))
+    dump(yscaler, open('../data_scaler/yscaler/{}.pkl'.format(place), 'wb'))
+
+    # Parameters for model setup
+    n_feats = X_train.shape[2]
+    n_fore = y_Data.shape[1]
+    # Setup model logging
+    if logging:
+        run_name = place
+        mlflow.start_run(experiment_id=experiment_id, run_name=run_name)
+
+        mlflow.keras.autolog()
+
+    # Create and build the model
+    model = build_model_cnn(n_steps,n_feats,n_fore)
+    model.summary()
+
+    # Train the model
+    history = model.fit(
+        X_train_scaled,
+        y_train_scaled,
+        batch_size=10,
+        epochs=1000,
+        verbose=0,
+        validation_split=0.1,
+        callbacks=[
+            EarlyStopping(patience=10),
+        ],
+    )
+
+    # Save the model
     model.save('../ML_models/{}.h5'.format(place))
-    mlflow.end_run()
 
-# Getting the models predicted price values
-# predictions = model.predict(X_test)
-# rmse = np.sqrt(np.nanmean(((predictions - y_test) ** 2)))
-# mlflow.log_metric('rmse', rmse)
-#
-# # Plot/Create the data for the graph
-# y_train = y_train.set_index(y_Data_c.index[:int(np.ceil(len(y_Data_c) - 1))])
-# y_test = y_test.set_index(y_Data_c.index[int(np.ceil(len(y_Data_c) - 1)):])
-# train = y_train
-# valid = pd.DataFrame(y_test)
-# valid['Predictions'] = predictions
-# dataset[place][valid.index] = predictions
-# # Visualize the data
-# plt.figure(figsize=(16, 8))
-# plt.title('Model')
-# plt.xlabel('Date', fontsize=18)
-# plt.ylabel('Close Price USD ($)', fontsize=18)
-# plt.plot(train)
-# plt.plot(valid[[place, 'Predictions']])
-# plt.legend(['Train', 'Val', 'Predictions'], loc='upper right')
-# plt.show()
-#
-# fig1 = 'Forecast.png'
-# plt.savefig(fig1)
-# mlflow.log_artifact(fig1)  # logging to mlflow
-# mlflow.end_run()
+    # summarize history for accuracy
+    fig = plt.figure()
+    plt.plot(history.history['mean_squared_error'])
+    plt.plot(history.history['val_mean_squared_error'])
+    plt.title('model mse')
+    plt.ylabel('mean suqared error')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    Figure = "../img/val_mean_squared_error.png"
+    fig.savefig(Figure)
+    if logging:
+        mlflow.log_artifact(Figure)
+    else:
+        plt.show()
 
-# dataset.iloc[len(dataset)-1] = dataset.iloc[len(dataset)-1] / dataset.iloc[len(dataset)-1].sum()
-#
+    fig = plt.figure()
+    plt.plot(history.history['mean_absolute_error'])
+    plt.plot(history.history['val_mean_absolute_error'])
+    plt.title('model mae')
+    plt.ylabel('mean absolute error')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    Figure = "../img/val_mean_absolute_error.png"
+    fig.savefig(Figure)
+    if logging:
+        mlflow.log_artifact(Figure)
+    else:
+        plt.show()
 
+    fig = plt.figure()
+    plt.plot(history.history['mean_absolute_percentage_error'])
+    plt.plot(history.history['val_mean_absolute_percentage_error'])
+    plt.title('model mean absolute percentage error')
+    plt.ylabel('mean absolute percentage error')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    Figure = "../img/val_mean_absolute_percentage_error.png"
+    fig.savefig(Figure)
+    if logging:
+        mlflow.log_artifact(Figure)
+    else:
+        plt.show()
 
-# def get_viz_data(geolocator,dataset, date):
-#     geo = pd.DataFrame(index=dataset.columns[:-1])
-#     geo['Longitude'] = ''
-#     geo['Latitude'] = ''
-#     geo['Weights'] = ''
-#     for place in geo.index:
-#         print(place)
-#         geo_info = geolocator.geocode(query=place, timeout=3)
-#         try:
-#             geo['Latitude'][place] = geo_info.latitude
-#             geo['Longitude'][place] = geo_info.longitude
-#         except:
-#             geo['Latitude'][place] = ''
-#             geo['Longitude'][place] = ''
-#         geo['Weights'] = dataset.loc[date]
-#     return geo
-#
-#
-#
-#
-# def Markersize(number):
-#     size = 2 + 2 * math.ceil(number)
-#     return size
-# geolocator = Nominatim(user_agent="UX")
-#
-# geo = get_viz_data(geolocator, dataset, '2020-02-01')
-#
-# geo = geo[geo['Longitude'].astype(bool)]
-#
-# geo['Weights'] = geo['Weights'] * 100
-#
-# lat = 48.137154 ; lon = 11.576124
-# map1 = folium.Map(
-#         location=[lat, lon],
-#         tiles='cartodbpositron',
-#         zoom_start=7,
-#     )
-# geo.apply(lambda row: folium.CircleMarker(radius=Markersize(row["Weights"]),
-#                                          location=[row["Latitude"], row["Longitude"]], tooltip=str(
-#         row["Weights"])).add_to(map1),axis=1)
-# map1
+    fig = plt.figure()
+    plt.plot(history.history['cosine_proximity'])
+    plt.plot(history.history['val_cosine_proximity'])
+    plt.title('model cosine proximity')
+    plt.ylabel('cosine proximity')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    Figure = "../img/val_cosine_proximity.png"
+    fig.savefig(Figure)
+    if logging:
+        mlflow.log_artifact(Figure)
+    else:
+        plt.show()
+
+    # Create Predictions
+    y_pred_train = yscaler.inverse_transform(model.predict(X_train_scaled))
+    y_pred_test = yscaler.inverse_transform(model.predict(X_test_scaled))
+
+    # Visualize the predicted data
+    month = ["first", "second", "third", "fourth"]
+    for i in np.arange(y_pred_test.shape[1]):
+        fig = plt.figure()
+        plt.scatter(y_test[:, i], y_pred_test[:, i])
+        plt.grid(True)
+        plt.title("Correlation of the forecast for the " + month[i] + " month")
+        plt.xlabel("actual test data")
+        plt.ylabel("predictions")
+        Figure = "../img/correlation_{}.png".format(month[i])
+        fig.savefig(Figure)
+        if logging:
+            mlflow.log_artifact(Figure)
+        else:
+            plt.show()
+
+    # Calculate Pearson's correlation
+    li = []
+    for i in np.arange(y_pred_test.shape[1]):
+        corr, _ = pearsonr(y_test[:, i], y_pred_test[:, i])
+        li.append(corr)
+        print('Pearsons correlation for the',month[i],'month: %.3f' % corr)
+        if logging:
+            param_name = month[i]+"_pearson_correlation"
+            mlflow.log_param(param_name, corr)
+
+    # Calcuate the mean Pearson's correlation
+    corr_mean = np.mean(li)
+    print('Mean Pearsons correlation: %.3f' % corr_mean)
+    if logging:
+        mlflow.log_param("mean_pearson_correlation", corr_mean)
+
+    # End logging
+    if logging:
+        mlflow.end_run()

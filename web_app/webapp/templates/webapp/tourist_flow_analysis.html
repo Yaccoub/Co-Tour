@@ -1,2 +1,76 @@
 {% extends "webapp/base.html" %}
 
+{% load static %}
+{% block map_styles %} {{map.header.render|safe}}{{map2.header.render|safe}}{% endblock map_styles %}
+{% block styles %}
+
+<link href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+<link href="{% static 'webapp/css/tfa.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'webapp/css/MonthPicker.min.css' %}" rel="stylesheet" type="text/css">
+
+{% endblock styles %}
+
+{% block content %}
+
+<div class="analysis_clustering">
+    <div class="container-fluid">
+        <h3 class="heading-3 font-weight-bold">Tourist Flow Explorer</h3>
+        <div class="row">
+            <div class="column-map col-md-12">
+                {{map.html.render|safe}}
+                <script>
+                  {{map.script.render|safe}}
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="trajectory_analysis">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="column col-md-3">
+                <h3 class="heading-3 font-weight-bold">Tourist Flow Explorer</h3>
+                <p class="paragraph-2 font-weight-light">A Machine Learning Model To forecast tourist hot spots for the
+                    upcoming month using historical data</p>
+                <form>
+                    {% csrf_token %}
+                    <label class="sr-only" for="tfa_month_select">Select a Season: </label>
+                    <select class="form-control" id="tfa_month_select" name="tfa_month_select">
+                        <option disabled selected >Select a season</option>
+                        <option value="2020-07-01">Summer 2019</option>
+                        <option value="2020-08-01">Autumn 2019</option>
+                        <option value="2020-09-01">Winter 2019/2020</option>
+                        <option value="2020-10-01">Spring 2020</option>
+                        <option value="2020-10-01">Summer 2020</option>
+                    </select>
+                     <label class="sr-only" for="tfa_place_select">Select a Location: </label>
+                    <select class="form-control" id="tfa_place_select" name="tfa_place_select">
+                        <option disabled selected >Select a location</option>
+                        <option value="2020-07-01">Alte Pinakothek</option>
+                        <option value="2020-08-01">Olympiapark</option>
+                    </select>
+                    <button class="btn btn-primary forecast-btn" type="submit">Refresh Map</button>
+                </form>
+            </div>
+            <div class="column-map col-md-9">
+                {{map2.html.render|safe}}
+                <script>
+                  {{map2.script.render|safe}}
+
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock content %}
+
+{% block javascripts %}
+<script crossorigin="anonymous"
+        integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+        src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
+<script src="{% static 'webapp/js/tfa.js' %}"></script>
+<script src="{% static 'webapp/js/MonthPicker.min.js' %}"></script>
+
+{% endblock javascripts %}

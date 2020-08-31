@@ -11,20 +11,21 @@ from selenium.common.exceptions import StaleElementReferenceException
 
 def main():
     global fileName
-    fileName = "English Garden.csv"
+    fileName = "Eisbach Wave.csv"
     global titleList
     titleList = []
     global writer
     fw = open(fileName, "w", newline='', encoding="utf-8")
     writer = csv.writer(fw, delimiter=',', quoting=csv.QUOTE_MINIMAL)
     writer.writerow(['date', 'title', 'text', 'rating', 'visitor_origin', 'visit'])
-    url = "https://www.tripadvisor.com/Attraction_Review-g187309-d242776-Reviews-English_Garden-Munich_Upper_Bavaria_Bavaria.html"
+    url = "https://www.tripadvisor.com/Attraction_Review-g187309-d4609080-Reviews-Eisbach_Wave-Munich_Upper_Bavaria_Bavaria.html"
     options = webdriver.ChromeOptions()
     options.add_argument('--lang=en')
     driver = webdriver.Chrome(options=options)
     driver.get(url)
     ignored_exceptions = (NoSuchElementException, StaleElementReferenceException)
-    all_languages = WebDriverWait(driver, 40, ignored_exceptions=ignored_exceptions).until(find_languages)
+    driver.implicitly_wait(6)
+    all_languages = WebDriverWait(driver, 60, ignored_exceptions=ignored_exceptions).until(find_languages)
     all_languages.click()
     try:
         driver.implicitly_wait(4)
@@ -34,8 +35,10 @@ def main():
         print(e)
         pass
 
+
+
     iteration = 0
-    totalNumPages = 170
+    totalNumPages = 50
     analyzeIndexPage(driver)
     while url != None and iteration < totalNumPages:
         iteration = iteration + 1
@@ -45,10 +48,12 @@ def main():
                 driver.implicitly_wait(4)
                 Next = WebDriverWait(driver, 40, ignored_exceptions=ignored_exceptions).until(findNext)
                 Next.click()
+
                 break
             except exceptions.StaleElementReferenceException as e:
                 print(e)
                 pass
+
 
         for i in range(4):
             try:
@@ -59,6 +64,16 @@ def main():
             except exceptions.StaleElementReferenceException as e:
                 print(e)
                 pass
+            try:
+                driver.implicitly_wait(6)
+                all_languages = WebDriverWait(driver, 60, ignored_exceptions=ignored_exceptions).until(find_languages)
+                all_languages.click()
+                break
+            except exceptions.StaleElementReferenceException as e:
+                print(e)
+                pass
+
+
 
         analyzeIndexPage(driver)
         print("iter %s finished..." % (str(iteration)))
