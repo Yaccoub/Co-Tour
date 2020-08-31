@@ -101,7 +101,7 @@ if dataset.isnull().sum().sum() != 0:
 n_steps = 8
 output_len = 4
 dropNan = False
-shuffle = True
+shuffle = False
 
 X_Data, y_Data_comp = create_sequences(dataset, n_steps, output_len, dropNan)
 
