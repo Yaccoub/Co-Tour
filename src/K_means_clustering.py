@@ -4,6 +4,7 @@ from countrygroups import EUROPEAN_UNION
 import os.path
 import glob
 import locale
+from sklearn.cluster import KMeans
 import geopy
 
 locale.setlocale(locale.LC_ALL, 'en_US')
@@ -22,7 +23,7 @@ def preprocessing(df):
     return df
 
 def clustering_process(df):
-    df[['city', 'country', 'extra']] = df['visitor_origin'].str.split(', ', expand=True, n=2)
+    df[['city', 'country']] = df['visitor_origin'].str.split(', ', expand=True, n=1)
     df = df.drop(['rating','title','text'], axis=1)
     return df
 
@@ -41,7 +42,7 @@ def feature_extraction(df, file_name):
     df = clustering_process(df)
     visitors_by_country = df.groupby('country').count().sort_values('visit', ascending=True)
     type_of_visitors    = df.groupby('visit').count().sort_values('country', ascending=True)
-    type_of_visitors    = type_of_visitors.T.drop(index=['city', 'country' , 'extra'])
+    type_of_visitors    = type_of_visitors.T.drop(index=['city', 'country'])
     visitors_by_city    = df.groupby('city').count().sort_values('visit', ascending=True)
 
     type_of_visitors.index.rename(file_name)
@@ -65,6 +66,13 @@ def get_visitors(visitors_by_country, visitors_by_city):
                        visitors_by_country['visitor_origin']['Germany']
     return visitors_from_munich, visitors_outside_munich, visitors_outside_eu, visitors_from_eu
 
+def kmeans(data):
+    kmeans = KMeans(n_clusters=3)
+    data = data.fillna(0)
+    data['Cluster'] = kmeans.fit_predict(data)
+    data.to_csv('clusters.csv')
+    return data
+
 
 def get_file(path):
     file_names = []
@@ -86,7 +94,7 @@ def get_file(path):
         type_of_visitors['attraction_name'] = file_name
         data = data.append(type_of_visitors)
 
-        print(i)
+        print("Attraction %s is being processed..." % (str(file_name)))
     data.reset_index()
     data.set_index('attraction_name', inplace=True)
     data[['Traveled on business', 'Traveled solo', 'Traveled with friends', 'Traveled as a couple',
@@ -104,6 +112,4 @@ def get_file(path):
 
 
 data = get_file(path)
-
-
-data = get_file(path)
+clusters = kmeans(data)
