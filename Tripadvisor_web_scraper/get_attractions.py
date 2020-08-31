@@ -11,14 +11,14 @@ from selenium.common.exceptions import StaleElementReferenceException
 
 def main():
     global fileName
-    fileName = "Eisbach Wave.csv"
+    fileName = "Bayerische Staatsoper.csv"
     global titleList
     titleList = []
     global writer
     fw = open(fileName, "w", newline='', encoding="utf-8")
     writer = csv.writer(fw, delimiter=',', quoting=csv.QUOTE_MINIMAL)
     writer.writerow(['date', 'title', 'text', 'rating', 'visitor_origin', 'visit'])
-    url = "https://www.tripadvisor.com/Attraction_Review-g187309-d4609080-Reviews-Eisbach_Wave-Munich_Upper_Bavaria_Bavaria.html"
+    url = "https://www.tripadvisor.com/Attraction_Review-g187309-d190289-Reviews-Bayerische_Staatsoper-Munich_Upper_Bavaria_Bavaria.html"
     options = webdriver.ChromeOptions()
     options.add_argument('--lang=en')
     driver = webdriver.Chrome(options=options)
@@ -38,7 +38,7 @@ def main():
 
 
     iteration = 0
-    totalNumPages = 50
+    totalNumPages = 27
     analyzeIndexPage(driver)
     while url != None and iteration < totalNumPages:
         iteration = iteration + 1

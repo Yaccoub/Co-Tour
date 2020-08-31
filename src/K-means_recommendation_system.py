@@ -1,6 +1,5 @@
-# Standard data science libraries
-import pandas as pd
 
+import pandas as pd
 import numpy as np
 from datetime import datetime
 import seaborn as sns
@@ -13,7 +12,8 @@ import locale
 
 locale.setlocale(locale.LC_ALL, 'en_US')
 EU_countries = EUROPEAN_UNION.names
-path = "../Tripadvisor_web_scraper/Updated Datasets/*.csv"
+path = "../data/Tripadvisor_datasets/*.csv"
+
 
 
 def preprocessing(df):
@@ -28,28 +28,12 @@ def preprocessing(df):
     return df
 
 def clustering_process(df):
-    df[['city', 'country', 'extra']] = df['visitor_origin'].str.split(', ', expand=True, n=2)
+    df[['city', 'country']] = df['visitor_origin'].str.split(', ', expand=True, n=1)
     df = df.drop(['rating','title','text'], axis=1)
     return df
 
 
-def get_season(df):
-    summer_pre_covid = df[(df.index >= '2019-06-1') & (df.index <= '2019-08-01')]
-    winter_pre_covid = df[(df.index >= '2019-09-1') & (df.index <= '2020-02-01')]
-    winter_post_covid = df[(df.index >= '2020-03-01') & (df.index <= '2020-05-01')]
-    summer_post_covid = df[(df.index >= '2020-06-01')]
 
-    return summer_pre_covid, winter_pre_covid, winter_post_covid, summer_post_covid
-
-def feature_extraction(df, file_name):
-    df = preprocessing(df)
-    df = clustering_process(df)
-    visitors_by_country = df.groupby('country').count().sort_values('visit', ascending=True)
-    type_of_visitors    = df.groupby('visit').count().sort_values('country', ascending=True)
-    type_of_visitors    = type_of_visitors.T.drop(index=['city', 'country' , 'extra'])
-    visitors_by_city    = df.groupby('city').count().sort_values('visit', ascending=True)
-    type_of_visitors.index.rename(file_name)
-    return visitors_by_country, type_of_visitors, visitors_by_city
 
 def eu_countries(visitors_by_country):
     visitors_by_country["Non EU"] = 0
@@ -59,14 +43,7 @@ def eu_countries(visitors_by_country):
     return visitors_by_country
 
 
-def get_visitors(visitors_by_country, visitors_by_city):
-    visitors_from_munich = visitors_by_city['visitor_origin']['Munich']
-    visitors_outside_munich = visitors_by_country['visitor_origin']['Germany'] - visitors_by_city['visitor_origin'][
-        'Munich']
-    visitors_outside_eu = visitors_by_country.groupby('Non EU').sum()['visitor_origin'][1]
-    visitors_from_eu = visitors_by_country.groupby('Non EU').sum()['visitor_origin'][0] - \
-                       visitors_by_country['visitor_origin']['Germany']
-    return visitors_from_munich, visitors_outside_munich, visitors_outside_eu, visitors_from_eu
+
 
 def binary_encoding(df):
     df = preprocessing(df)
@@ -94,11 +71,12 @@ def get_df_and_names(file_path):
     for i in range (len(file_path)):
         temp = ntpath.basename(file_path[i])
         names.append(temp[:-4])
-    for i in range (len(file_path)-1):
+    for i in range (len(file_path)):
         temp_df = pd.read_csv(file_path[i],  header=0, squeeze=True)
         temp_df['place_name'] = names[i]
         l_df.append(temp_df)
         my_dict[names[i]] = temp_df
+
     df = pd.concat(l_df)
     return df, names, my_dict
 
@@ -106,7 +84,7 @@ def data_processing(file_path):
     df, names, my_dict = get_df_and_names(file_path)
     df = binary_encoding(df)
     df = df.reset_index()
-    df = df.drop(['visitor_origin','city', 'country', 'country', 'extra', 'date'], axis=1)
+    df = df.drop(['visitor_origin','city', 'country', 'country', 'date'], axis=1)
     return df, names, my_dict
 
 
