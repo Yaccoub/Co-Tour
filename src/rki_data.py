@@ -50,7 +50,7 @@ def data_cleaning(data, district_name, dropAnzahlTodesfall=True, dropAltersgrupp
     return district
 
 def main():
-    data = download_data()
+    download_data()
     print("Converting json to csv")
     df = convert_json()
     print("Data cleaning ...")

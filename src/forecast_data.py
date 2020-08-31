@@ -79,7 +79,6 @@ for place in places:
             if district in location2:
                 y[place] = district
     except:
-        #TODO: No entry in: Bayerisches Staatsorchester, Muenchner Philharmoniker, Staedtische Galerie im Lenbachhaus
         y[place] = ''
 
 for index, row in df.iterrows():
@@ -123,7 +122,7 @@ dataset = dataset.rename(columns={"index": "DATE"})
 dataset['AnzahlFall'] = dataset['AnzahlFall'].fillna(0)
 
 # Drop the last rows as this data is not complete
-dataset = dataset[dataset.DATE <= datetime.strptime("2020-04-01", '%Y-%m-%d')].copy()
+dataset = dataset[:-3]
 
 # Save data to csv file
 dataset.to_csv('../data/Forecast Data/dataset.csv', index=False)

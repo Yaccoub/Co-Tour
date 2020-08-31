@@ -29,7 +29,6 @@ def main():
     for sheet_name in sheets:
         print('Downloading data for: ' + sheet_name + '...')
         # Data download
-        # TODO: Download could be accelerated by downloading the Excel file only once.
         df = download_data(sheet_name)
 
         df = convert_time(df)
