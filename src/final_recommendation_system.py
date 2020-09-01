@@ -215,7 +215,7 @@ def score_func(user,df):
     for index, row in df.iterrows():
         place_score[index]=0
         if df['city_district'][index] == user['accomodation']:
-            place_score[index] = place_score[index]+10;
+            place_score[index] = place_score[index]+20;
         if df['type_door'][index] == user['place_pref']:
             place_score[index] = place_score[index]+20;
     return(place_score)
@@ -304,12 +304,12 @@ def get_user_country(user_country):
 
 visit_type = 'visit_Traveled with family'
 user_country = 'Bonn'
-place_pref = 'indoors'
+place_pref = 'outdoors'
 date_of_visit = '2020-08-01'
 provenance = get_user_country(user_country)
 placeType=''
 
-user = {'origin': provenance, 'accomodation': 'Maxvorstadt', 'visit_type': visit_type, 'place_pref': place_pref,'date':date_of_visit}
+user = {'origin': provenance, 'accomodation': '', 'visit_type': visit_type, 'place_pref': place_pref,'date':date_of_visit}
 
 
 file_path = glob.glob("../data/Tripadvisor_datasets/*.csv")
