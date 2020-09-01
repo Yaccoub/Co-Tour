@@ -1,165 +1,115 @@
-from bs4 import BeautifulSoup
-import csv
+import pandas as pd
 from datetime import datetime
-import re
-from selenium import webdriver
-from selenium.common import exceptions
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import StaleElementReferenceException
+from countrygroups import EUROPEAN_UNION
+import os.path
+import glob
+import locale
+from sklearn.cluster import KMeans
+import geopy
+
+locale.setlocale(locale.LC_ALL, 'en_US')
+EU_countries = EUROPEAN_UNION.names
+path = "../data/Tripadvisor_datasets/*.csv"
+
+def preprocessing(df):
+    df['date'] = df['date'].replace({'Date of experience: ': ''}, regex=True)
+    df['date'] = df['date'].replace({'Date of experience: ': ''}, regex=True)
+    df['visit'] = df['visit'].replace({'Trip type: ': ''}, regex=True)
+    df['date']= [datetime.strptime(date, '%B %Y')for date in df['date']]
+    df = df.sort_values(by='date', ascending=False, inplace=False, ignore_index=True)
+    #df['date'] = df['date'].dt.strftime('%Y-%m')
+    df = df.set_index('date')
+
+    return df
+
+def clustering_process(df):
+    df[['city', 'country']] = df['visitor_origin'].str.split(', ', expand=True, n=1)
+    df = df.drop(['rating','title','text'], axis=1)
+    return df
 
 
-def main():
-    global fileName
-    fileName = "Bayerische Staatsoper.csv"
-    global titleList
-    titleList = []
-    global writer
-    fw = open(fileName, "w", newline='', encoding="utf-8")
-    writer = csv.writer(fw, delimiter=',', quoting=csv.QUOTE_MINIMAL)
-    writer.writerow(['date', 'title', 'text', 'rating', 'visitor_origin', 'visit'])
-    url = "https://www.tripadvisor.com/Attraction_Review-g187309-d190289-Reviews-Bayerische_Staatsoper-Munich_Upper_Bavaria_Bavaria.html"
-    options = webdriver.ChromeOptions()
-    options.add_argument('--lang=en')
-    driver = webdriver.Chrome(options=options)
-    driver.get(url)
-    ignored_exceptions = (NoSuchElementException, StaleElementReferenceException)
-    driver.implicitly_wait(6)
-    all_languages = WebDriverWait(driver, 60, ignored_exceptions=ignored_exceptions).until(find_languages)
-    all_languages.click()
-    try:
-        driver.implicitly_wait(4)
-        button = WebDriverWait(driver, 40, ignored_exceptions=ignored_exceptions).until(findReadmore)
-        button.click()
-    except exceptions.StaleElementReferenceException as e:
-        print(e)
-        pass
+def get_season(df):
+    summer_pre_covid = df[(df.index >= '2019-06-1') & (df.index <= '2019-08-01')]
+    winter_pre_covid = df[(df.index >= '2019-09-1') & (df.index <= '2020-02-01')]
+    winter_post_covid = df[(df.index >= '2020-03-01') & (df.index <= '2020-05-01')]
+    summer_post_covid = df[(df.index >= '2020-06-01')]
+
+    return summer_pre_covid, winter_pre_covid, winter_post_covid, summer_post_covid
 
 
+def feature_extraction(df, file_name):
+    df = preprocessing(df)
+    df = clustering_process(df)
+    visitors_by_country = df.groupby('country').count().sort_values('visit', ascending=True)
+    type_of_visitors = df.groupby('visit').count().sort_values('country', ascending=True)
+    type_of_visitors = type_of_visitors.T.drop(index=['city', 'country'])
+    visitors_by_city = df.groupby('city').count().sort_values('visit', ascending=True)
 
-    iteration = 0
-    totalNumPages = 27
-    analyzeIndexPage(driver)
-    while url != None and iteration < totalNumPages:
-        iteration = iteration + 1
-        driver.implicitly_wait(4)
-        for i in range(4):
-            try:
-                driver.implicitly_wait(4)
-                Next = WebDriverWait(driver, 40, ignored_exceptions=ignored_exceptions).until(findNext)
-                Next.click()
+    type_of_visitors.index.rename(file_name)
 
-                break
-            except exceptions.StaleElementReferenceException as e:
-                print(e)
-                pass
+    return visitors_by_country, type_of_visitors, visitors_by_city
 
-
-        for i in range(4):
-            try:
-                driver.implicitly_wait(4)
-                button = WebDriverWait(driver, 40, ignored_exceptions=ignored_exceptions).until(findReadmore)
-                button.click()
-                break
-            except exceptions.StaleElementReferenceException as e:
-                print(e)
-                pass
-            try:
-                driver.implicitly_wait(6)
-                all_languages = WebDriverWait(driver, 60, ignored_exceptions=ignored_exceptions).until(find_languages)
-                all_languages.click()
-                break
-            except exceptions.StaleElementReferenceException as e:
-                print(e)
-                pass
+def eu_countries(visitors_by_country):
+    visitors_by_country["Non EU"] = 0
+    for i in range (len(visitors_by_country)):
+        if not(visitors_by_country.index[i] in EU_countries):
+            visitors_by_country["Non EU"][i] = int(1)
+    return visitors_by_country
 
 
+def get_visitors(visitors_by_country, visitors_by_city):
+    visitors_from_munich = visitors_by_city['visitor_origin']['Munich']
+    visitors_outside_munich = visitors_by_country['visitor_origin']['Germany'] - visitors_by_city['visitor_origin'][
+        'Munich']
+    visitors_outside_eu = visitors_by_country.groupby('Non EU').sum()['visitor_origin'][1]
+    visitors_from_eu = visitors_by_country.groupby('Non EU').sum()['visitor_origin'][0] - \
+                       visitors_by_country['visitor_origin']['Germany']
+    return visitors_from_munich, visitors_outside_munich, visitors_outside_eu, visitors_from_eu
 
-        analyzeIndexPage(driver)
-        print("iter %s finished..." % (str(iteration)))
-
-
-def findReadmore(driver):
-    element = driver.find_elements_by_xpath(
-        "//span[starts-with(@class,'_3maEfNCR')]")
-    if element:
-        print('found button readmore')
-        return element[0]
-    else:
-        return False
-
-def find_languages(driver):
-    element = driver.find_elements_by_xpath("//span[starts-with(@class,'_1wk-I7LS')]")[0]
-    if element:
-        print('found button All Languages')
-        return element
-    else:
-        return False
-
-def findNext(driver):
-    element = driver.find_elements_by_xpath("//a[@class='ui_button nav next primary ']")[0]
-    if element:
-        print('found button Next')
-        return element
-    else:
-        return False
-
-def analyzeIndexPage(driver):
-    soup = BeautifulSoup(driver.page_source, 'html.parser')
-    listReviews = []
-    listTitles = []
-    listLocations = []
-    listRatings = []
-    listExpDates = []
-    listVisittype = []
-    for section in soup.find_all("div", attrs={"class": re.compile(r"Dq9MAugU T870kzTX LnVzGwUB")}):
-        review = section.find("q", attrs={
-            "class": re.compile(r"IRsGHoPm")})
-        content = review.findChildren("span")[0].get_text()
-        if content != None:
-            listReviews.append(content)
-        else:
-            listReviews.append("")
-
-        title = section.find("a", attrs={
-            "class": re.compile(r"ocfR3SKN")})
-
-        text = title.findChildren("span")[0].get_text()
-        if text != None:
-            listTitles.append(text)
-        else:
-            listTitles.append("")
-
-        rate = section.find("span", attrs={"class": re.compile(r"^ui_bubble_rating bubble_.*")})
-        if rate != None:
-            listRatings.append(rate["class"][1][7:9])
-        else:
-            listRatings.append("")
-
-        visit = section.find("span", attrs={
-            "class": re.compile(r"_2bVY3aT5")})
-        if visit != None:
-            listVisittype.append(visit.get_text())
-        else:
-            listVisittype.append("")
-
-        location = section.find("span",
-                                attrs={"class": re.compile(r"default _3J15flPT small")})
-        if location != None:
-            listLocations.append(location.get_text())
-        else:
-            listLocations.append("")
-
-        expdate = section.find("span", attrs={
-            "class": re.compile(r"34Xs-BQm")})
-        if expdate != None:
-            listExpDates.append(expdate.get_text())
-        else:
-            listExpDates.append("")
-    for i in range(0, 5):
-        writer.writerow((listExpDates[i], listTitles[i], listReviews[i], listRatings[i], listLocations[i], listVisittype[i]))
-    return None
+def kmeans(data):
+    kmeans = KMeans(n_clusters=4)
+    data = data.fillna(0)
+    data['Cluster'] = kmeans.fit_predict(data)
+    data.to_csv('../data/K_means_data/clusters.csv')
+    return data
 
 
-if __name__ == '__main__':
-    main()
+def get_file(path):
+    file_names = []
+    data = pd.DataFrame()
+    names = glob.glob(path)
+    for i in range(len(names)):
+        df = pd.read_csv(names[i], header=0, squeeze=True)
+        file_name = os.path.basename(names[i])
+        file_name = file_name.split('.')[0]
+        file_names.append(file_name)
+        visitors_by_country, type_of_visitors, visitors_by_city = feature_extraction(df, file_name)
+        visitors_by_country = eu_countries(visitors_by_country)
+        visitors_from_munich, visitors_outside_munich, visitors_outside_eu, visitors_from_eu = get_visitors(
+            visitors_by_country, visitors_by_city)
+        type_of_visitors['visitors_from_munich'] = visitors_from_munich
+        type_of_visitors['visitors_outside_munich'] = visitors_outside_munich
+        type_of_visitors['visitors_outside_eu'] = visitors_outside_eu
+        type_of_visitors['visitors_from_eu'] = visitors_from_eu
+        type_of_visitors['attraction_name'] = file_name
+        data = data.append(type_of_visitors)
+
+        print("Attraction %s is being processed..." % (str(file_name)))
+    data.reset_index()
+    data.set_index('attraction_name', inplace=True)
+    data[['Traveled on business', 'Traveled solo', 'Traveled with friends', 'Traveled as a couple',
+          'Traveled with family']] = data[
+        ['Traveled on business', 'Traveled solo', 'Traveled with friends', 'Traveled as a couple',
+         'Traveled with family']].div(data[['Traveled on business', 'Traveled solo', 'Traveled with friends',
+                                            'Traveled as a couple', 'Traveled with family']].sum(axis=1), axis=0)
+    data[['visitors_from_munich', 'visitors_outside_munich', 'visitors_outside_eu', 'visitors_from_eu']] = data[
+        ['visitors_from_munich', 'visitors_outside_munich', 'visitors_outside_eu', 'visitors_from_eu']].div(
+        data[['visitors_from_munich', 'visitors_outside_munich', 'visitors_outside_eu', 'visitors_from_eu']].sum(
+            axis=1), axis=0)
+    data.to_csv('../data/K_means_data/k_means_data.csv')
+
+    return data
+
+
+data = get_file(path)
+clusters = kmeans(data)

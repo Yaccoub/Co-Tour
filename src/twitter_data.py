@@ -40,7 +40,6 @@ def get_raw_data_ids(startdate, enddate):
         os.rename('./data/tsv_full/ids_' + str(date.date()) + '.tsv', './data/tsv_full/' + str(date.date()) + '.tsv')
 
 
-
 def hydrate_raw_data(t, startdate, enddate, datatype):
     """
     Hydrate raw tweet IDs. The generated tweets are

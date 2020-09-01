@@ -4,25 +4,25 @@
 # In[ ]:
 
 
-#state : dataframe for munich visitors [rows: months , columns : places]
-#listings :  dataframe for listings [rows: months, columns : districts]
-#df: tripadvisor dataframe (columns: date, place,rating, #_of_visits, city_district: Maxvorstadt, Hadern...)
-#dataframe: (date, place,rating,visit: als paar;mit der Familie ect.. )
+# state : dataframe for munich visitors [rows: months , columns : places]
+# listings :  dataframe for listings [rows: months, columns : districts]
+# df: tripadvisor dataframe (columns: date, place,rating, #_of_visits, city_district: Maxvorstadt, Hadern...)
+# dataframe: (date, place,rating,visit: als paar;mit der Familie ect.. )
 # dataset : date, places (metrics= ratings)
-outdoors_places = ['Olympiastadion', 'Tierpark Hellabrunn','Olympiapark']
-indoors_places = ['Bayerisches Nationalmuseum','Neue Pinakothek',
-                   'Bayerisches Staatsorchester','Muenchner Stadtmuseum',
-                   'Museum Brandhorst','Nationaltheater','Residenztheater',
-                   'Alte Pinakothek','Museum Mensch und Natur','Muenchner Philharmoniker',
-                   'Prinzregententheater','Pinakothek der Moderne','Staedtische Galerie im Lenbachhaus',
-                   'Deutsches Museum','Theater am Gaertnerplatz']
+outdoors_places = ['Olympiastadion', 'Tierpark Hellabrunn', 'Olympiapark']
+indoors_places = ['Bayerisches Nationalmuseum', 'Neue Pinakothek',
+                  'Bayerisches Staatsorchester', 'Muenchner Stadtmuseum',
+                  'Museum Brandhorst', 'Nationaltheater', 'Residenztheater',
+                  'Alte Pinakothek', 'Museum Mensch und Natur', 'Muenchner Philharmoniker',
+                  'Prinzregententheater', 'Pinakothek der Moderne', 'Staedtische Galerie im Lenbachhaus',
+                  'Deutsches Museum', 'Theater am Gaertnerplatz']
 # take the metrics at June 2020 for all places ( from dataset.csv)
-all_metric_score = dataset.tail(1) 
+all_metric_score = dataset.tail(1)
 # df is dataframe taken from data_forecast code
 # add a new column with the city_distict_metric
-df['city_district_metric'] =   df['city_district']
+df['city_district_metric'] = df['city_district']
 df2 = df
-df2['all_metric_score'] =''
+df2['all_metric_score'] = ''
 for index, row in df2.iterrows():
     if df2['city_district'][index] != '':
         df2['city_district_metric'][index] = neigh_metric_score.iloc[0][df2['city_district'][index]]
@@ -40,13 +40,15 @@ for index, row in df2.iterrows():
 rec_dataset = df2
 rec_dataset.to_csv('C:/Users/Oumaima/Documents/AMI/rec_dataset.csv')
 
-
 # extract the data from the csv file with specific columns
-places_features = pd.read_csv('C:/Users/Oumaima/Documents/AMI/rec_dataset.csv',usecols=['date','place','rating','#_of_visits','city_district','city_district_metric','all_metric_score','type_door'])
+places_features = pd.read_csv('C:/Users/Oumaima/Documents/AMI/rec_dataset.csv',
+                              usecols=['date', 'place', 'rating', '#_of_visits', 'city_district',
+                                       'city_district_metric', 'all_metric_score', 'type_door'])
 places_features = places_features.dropna(subset=['city_district'])
 
 # group by the place to have at the end for each pleace its features : rating , nbr of visits, metrics,type_door
-places_features2 = places_features.groupby(by = 'place').agg({'rating':'mean', '#_of_visits':'sum','city_district_metric':'mean','all_metric_score':'mean'})
+places_features2 = places_features.groupby(by='place').agg(
+    {'rating': 'mean', '#_of_visits': 'sum', 'city_district_metric': 'mean', 'all_metric_score': 'mean'})
 places_features2.reset_index(level=0, inplace=True)
 
 # The information of city district will get lost with the grouping: so I only repeated what was used for dataset.csv
@@ -83,36 +85,42 @@ for index, row in places_features2.iterrows():
     for type_door in indoors_places:
         if places_features2['place'][index] == type_door:
             places_features2['type_door'][index] = 'indoors'
-            
+
 # save the places features after the rearrangement in a new dataset
 places_features2.to_csv('C:/Users/Oumaima/Documents/AMI/places_features.csv')
 
 # prepare dataframes of the users entries
-train_user_entries = [{'origin': 'Berlin', 'accomodation': 'Maxvorstadt', 'visit_type': 'alone', 'place_pref': 'indoors'},
-                {'origin': 'Prag', 'accomodation': 'Hadern', 'visit_type': 'with_family', 'place_pref': 'outdoors'},
-                {'origin': 'Berlin', 'accomodation': 'Hadern', 'visit_type': 'alone', 'place_pref': 'indoors'},
-                {'origin': 'Prag', 'accomodation': 'Maxvorstadt', 'visit_type': 'alone', 'place_pref': 'outdoors'}]
-test_user_entries = [{'origin': 'Bonn', 'accomodation': 'Maxvorstadt', 'visit_type': 'with_family', 'place_pref': 'outdoors'},
-                {'origin': 'Prag', 'accomodation': 'Maxvorstadt', 'visit_type': 'alone', 'place_pref': 'outdoors'},
-                {'origin': 'Bonn', 'accomodation': 'Hadern', 'visit_type': 'alone', 'place_pref': 'indoors'},
-                {'origin': 'Paris', 'accomodation': 'Maxvorstadt', 'visit_type': 'alone', 'place_pref': 'indoors'}]
+train_user_entries = [
+    {'origin': 'Berlin', 'accomodation': 'Maxvorstadt', 'visit_type': 'alone', 'place_pref': 'indoors'},
+    {'origin': 'Prag', 'accomodation': 'Hadern', 'visit_type': 'with_family', 'place_pref': 'outdoors'},
+    {'origin': 'Berlin', 'accomodation': 'Hadern', 'visit_type': 'alone', 'place_pref': 'indoors'},
+    {'origin': 'Prag', 'accomodation': 'Maxvorstadt', 'visit_type': 'alone', 'place_pref': 'outdoors'}]
+test_user_entries = [
+    {'origin': 'Bonn', 'accomodation': 'Maxvorstadt', 'visit_type': 'with_family', 'place_pref': 'outdoors'},
+    {'origin': 'Prag', 'accomodation': 'Maxvorstadt', 'visit_type': 'alone', 'place_pref': 'outdoors'},
+    {'origin': 'Bonn', 'accomodation': 'Hadern', 'visit_type': 'alone', 'place_pref': 'indoors'},
+    {'origin': 'Paris', 'accomodation': 'Maxvorstadt', 'visit_type': 'alone', 'place_pref': 'indoors'}]
 train_df_entries = pd.DataFrame(train_user_entries)
 test_df_entries = pd.DataFrame(test_user_entries)
 
+
 # define a scoring function basing on the similarities between the places features and user entries
 def score_func(user):
-    place_score ={}
+    place_score = {}
     for index, row in places_features2.iterrows():
-        place_score[index]=0
+        place_score[index] = 0
         if places_features2['city_district'][index] == user['accomodation']:
-            place_score[index] = place_score[index]+10;
+            place_score[index] = place_score[index] + 10;
         if places_features2['type_door'][index] == user['place_pref']:
-            place_score[index] = place_score[index]+10;
-    return(place_score)
+            place_score[index] = place_score[index] + 10;
+    return (place_score)
+
+
 # add another column to pleaces features called place_score: only for demonstration of results
-places_features2['place_score']=places_features2['rating']
+places_features2['place_score'] = places_features2['rating']
 for index, row in places_features2.iterrows():
     # the final score = sum of all weighted features + the score of similarities
-    places_features2['place_score'][index]= score_func(test_df_entries.iloc[0])[index]*10+ places_features2['rating'][index] + places_features2['#_of_visits'][index]*0.1+ places_features2['all_metric_score'][index]*50
-places_features2.sort_values(by = 'place_score', ascending = False)
-
+    places_features2['place_score'][index] = score_func(test_df_entries.iloc[0])[index] * 10 + \
+                                             places_features2['rating'][index] + places_features2['#_of_visits'][
+                                                 index] * 0.1 + places_features2['all_metric_score'][index] * 50
+places_features2.sort_values(by='place_score', ascending=False)

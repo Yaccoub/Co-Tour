@@ -7,9 +7,11 @@ from datetime import timedelta
 
 geolocator = Nominatim(user_agent="AMI", timeout=3)
 
-#setup
+# setup
 path = "../Tripadvisor_datasets/*.csv"
 Attractions = pd.DataFrame()
+Attractions_tripadvisor = pd.DataFrame()
+Attractions_state = pd.DataFrame()
 list__ = list()
 
 # Read and reformate tripadvisor data
@@ -17,10 +19,19 @@ for fname in glob.glob(path):
     df = pd.DataFrame()
     list__.append(Path(fname).stem)
 
+Attractions_tripadvisor['place'] = list__
+Attractions_tripadvisor['latitude'] = Attractions_tripadvisor.place.apply(lambda x: geolocator.geocode(x).latitude)
+Attractions_tripadvisor['longitude'] = Attractions_tripadvisor.place.apply(lambda x: geolocator.geocode(x).longitude)
+
 state = pd.read_csv('../munich_visitors/munich_visitors.csv', engine='python')
 state['DATE'] = [datetime.strptime(date, '%d/%m/%Y') for date in state['DATE']]
 state = state.set_index('DATE')
-state = state.drop(['Ausland (Tourismus)', 'Inland (Tourismus)', 'Kinos', 'Muenchner Philharmoniker', 'Schauburg - Theater fuer junges Publikum'], axis = 1)
+state = state.drop(['Ausland (Tourismus)', 'Inland (Tourismus)', 'Kinos', 'Muenchner Philharmoniker',
+                    'Schauburg - Theater fuer junges Publikum'], axis=1)
+Attractions_state['place'] = state.columns
+Attractions_state['latitude'] = Attractions_state.place.apply(lambda x: geolocator.geocode(x).latitude)
+Attractions_state['longitude'] = Attractions_state.place.apply(lambda x: geolocator.geocode(x).longitude)
+
 for x in state.columns:
     if x not in list__:
         list__.append(x)
@@ -46,12 +57,26 @@ for place in places:
             if district in location2:
                 y[place] = district
     except:
-        #TODO: No entry in: Bayerisches Staatsorchester, Muenchner Philharmoniker, Staedtische Galerie im Lenbachhaus
+        # TODO: No entry in: Bayerisches Staatsorchester, Muenchner Philharmoniker, Staedtische Galerie im Lenbachhaus
         y[place] = ''
 
 y['Eisbach'] = "Schwabing-Freimann"
 Attractions['city_district'] = Attractions['place']
+Attractions_tripadvisor['city_district'] = Attractions_tripadvisor['place']
+Attractions_state['city_district'] = Attractions_state['place']
 for index, row in Attractions.iterrows():
-    Attractions.loc[index,'city_district'] = y[row['place']]
+    Attractions.loc[index, 'city_district'] = y[row['place']]
+
+for index, row in Attractions_tripadvisor.iterrows():
+    Attractions_tripadvisor.loc[index, 'city_district'] = y[row['place']]
+
+for index, row in Attractions_state.iterrows():
+    Attractions_state.loc[index, 'city_district'] = y[row['place']]
+
+Attractions = Attractions.sort_values('place')
+Attractions_tripadvisor = Attractions_tripadvisor.sort_values('place')
+Attractions_state = Attractions_state.sort_values('place')
 
 Attractions.to_csv('./geoattractions.csv', index=False)
+Attractions_tripadvisor.to_csv('./TripAdvisor_geoattractions.csv', index=False)
+Attractions_state.to_csv('./State_geoattractions.csv', index=False)

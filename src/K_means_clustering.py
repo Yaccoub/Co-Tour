@@ -11,20 +11,22 @@ locale.setlocale(locale.LC_ALL, 'en_US')
 EU_countries = EUROPEAN_UNION.names
 path = "../data/Tripadvisor_datasets/*.csv"
 
+
 def preprocessing(df):
     df['date'] = df['date'].replace({'Date of experience: ': ''}, regex=True)
     df['date'] = df['date'].replace({'Date of experience: ': ''}, regex=True)
     df['visit'] = df['visit'].replace({'Trip type: ': ''}, regex=True)
-    df['date']= [datetime.strptime(date, '%B %Y')for date in df['date']]
+    df['date'] = [datetime.strptime(date, '%B %Y') for date in df['date']]
     df = df.sort_values(by='date', ascending=False, inplace=False, ignore_index=True)
-    #df['date'] = df['date'].dt.strftime('%Y-%m')
+    # df['date'] = df['date'].dt.strftime('%Y-%m')
     df = df.set_index('date')
 
     return df
 
+
 def clustering_process(df):
     df[['city', 'country']] = df['visitor_origin'].str.split(', ', expand=True, n=1)
-    df = df.drop(['rating','title','text'], axis=1)
+    df = df.drop(['rating', 'title', 'text'], axis=1)
     return df
 
 
@@ -41,18 +43,19 @@ def feature_extraction(df, file_name):
     df = preprocessing(df)
     df = clustering_process(df)
     visitors_by_country = df.groupby('country').count().sort_values('visit', ascending=True)
-    type_of_visitors    = df.groupby('visit').count().sort_values('country', ascending=True)
-    type_of_visitors    = type_of_visitors.T.drop(index=['city', 'country'])
-    visitors_by_city    = df.groupby('city').count().sort_values('visit', ascending=True)
+    type_of_visitors = df.groupby('visit').count().sort_values('country', ascending=True)
+    type_of_visitors = type_of_visitors.T.drop(index=['city', 'country'])
+    visitors_by_city = df.groupby('city').count().sort_values('visit', ascending=True)
 
     type_of_visitors.index.rename(file_name)
 
     return visitors_by_country, type_of_visitors, visitors_by_city
 
+
 def eu_countries(visitors_by_country):
     visitors_by_country["Non EU"] = 0
-    for i in range (len(visitors_by_country)):
-        if not(visitors_by_country.index[i] in EU_countries):
+    for i in range(len(visitors_by_country)):
+        if not (visitors_by_country.index[i] in EU_countries):
             visitors_by_country["Non EU"][i] = int(1)
     return visitors_by_country
 
@@ -65,6 +68,7 @@ def get_visitors(visitors_by_country, visitors_by_city):
     visitors_from_eu = visitors_by_country.groupby('Non EU').sum()['visitor_origin'][0] - \
                        visitors_by_country['visitor_origin']['Germany']
     return visitors_from_munich, visitors_outside_munich, visitors_outside_eu, visitors_from_eu
+
 
 def kmeans(data):
     kmeans = KMeans(n_clusters=4)

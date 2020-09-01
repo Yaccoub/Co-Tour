@@ -1,6 +1,8 @@
-from geopy.geocoders
+from geopy import Nominatim
+import pandas as pd
 
 geolocator = Nominatim(user_agent="AMI")
+
 
 def Geolocate(df):
     s = df.shape[0]

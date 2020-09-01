@@ -17,9 +17,10 @@ $(document).ready(function() {
                          }
                     });
               });
-              $(".historical-btn").click(function(){
-                    var month_picker = $("#month_picker").MonthPicker('GetSelectedMonthYear');
+              $("#month_picker").change(function(){
+                    var month_picker = $("#month_picker").children("option:selected").val();
                     data = {'month_picker' : month_picker };
+                    $('form').submit();
                     $.ajax.get({
                          url: '/tourist_hotspot_forecast/',
                          method : 'GET',

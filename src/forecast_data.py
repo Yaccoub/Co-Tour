@@ -8,31 +8,36 @@ import ast
 from datetime import datetime
 from datetime import timedelta
 
+
 def special_characters_col(data):
     """Function to get rid of the special characters in tripadvisor dataset"""
     ret = []
     for index, row in df.iterrows():
-        ret.append(data.iloc[index].place.replace('Ä','AE').replace('Ö','OE').replace('Ü','UE').replace('ä','ae').replace('ö','oe').replace('ü','ue').replace('Ã¼','ue').replace('Ã¤','ae'))
+        ret.append(
+            data.iloc[index].place.replace('Ä', 'AE').replace('Ö', 'OE').replace('Ü', 'UE').replace('ä', 'ae').replace(
+                'ö', 'oe').replace('ü', 'ue').replace('Ã¼', 'ue').replace('Ã¤', 'ae'))
     ret = pd.DataFrame(ret, columns=['place'])
     data = data.assign(place=ret['place'], city_district=ret['place'])
     return data
+
 
 # Read munich visitor data
 state = pd.read_csv('../data/munich_visitors/munich_visitors.csv', engine='python')
 state['DATE'] = [datetime.strptime(date, '%d/%m/%Y') for date in state['DATE']]
 state = state.set_index('DATE')
-state = state.drop(['Ausland (Tourismus)', 'Inland (Tourismus)', 'Kinos', 'Muenchner Philharmoniker', 'Schauburg - Theater fuer junges Publikum'], axis = 1)
+state = state.drop(['Ausland (Tourismus)', 'Inland (Tourismus)', 'Kinos', 'Muenchner Philharmoniker',
+                    'Schauburg - Theater fuer junges Publikum'], axis=1)
 
 # Read airbnb data
 listings = pd.read_csv('../data/Airbnb_data/listings.csv', low_memory=False)
-listings['Datum']= [datetime.strptime(date, '%d/%b/%Y')for date in listings['Datum']]
+listings['Datum'] = [datetime.strptime(date, '%d/%b/%Y') for date in listings['Datum']]
 listings = listings.set_index('Datum')
 
 # Normalizing airbnb data
 for i in range(len(listings)):
     for district in listings.columns:
         listings.iloc[i][district] = ast.literal_eval(listings.iloc[i][district])
-        listings.iloc[i][district]= listings.iloc[i][district][0]* 10 + listings.iloc[i][district][1]
+        listings.iloc[i][district] = listings.iloc[i][district][0] * 10 + listings.iloc[i][district][1]
 
 # Tripadvisor setup
 path = "../data/Tripadvisor_datasets/*.csv"
@@ -56,7 +61,7 @@ df = dataframe.groupby(['date', 'place'], as_index=False)[['rating']].mean()
 df2 = dataframe.groupby(['date', 'place'])[['date']].count()
 df['#_of_visits'] = df2['date'].values
 # df['city_district'] = df['place']
-df['date']= df['date'] + timedelta(days=1)
+df['date'] = df['date'] + timedelta(days=1)
 df = special_characters_col(df)
 # Special character treatment
 
@@ -90,15 +95,16 @@ list__ = list(state.columns)
 # for x in state.columns:
 #     if x not in list__:
 #         list__.append(x)
-alpha = pd.DataFrame(index = state.index,columns=list__)
-state = pd.DataFrame(state,index = state.index,columns=list__)
-df_clean= pd.DataFrame(df_clean,index = state.index,columns=list__)
-listings= pd.DataFrame(listings,index = state.index)
+alpha = pd.DataFrame(index=state.index, columns=list__)
+state = pd.DataFrame(state, index=state.index, columns=list__)
+df_clean = pd.DataFrame(df_clean, index=state.index, columns=list__)
+listings = pd.DataFrame(listings, index=state.index)
 #
 #
 
 for place in alpha.columns:
-    arr = np.array([df_clean[place][listings.index],state[place][listings.index], listings[geo_coords.loc[place]['city_district']]])
+    arr = np.array([df_clean[place][listings.index], state[place][listings.index],
+                    listings[geo_coords.loc[place]['city_district']]])
     arr = pd.DataFrame(arr).replace(float('nan'), np.nan)
     alpha[place][listings.index] = arr.mean()
 #         else:

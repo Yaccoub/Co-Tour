@@ -3,28 +3,34 @@ import pandas as pd
 import numpy as np
 import datetime
 
+
 def download_data(sheet_name):
     url = 'https://www.mstatistik-muenchen.de/monatszahlenmonitoring/export/xlsx/mzm_export_alle_monatszahlen.xlsx'
     return pd.read_excel(url, sheet_name=sheet_name)
+
 
 def convert_time(data):
     # Change format of month column
     for index in data.index:
         item = str(data.MONAT.loc[index])
         data.MONAT.loc[index] = '01' + '/' + item[-2:] + '/' + item[:4]
-        data.MONAT.loc[index] = datetime.datetime.strptime(data.MONAT.loc[index],'%d/%m/%Y').strftime('%Y/%m/%d')
+        data.MONAT.loc[index] = datetime.datetime.strptime(data.MONAT.loc[index], '%d/%m/%Y').strftime('%Y/%m/%d')
     data = data.rename(columns={"MONAT": "DATE", "B": "c"})
     return data.drop(['MONATSZAHL', 'JAHR'], axis=1)
+
 
 def special_characters_col(data):
     for columnName in data.columns:
         oldName = columnName
-        columnName = columnName.replace('Ä','AE').replace('Ö','OE').replace('Ü','UE').replace('ä','ae').replace('ö','oe').replace('ü','ue')
+        columnName = columnName.replace('Ä', 'AE').replace('Ö', 'OE').replace('Ü', 'UE').replace('ä', 'ae').replace('ö',
+                                                                                                                    'oe').replace(
+            'ü', 'ue')
         data = data.rename(columns={oldName: columnName})
     return data
 
+
 def main():
-    sheets = ['FREIZEIT','KINOS','MUSEEN','ORCHESTER','THEATER','TOURISMUS']
+    sheets = ['FREIZEIT', 'KINOS', 'MUSEEN', 'ORCHESTER', 'THEATER', 'TOURISMUS']
     ret = []
     for sheet_name in sheets:
         print('Downloading data for: ' + sheet_name + '...')
@@ -84,8 +90,9 @@ def main():
     # Special character treatment
     df_clean = special_characters_col(df_clean)
 
-    #Save file
+    # Save file
     df_clean.to_csv('../data/munich_visitors/munich_visitors.csv', index=False)
+
 
 if __name__ == '__main__':
     main()
