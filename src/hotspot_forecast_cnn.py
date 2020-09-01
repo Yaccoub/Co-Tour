@@ -22,8 +22,6 @@ dataset = pd.read_csv('../data/Forecast Data/dataset.csv', low_memory=False)
 dataset['DATE'] = [datetime.strptime(date, '%Y-%m-%d') for date in dataset['DATE']]
 dataset = dataset.set_index('DATE')
 
-
-
 data = dataset.filter(['Olympiapark'])
 data2 = data.values
 
@@ -54,13 +52,13 @@ x_train = np.reshape(x_train, (x_train.shape[0], x_train.shape[1], 1))
 # Logging
 mlflow.start_run(experiment_id=experiment_id, run_name='LSTM')
 # For multivariate lstm
-#mlflow.start_run(run_name='Multivariate LSTM')
+# mlflow.start_run(run_name='Multivariate LSTM')
 
 mlflow.tensorflow.autolog()
 # create and fit the LSTM network
 model = Sequential()
 model.add(Conv1D(filters=50, kernel_size=3, activation='relu', input_shape=(x_train.shape[1], 1)))
-#model.add(Conv1D(filters=50, kernel_size=3, activation='relu'))
+# model.add(Conv1D(filters=50, kernel_size=3, activation='relu'))
 model.add(MaxPooling1D(2))
 model.add(Flatten())
 model.add(Dense(units=1))
@@ -79,7 +77,6 @@ model.fit(
 test_data = data2[train_size - 20:, :]
 x_test = []
 y_test = data2[train_size:]
-
 
 # For multivariate lstm
 # test_cov = data_covid[train_size - 20:, :]
@@ -100,8 +97,8 @@ x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
 # Getting the models predicted price values
 predictions = model.predict(x_test)
 rmse = np.sqrt(np.nanmean(((predictions - y_test) ** 2)))
-mlflow.log_metric('rmse',rmse)
-#rmse = np.sqrt(mean_squared_error(predictions, y_test))
+mlflow.log_metric('rmse', rmse)
+# rmse = np.sqrt(mean_squared_error(predictions, y_test))
 # Plot/Create the data for the graph
 train = data[:train_size]
 valid = pd.DataFrame(data[train_size:])
@@ -118,5 +115,4 @@ plt.show()
 
 fig1 = 'Forecast.png'
 plt.savefig(fig1)
-mlflow.log_artifact(fig1) # logging to mlflow
-
+mlflow.log_artifact(fig1)  # logging to mlflow

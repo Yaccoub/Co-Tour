@@ -8,27 +8,52 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 from geopy.geocoders import Nominatim
+import sys
 
-geolocator = Nominatim(user_agent="UX")
+sys.path.insert(1, '../src')
+import Geocoding
 
 
-def get_geo_data_historical(geocoder, date):
-    dataset = pd.read_csv('../data/Forecast Data/dataset.csv')
+def load_state_geo_coords():
+    geo_coords = pd.read_csv('../data/geocoordinates/State_geoattractions.csv', low_memory=False)
+    geo_coords = geo_coords.set_index('place')
 
-    dataset['DATE'] = [datetime.strptime(date, '%Y-%m-%d') for date in dataset['DATE']]
-    dataset = dataset.set_index('DATE')
+    return geo_coords
+
+
+def load_tripadvisor_geo_coords():
+    geo_coords = pd.read_csv('../data/geocoordinates/TripAdvisor_geoattractions.csv', low_memory=False)
+    geo_coords = geo_coords.set_index('place')
+
+    return geo_coords
+
+
+def load_data(type):
+    if type == 'pred':
+        dataset = pd.read_csv('../data/Forecast Data/dataset_predicted.csv')
+
+        dataset['DATE'] = [datetime.strptime(date, '%Y-%m-%d') for date in dataset['DATE']]
+        dataset = dataset.set_index('DATE')
+    elif type == 'hist':
+        dataset = pd.read_csv('../data/Forecast Data/dataset.csv')
+
+        dataset['DATE'] = [datetime.strptime(date, '%Y-%m-%d') for date in dataset['DATE']]
+        dataset = dataset.set_index('DATE')
+    return dataset
+
+
+def get_geo_data_historical(dataset, date):
+
+    geo_coords = load_state_geo_coords()
 
     geo = pd.DataFrame(index=dataset.columns[:-1])
     geo['Longitude'] = ''
     geo['Latitude'] = ''
     geo['Weights'] = ''
     for place in geo.index:
-        print(place)
-        geo_info = geocoder.geocode(query=place, timeout=3)
         try:
-
-            geo['Latitude'][place] = geo_info.latitude
-            geo['Longitude'][place] = geo_info.longitude
+            geo['Latitude'][place] = geo_coords['latitude'][place]
+            geo['Longitude'][place] = geo_coords['longitude'][place]
         except:
             geo['Latitude'][place] = ''
             geo['Longitude'][place] = ''
@@ -41,23 +66,18 @@ def get_geo_data_historical(geocoder, date):
     return geo
 
 
-def get_geo_data_predicted(geocoder, date):
-    dataset = pd.read_csv('../data/Forecast Data/dataset_predicted.csv')
+def get_geo_data_predicted(dataset, date):
 
-    dataset['DATE'] = [datetime.strptime(date, '%Y-%m-%d') for date in dataset['DATE']]
-    dataset = dataset.set_index('DATE')
+    geo_coords = load_state_geo_coords()
 
     geo = pd.DataFrame(index=dataset.columns[:-1])
     geo['Longitude'] = ''
     geo['Latitude'] = ''
     geo['Weights'] = ''
     for place in geo.index:
-        print(place)
-        geo_info = geocoder.geocode(query=place, timeout=3)
         try:
-
-            geo['Latitude'][place] = geo_info.latitude
-            geo['Longitude'][place] = geo_info.longitude
+            geo['Latitude'][place] = geo_coords['latitude'][place]
+            geo['Longitude'][place] = geo_coords['longitude'][place]
         except:
             geo['Latitude'][place] = ''
             geo['Longitude'][place] = ''
@@ -68,7 +88,6 @@ def get_geo_data_predicted(geocoder, date):
     geo.sort_values(by='Weights', ascending=False)
 
     return geo
-
 
 
 class HomeView(TemplateView):
@@ -77,6 +96,16 @@ class HomeView(TemplateView):
 
 class TfaView(TemplateView):
     template_name = 'webapp/tourist_flow_analysis.html'
+
+    def get_season(self):
+        tfa_season_select = self.request.GET.get('tfa_season_select', 'summer_pre_covid')
+        print(tfa_season_select)
+        return tfa_season_select
+
+    def get_place(self):
+        tfa_place_select = self.request.GET.get('tfa_place_select', 'Olympiapark')
+        print(tfa_place_select)
+        return tfa_place_select
 
     def get_map(self, **geo):
         figure = folium.Figure()
@@ -91,12 +120,42 @@ class TfaView(TemplateView):
         figure.render()
         return figure
 
+    def get_map2(self, df, **kwargs):
+        figure = folium.Figure()
+        lat = 48.137154
+        lon = 11.576124
+        map1 = folium.Map(
+            location=[lat, lon],
+            tiles='cartodbpositron',
+            zoom_start=4,
+        )
+        # add a marker on each country propotional to the number of visitors to the selected location
+        df.apply(lambda row: folium.CircleMarker(radius=Geocoding.markersize(row["flux density"]),
+                                                 location=[row["latitude"], row["longitude"]], fill=True,
+                                                 fill_color='#3186cc', tooltip=str(
+                round(row["flux density"], 1)) + '% of visitors originate from ' + str(row["country"])).add_to(map1),
+                 axis=1)
+        map1.add_to(figure)
+        figure.render()
+        return figure
+
     def get_context_data(self, **kwargs):
         context = super(TfaView, self).get_context_data(**kwargs)
+        geo_coords = load_tripadvisor_geo_coords()
+        PlacesList = geo_coords.index
+        SeasonList = {'summer_pre_covid': 'Summer 2019', 'winter_pre_covid': 'Winter 2019',
+                      'summer_covid': 'Summer 2020', 'winter_covid': 'Winter 2020'}
+        season = self.get_season()
+        place = self.get_place()
+        geo = pd.read_csv('../data/Tripadvisor_datasets/Seasons/{}.csv_{}.csv'.format(place, season))
         figure = self.get_map()
-        figure2 = self.get_map()
+        figure2 = self.get_map2(geo)
         context['map'] = figure
         context['map2'] = figure2
+        context['selected_season'] = season
+        context['selected_place'] = place
+        context['PlacesList'] = PlacesList
+        context['SeasonList'] = SeasonList
         return context
 
 
@@ -106,23 +165,23 @@ class ThfView(TemplateView):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        # self.geolocator = Nominatim(user_agent="UX")
-
     def get_date_forecast(self):
-        tfh_month_select = self.request.GET.get('tfh_month_select', '2020-05-01')
+        tfh_month_select = self.request.GET.get('tfh_month_select', 'Jul 2020')
+        tfh_month_select = datetime.strptime(tfh_month_select, '%b %Y')
+        tfh_month_select = tfh_month_select.strftime("%Y-%m-%d")
         print(tfh_month_select)
         return tfh_month_select
 
     def get_date_hist(self):
-        month_picker = self.request.GET.get('month_picker', '2020-05')
+        month_picker = self.request.GET.get('month_picker', 'Apr 2020')
+        month_picker = datetime.strptime(month_picker, '%b %Y')
+        month_picker = month_picker.strftime("%Y-%m-%d")
         print(month_picker)
         return month_picker
 
     def top_ten_place(self, geo, **kwargs):
         top_10 = geo.head(10)
-
         Row_list = []
-
         # Iterate over each row
         for index, rows in top_10.iterrows():
             my_list = [index]
@@ -136,12 +195,11 @@ class ThfView(TemplateView):
         m = folium.Map(
             location=[lat, lon],
             tiles='cartodbpositron',
-            zoom_start=7,
+            zoom_start=12,
         )
         m.add_to(figure)
-        geo.apply(lambda row: folium.CircleMarker(radius=(2 + 2 * math.ceil(row["Weights"])),
-                                                  location=[row["Latitude"], row["Longitude"]], tooltip=str(
-                geo.index)).add_to(m), axis=1)
+        geo.apply(lambda row: folium.Marker(location=[row["Latitude"], row["Longitude"]], tooltip=str(
+            row['Weights'])).add_to(m), axis=1)
         figure.render()
         return figure
 
@@ -152,33 +210,45 @@ class ThfView(TemplateView):
         m = folium.Map(
             location=[lat, lon],
             tiles='cartodbpositron',
-            zoom_start=7,
+            zoom_start=12,
         )
         m.add_to(figure)
-        geo.apply(lambda row: folium.CircleMarker(radius=(2 + 2 * math.ceil(row["Weights"])),
-                                                  location=[row["Latitude"], row["Longitude"]], tooltip=str(
-                row["Weights"])).add_to(m), axis=1)
+        geo.apply(lambda row: folium.Marker(location=[row["Latitude"], row["Longitude"]], tooltip=str(
+            row['Weights'])).add_to(m), axis=1)
         figure.render()
         return figure
 
     def get_context_data(self, **kwargs):
         context = super(ThfView, self).get_context_data(**kwargs)
-        date = self.get_date_forecast()
-        geo = get_geo_data_predicted(geolocator, date)
+
+        dataset_pred = load_data('pred')
+        PredDateList = dataset_pred.index.strftime("%b %Y")
+        date_pred = self.get_date_forecast()
+        geo = get_geo_data_predicted(dataset_pred, date_pred)
         figure = self.get_map(geo)
         top_10 = self.top_ten_place(geo)
-        date = self.get_date_hist()
-        date = date + '-01'
-        geo = get_geo_data_historical(geolocator, date)
+
+        dataset_hist = load_data('hist')
+        HistDateList = dataset_hist.index.strftime("%b %Y")
+        date_hist = self.get_date_hist()
+        geo = get_geo_data_historical(dataset_hist, date_hist)
         figure2 = self.get_map_hist(geo)
+
         context['map'] = figure
         context['map2'] = figure2
+        context['PredDateList'] = PredDateList
+        context['HistDateList'] = HistDateList
+        date_pred = datetime.strptime(date_pred, '%Y-%m-%d')
+        date_hist = datetime.strptime(date_hist, '%Y-%m-%d')
+        context['selected_pred_date'] = date_pred.strftime("%b %Y")
+        context['selected_hist_date'] = date_hist.strftime("%b %Y")
         context['Text'] = top_10  # self.top_ten_place()
         return context
 
 
 class TrsView(TemplateView):
     template_name = 'webapp/tourism_recommendation_system.html'
+
 
 class ContactView(TemplateView):
     template_name = 'webapp/contact.html'

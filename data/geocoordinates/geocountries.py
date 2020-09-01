@@ -2,6 +2,7 @@ from geopy.geocoders
 
 geolocator = Nominatim(user_agent="AMI")
 
+
 def Geolocate(df):
     s = df.shape[0]
     for i in range(s):

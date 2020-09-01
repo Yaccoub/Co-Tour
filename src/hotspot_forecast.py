@@ -11,7 +11,8 @@ from keras.models import Sequential
 from sklearn.metrics import mean_squared_error
 from statsmodels.tsa.stattools import adfuller
 
-def create_sequences(dataset,timesteps=1,dropNa=True):
+
+def create_sequences(dataset, timesteps=1, dropNa=True):
     # drop row's which include Nan elements (data preprocessing)
     df = pd.DataFrame(dataset)
     if dropNa == True:
@@ -24,24 +25,26 @@ def create_sequences(dataset,timesteps=1,dropNa=True):
         # stop if reached the end of dataset
         if endIdx + 1 > len(dataset):
             break
-        dataX.append(dataset[i:endIdx,:])
-        dataY.append(dataset[endIdx,:])
+        dataX.append(dataset[i:endIdx, :])
+        dataY.append(dataset[endIdx, :])
     return np.array(dataX), np.array(dataY)
 
-def test_train(datasetsize,testsize,shuffle=True):
+
+def test_train(datasetsize, testsize, shuffle=True):
     if shuffle == True:
         ntest = int(np.ceil(testsize * datasetsize))
-        idx = np.arange(0,datasetsize)
+        idx = np.arange(0, datasetsize)
         np.random.shuffle(idx)
         train_index = idx[ntest:]
         test_index = idx[:ntest]
         return train_index, test_index
     else:
         ntest = int(np.ceil(testsize * datasetsize))
-        idx = np.arange(0,datasetsize)
-        test_index = idx[datasetsize-ntest:]
-        train_index = idx[:datasetsize-ntest]
+        idx = np.arange(0, datasetsize)
+        test_index = idx[datasetsize - ntest:]
+        train_index = idx[:datasetsize - ntest]
         return train_index, test_index
+
 
 def LSTM_model():
     model = Sequential()
@@ -52,8 +55,10 @@ def LSTM_model():
     model.add(Dense(units=1))
     model.compile(loss='mean_squared_error', optimizer='adam')
     return model
+
+
 # def main():
-    # Create Experiment in Mlflow for tracking
+# Create Experiment in Mlflow for tracking
 try:
     experiment_id = mlflow.create_experiment(name='Lstm')
 except:
@@ -66,15 +71,14 @@ dataset = dataset.set_index('DATE')
 timesteps = 20
 dropNan = False
 for place in dataset.columns[:]:
-
-    X_Data, y_Data = create_sequences(dataset[place],timesteps,dropNan)
+    X_Data, y_Data = create_sequences(dataset[place], timesteps, dropNan)
     y_Data = pd.DataFrame(y_Data)
 
     y_Data = y_Data.rename(columns={0: place})
     y_Data_c = y_Data.set_index(dataset.index[timesteps:])
     testsize = 0.33
-    shuffle= False
-    train_index, test_index = test_train(len(X_Data),testsize,shuffle)
+    shuffle = False
+    train_index, test_index = test_train(len(X_Data), testsize, shuffle)
 
     # # rename the columns of y_Data
     X_train = X_Data[train_index]
@@ -96,11 +100,11 @@ for place in dataset.columns[:]:
     # Getting the models predicted price values
     predictions = model.predict(X_test)
     rmse = np.sqrt(np.nanmean(((predictions - y_test) ** 2)))
-    mlflow.log_metric('rmse',rmse)
+    mlflow.log_metric('rmse', rmse)
 
     # Plot/Create the data for the graph
-    y_train = y_train.set_index(y_Data_c.index[:int(np.ceil(len(y_Data_c)-len(y_Data_c)* testsize))-1])
-    y_test = y_test.set_index(y_Data_c.index[int(np.ceil(len(y_Data_c)-len(y_Data_c)* testsize))-1:])
+    y_train = y_train.set_index(y_Data_c.index[:int(np.ceil(len(y_Data_c) - len(y_Data_c) * testsize)) - 1])
+    y_test = y_test.set_index(y_Data_c.index[int(np.ceil(len(y_Data_c) - len(y_Data_c) * testsize)) - 1:])
     train = y_train
     valid = pd.DataFrame(y_test)
     valid['Predictions'] = predictions
@@ -116,5 +120,5 @@ for place in dataset.columns[:]:
 
     fig1 = 'Forecast.png'
     plt.savefig(fig1)
-    mlflow.log_artifact(fig1) # logging to mlflow
+    mlflow.log_artifact(fig1)  # logging to mlflow
     mlflow.end_run()

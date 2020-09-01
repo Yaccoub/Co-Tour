@@ -29,34 +29,46 @@
     <div class="container-fluid">
         <div class="row">
             <div class="column col-md-3">
-                <h3 class="heading-3 font-weight-bold">Tourist Flow Explorer</h3>
-                <p class="paragraph-2 font-weight-light">A Machine Learning Model To forecast tourist hot spots for the
-                    upcoming month using historical data</p>
-                <form>
-                    {% csrf_token %}
-                    <label class="sr-only" for="tfa_month_select">Select a Season: </label>
-                    <select class="form-control" id="tfa_month_select" name="tfa_month_select">
-                        <option disabled selected >Select a season</option>
-                        <option value="2020-07-01">Summer 2019</option>
-                        <option value="2020-08-01">Autumn 2019</option>
-                        <option value="2020-09-01">Winter 2019/2020</option>
-                        <option value="2020-10-01">Spring 2020</option>
-                        <option value="2020-10-01">Summer 2020</option>
-                    </select>
-                     <label class="sr-only" for="tfa_place_select">Select a Location: </label>
-                    <select class="form-control" id="tfa_place_select" name="tfa_place_select">
-                        <option disabled selected >Select a location</option>
-                        <option value="2020-07-01">Alte Pinakothek</option>
-                        <option value="2020-08-01">Olympiapark</option>
-                    </select>
-                    <button class="btn btn-primary forecast-btn" type="submit">Refresh Map</button>
-                </form>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card shadow-lg">
+                            <div class="card-body">
+                                <div class="filter-sidebar">
+                                    <h3 class="heading-3 font-weight-bold">Tourist Trajectory Analysis</h3>
+                                    <p class="paragraph-2 font-weight-light">A Machine Learning Model To forecast
+                                        tourist hot spots for the
+                                        upcoming month using historical data {{selected_place}} </p>
+                                    <form>
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label for="tfa_season_select">Select a Season: </label>
+                                            <select class="form-control" id="tfa_season_select"
+                                                    name="tfa_season_select">
+                                                {% for season, value in SeasonList.items %}
+                                                <option value="{{season}}" {% if season == selected_season %} selected {% endif %} >{{value}}</option>
+                                                {% endfor %}
+                                           </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="tfa_place_select">Select a Location: </label>
+                                            <select class="form-control" id="tfa_place_select" name="tfa_place_select">
+                                                {% for place in PlacesList %}
+                                                <option value="{{place}}" {% if place == selected_place %} selected {% endif %} >{{place}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <button class="btn btn-primary refresh-btn" type="submit">Refresh Map</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="column-map col-md-9">
                 {{map2.html.render|safe}}
                 <script>
                   {{map2.script.render|safe}}
-
                 </script>
             </div>
         </div>
