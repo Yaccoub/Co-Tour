@@ -4,12 +4,18 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 import os
 from pickle import dump
-from keras.models import Sequential
-from keras.layers import Dense,Flatten,Dropout,Conv1D, MaxPooling1D,LSTM
-from keras.callbacks import EarlyStopping
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense,Flatten,Dropout,Conv1D, MaxPooling1D,LSTM
+from tensorflow.keras.callbacks import EarlyStopping
 import mlflow.keras
 import matplotlib.pyplot as plt
 from scipy.stats import pearsonr
+
+# Ignore the warnings
+import sys
+if not sys.warnoptions:
+    import warnings
+    warnings.simplefilter("ignore")
 
 def create_sequences(dataset, in_steps=1, out_steps=1, dropNa=True):
     """Converts time series into a data set for supervised machine learning models"""
@@ -106,7 +112,7 @@ shuffle = False
 X_Data, y_Data_comp = create_sequences(dataset, n_steps, output_len, dropNan)
 
 # Get the places that we wanna predict
-places = dataset.columns[:28]
+places = dataset.columns[:23]
 
 # Iterator over different places
 for idx in np.arange(len(places)):
