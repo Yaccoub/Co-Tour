@@ -10,6 +10,8 @@ from django.views.generic import TemplateView
 from geopy.geocoders import Nominatim
 import sys
 
+from sklearn.preprocessing import minmax_scale
+
 sys.path.insert(1, '../src')
 import Geocoding
 
@@ -42,8 +44,26 @@ def load_data(type):
     return dataset
 
 
-def get_geo_data_historical(dataset, date):
+def load_countries_list():
+    dataset = pd.read_csv('../data/geocoordinates/country.csv')
 
+    return dataset
+
+
+def get_geo_data_historical(dataset, date):
+    colors_list = [
+        'darkblue',
+        'blue',
+        'lightblue',
+        'cadetblue',
+        'green'
+        'lightgreen',
+        'orange',
+        'lightred',
+        'red',
+        'darkred',
+        'darkblue'
+    ]
     geo_coords = load_state_geo_coords()
 
     geo = pd.DataFrame(index=dataset.columns[:-1])
@@ -62,12 +82,30 @@ def get_geo_data_historical(dataset, date):
 
     geo['Weights'] = geo['Weights'] * 100
     geo.sort_values(by='Weights', ascending=False)
+    geo['Place'] = geo.index
+    geo["Weights"] = minmax_scale(geo["Weights"])
 
+    temp_colors_list = list()
+    for i in range(len(geo)):
+        temp_colors_list.append(colors_list[math.ceil(geo["Weights"][i] * 10) - 1])
+    geo['Color'] = temp_colors_list
     return geo
 
 
 def get_geo_data_predicted(dataset, date):
-
+    colors_list = [
+        'darkblue',
+        'blue',
+        'lightblue',
+        'cadetblue',
+        'green'
+        'lightgreen',
+        'orange',
+        'lightred',
+        'red',
+        'darkred',
+        'darkblue'
+    ]
     geo_coords = load_state_geo_coords()
 
     geo = pd.DataFrame(index=dataset.columns[:-1])
@@ -85,8 +123,15 @@ def get_geo_data_predicted(dataset, date):
     geo = geo[geo['Longitude'].astype(bool)]
 
     geo['Weights'] = geo['Weights'] * 100
-    geo.sort_values(by='Weights', ascending=False)
 
+    geo.sort_values(by='Weights', ascending=False)
+    geo['Place'] = geo.index
+    geo["Weights"] = minmax_scale(geo["Weights"])
+
+    temp_colors_list = list()
+    for i in range(len(geo)):
+        temp_colors_list.append(colors_list[math.ceil(geo["Weights"][i] * 10) - 1])
+    geo['Color'] = temp_colors_list
     return geo
 
 
@@ -198,8 +243,9 @@ class ThfView(TemplateView):
             zoom_start=12,
         )
         m.add_to(figure)
-        geo.apply(lambda row: folium.Marker(location=[row["Latitude"], row["Longitude"]], tooltip=str(
-            row['Weights'])).add_to(m), axis=1)
+        geo.apply(lambda row: folium.Marker(icon=folium.Icon(color=row['Color']),
+                                            location=[row["Latitude"], row["Longitude"]], tooltip=str(
+                row['Place']) + str(row["Weights"])).add_to(m), axis=1)
         figure.render()
         return figure
 
@@ -213,8 +259,9 @@ class ThfView(TemplateView):
             zoom_start=12,
         )
         m.add_to(figure)
-        geo.apply(lambda row: folium.Marker(location=[row["Latitude"], row["Longitude"]], tooltip=str(
-            row['Weights'])).add_to(m), axis=1)
+        geo.apply(lambda row: folium.Marker(icon=folium.Icon(color=row['Color']),
+                                            location=[row["Latitude"], row["Longitude"]], tooltip=str(
+                row['Place']) + str(row["Weights"])).add_to(m), axis=1)
         figure.render()
         return figure
 
