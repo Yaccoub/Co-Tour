@@ -205,7 +205,7 @@ def score_func(user,df):
     return(place_score)
 def reshape_df(df):
     df=df.drop(columns=['city_district','type_door','rating','all_metric_score'])
-    df["place_score"] = (df["place_score"] /df["place_score"].sum())*10
+    df["place_score"] = (df["place_score"] -df["place_score"].min())/(df["place_score"].max()-df["place_score"].min())
     df=df.sort_values(by = "place_score",ascending=False)
     return df
 
@@ -214,11 +214,12 @@ def reshape_df(df):
 
 
 def get_metrics(df_metrics,user):
+
     for index,row in df_metrics.iterrows():
-        if '2020-07-01' == df_metrics['DATE'][index]:
+        if user['date'][:7] == df_metrics['DATE'][index][:7]:
             new_listing = df_metrics.loc[index].T
             all_metric_score = df_metrics.loc[index]
-    all_metric_score=all_metric_score.replace({0.0: 100000})
+    #all_metric_score=all_metric_score.replace({0.0: 100000})
     return (all_metric_score)
 
 
@@ -285,14 +286,18 @@ def get_user_country(user_country):
 'visit_Traveled on business'
 'visit_Traveled solo'
 'visit_Traveled with family'
-'visit_Traveled with friends'"""
+'visit_Traveled with friends'
+- place_pref :
+'indoors'
+'outdoors' 
+  """
 
 
 
 visit_type = 'visit_Traveled with family'
-user_country = 'Berlin'
-place_pref = 'indoors'
-date_of_visit = '2020-05-01'
+user_country = 'France'
+place_pref = 'outdoors'
+date_of_visit = '2020-07-01'
 provenance = get_user_country(user_country)
 
 user = {'origin': provenance, 'accomodation': 'Maxvorstadt', 'visit_type': visit_type, 'place_pref': place_pref,'date':date_of_visit}
@@ -304,12 +309,13 @@ df, names = data_processing(file_path)
 num_clusters=10
 kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(df[df.columns[1:]])
 S = predict_score(kmeans, df, user['origin'], user['visit_type'])
+S['score']= (S['score']-S['score'].min())/(S['score'].max()-S['score'].min())
 print(S)
 
 
 
 df_metrics = pd.read_csv('../data/Forecast Data/dataset_predicted.csv')
-all_metric_score = get_metrics(df_metrics)
+all_metric_score = get_metrics(df_metrics,user)
 
 rec_dataset = pd.read_csv('../data/Recommendation data/rec_dataset.csv')
 places_features = extract_places_features(rec_dataset, all_metric_score)
@@ -317,14 +323,15 @@ places_features = extract_places_features(rec_dataset, all_metric_score)
 df = preprocessing2(places_features)
 
 for index, row in df.iterrows():
-    df['place_score'][index]= score_func(user,df)[index]*10+ df['rating'][index] + df['all_metric_score'][index]*500
+    df['place_score'][index]= score_func(user,df)[index]*10+ df['rating'][index] + df['all_metric_score'][index]*0.001
 dataframe = reshape_df(df)
 print(dataframe)
 
 dataframe1, dataframe2 = merge_dfs(S,dataframe)
 df=pd.concat([dataframe1,dataframe2]).drop_duplicates(keep=False)
+df=df.sort_values(by ='place_score',ascending=False)
 df = df.reset_index(drop=True)
-
+print(df)
 # Save data to csv
 #df.to_csv('../data/Test.csv',index=False)
 
