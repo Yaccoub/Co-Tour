@@ -207,7 +207,7 @@ S = predict_score(kmeans, df, 'provenance_outside Munich', 'visit_Traveled solo'
 print(S)
 
 
-def preprocessing(df):
+def preprocessing_scor(df):
     df=df.groupby(by = ['place','city_district','type_door'], as_index=False).agg({'rating':'mean','all_metric_score':'mean',})
     df['place_score']=df['all_metric_score']
     return df
@@ -269,7 +269,7 @@ all_metric_score = get_metrics(df_metrics)
 rec_dataset = pd.read_csv('../data/Recommendation data/rec_dataset.csv')
 places_features = extract_places_features(rec_dataset, all_metric_score)
 
-df = preprocessing(places_features)
+df = preprocessing_scor(places_features)
 user = {'origin': 'Berlin', 'accomodation': 'Maxvorstadt', 'visit_type': 'alone', 'place_pref': 'indoors','date':'07.2020'}
 for index, row in df.iterrows():
     df['place_score'][index]= score_func(user,df)[index]*10+ df['rating'][index] + df['all_metric_score'][index]*500
@@ -293,6 +293,6 @@ df=pd.concat([dataframe1,dataframe2]).drop_duplicates(keep=False)
 df = df.reset_index(drop=True)
 
 # Save data to csv
-#df.to_csv('../data/Test.csv',index=False)
+df.to_csv('../data/Test.csv',index=False)
 
 
