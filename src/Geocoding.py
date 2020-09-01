@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import math
+import glob
 from geopy.geocoders import Nominatim
 import folium
 import pycountry
@@ -23,12 +24,15 @@ def get_season(df):
 
 
 def origin(df):
+    if df.empty:
+        df1 = pd.DataFrame(columns=['country', 'flux density', 'latitude', 'longitude'])
+        return df1
     # extract relevant columns of dataframe
     df = df[['date', 'text', 'visitor_origin']]
     df = df.rename(columns={'text': 'review_number'})
     # drop all rows without an origin
     df = df.dropna(subset=['visitor_origin'])
-    ## a correct origin has the format "City, Region, Country"
+    # a correct origin has the format "City, Region, Country"
     #  by using rpartition you create 3 strings that split at the last comma
     # if only the country is given, it will return two empty strings and the last one with the country
     df[['city', 'region', 'country']] = df.visitor_origin.apply(
@@ -49,7 +53,8 @@ def origin(df):
     # compute the percentage of visitors from that country to the attraction
     df['flux density'] = df['review_number'] * 100 / sum(df['review_number'])
     df = df.drop(['review_number'], axis=1)
-    # specific case problem where geopy assigns the geocoordinates of Georgia (state in the USA) and not of Georgia the country
+    # specific case problem where geopy assigns the geocoordinates of Georgia (state in the USA)
+    # we want Georgia the country
     # so I specifically ask for the coordinates of the capital of Georgia
     df.loc[df['country'] == 'Georgia', 'country'] = 'Tbilisi, Georgia'
     # assign latitude and longitude values to each country
@@ -76,7 +81,7 @@ def visualise(df):
     )
     # add a marker on each country propotional to the number of visitors to the selected location
     df.apply(lambda row: folium.CircleMarker(radius=markersize(row["flux density"]),
-                                             location=[row["latitude"], row["longitude"]], tooltip=str(
+                                             location=[row["latitude"], row["longitude"]], fill= True, tooltip=str(
             round(row["flux density"], 1)) + '% of visitors originate from ' + str(row["country"])).add_to(map1),
              axis=1)
     return map1
@@ -88,30 +93,23 @@ def countrycheck(text):
         return True
 
 
-
 def main():
     path = "../data/Tripadvisor_datasets/*.csv"
-
     # Read and reformate tripadvisor data
     for fname in glob.glob(path):
         x = pd.read_csv(fname, low_memory=False)
-
-        spc,wpc,wc,sc = get_season(x)
-
-        processed_spc =origin(spc)
+        spc, wpc, wc, sc = get_season(x)
+        processed_spc = origin(spc)
         processed_spc.to_csv('../data/Tripadvisor_datasets/Seasons/{}_summer_pre_covid.csv'.format(fname))
-
-        processed_wpc =origin(wpc)
+        processed_wpc = origin(wpc)
         processed_wpc.to_csv('../data/Tripadvisor_datasets/Seasons/{}_winter_pre_covid.csv'.format(fname))
-
-        processed_sc=origin(sc)
+        processed_sc = origin(sc)
         processed_sc.to_csv('../data/Tripadvisor_datasets/Seasons/{}_summer_covid.csv'.format(fname))
-
-        processed_wc=origin(wc)
+        processed_wc = origin(wc)
         processed_wc.to_csv('../data/Tripadvisor_datasets/Seasons/{}_winter_covid.csv'.format(fname))
-
-    df= pd.read_csv('../data/Tripadvisor_datasets/Seasons/Marienplatz_winter_covid.csv')
+    df = pd.read_csv('../data/Tripadvisor_datasets/Seasons/Marienplatz_winter_covid.csv')
     visualise(df)
+
 
 if __name__ == '__main__':
     main()
