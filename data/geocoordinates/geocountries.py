@@ -1,4 +1,5 @@
-from geopy.geocoders
+from geopy import Nominatim
+
 
 geolocator = Nominatim(user_agent="AMI")
 
