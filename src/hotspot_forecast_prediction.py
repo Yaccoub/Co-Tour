@@ -1,5 +1,5 @@
 from datetime import datetime
-import keras
+import tensorflow.keras
 import numpy as np
 import pandas as pd
 from pickle import load
@@ -52,7 +52,7 @@ for i in range(X_data.shape[2]):
     X_data_scaled[:, :, i] = xscalers[i].transform(X_data[:, :, i])
 
 # Get the places that we wanna predict
-places = dataset.columns[:28]
+places = dataset.columns[:23]
 
 ret = []
 
@@ -62,7 +62,7 @@ for idx in np.arange(len(places)):
     print("Start prediction for:",place)
 
     # Load the traind model
-    model = keras.models.load_model("../ML_models/{}.h5".format(place))
+    model = tensorflow.keras.models.load_model("../ML_models/{}.h5".format(place))
 
     # Load the xscaler
     yscaler = load(open('../data_scaler/yscaler/{}.pkl'.format(place), 'rb'))

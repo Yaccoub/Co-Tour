@@ -1,8 +1,8 @@
-
 import pandas as pd
 import numpy as np
 from datetime import datetime
 import seaborn as sns
+
 sns.set()
 from countrygroups import EUROPEAN_UNION
 import glob
@@ -13,7 +13,6 @@ import locale
 locale.setlocale(locale.LC_ALL, 'en_US')
 EU_countries = EUROPEAN_UNION.names
 path = "../data/Tripadvisor_datasets/*.csv"
-
 
 
 def preprocessing(df):
@@ -27,22 +26,19 @@ def preprocessing(df):
 
     return df
 
+
 def clustering_process(df):
     df[['city', 'country']] = df['visitor_origin'].str.split(', ', expand=True, n=1)
-    df = df.drop(['rating','title','text'], axis=1)
+    df = df.drop(['rating', 'title', 'text'], axis=1)
     return df
-
-
 
 
 def eu_countries(visitors_by_country):
     visitors_by_country["Non EU"] = 0
-    for i in range (len(visitors_by_country)):
-        if not(visitors_by_country.index[i] in EU_countries):
+    for i in range(len(visitors_by_country)):
+        if not (visitors_by_country.index[i] in EU_countries):
             visitors_by_country["Non EU"][i] = int(1)
     return visitors_by_country
-
-
 
 
 def binary_encoding(df):
@@ -55,24 +51,25 @@ def binary_encoding(df):
             df['provenance'][index] = 'Munich'
         elif df['country'][index] == 'Germany' and df['city'][index] != 'Munich':
             df['provenance'][index] = 'outside Munich'
-        elif df['country'][index] in EU_countries and df['country'][index] != 'Germany' :
+        elif df['country'][index] in EU_countries and df['country'][index] != 'Germany':
             df['provenance'][index] = 'EU apart from GER'
-        else :
+        else:
             df['provenance'][index] = 'Outisde EU'
-    df = pd.get_dummies(df, columns=["provenance" , "visit"])
+    df = pd.get_dummies(df, columns=["provenance", "visit"])
     df = df.set_index('date')
 
     return df
+
 
 def get_df_and_names(file_path):
     names = list()
     l_df = list()
     my_dict = {}
-    for i in range (len(file_path)):
+    for i in range(len(file_path)):
         temp = ntpath.basename(file_path[i])
         names.append(temp[:-4])
-    for i in range (len(file_path)):
-        temp_df = pd.read_csv(file_path[i],  header=0, squeeze=True)
+    for i in range(len(file_path)):
+        temp_df = pd.read_csv(file_path[i], header=0, squeeze=True)
         temp_df['place_name'] = names[i]
         l_df.append(temp_df)
         my_dict[names[i]] = temp_df
@@ -80,11 +77,12 @@ def get_df_and_names(file_path):
     df = pd.concat(l_df)
     return df, names, my_dict
 
+
 def data_processing(file_path):
     df, names, my_dict = get_df_and_names(file_path)
     df = binary_encoding(df)
     df = df.reset_index()
-    df = df.drop(['visitor_origin','city', 'country', 'country', 'date'], axis=1)
+    df = df.drop(['visitor_origin', 'city', 'country', 'country', 'date'], axis=1)
     return df, names, my_dict
 
 
@@ -137,14 +135,13 @@ def predict_score(kmeans, df, ori, visit, my_dict):
 'visit_Traveled with family'
 'visit_Traveled with friends'"""
 
-#examples:
+# examples:
 provenance = 'provenance_outside Munich'
 visit = 'visit_Traveled as a couple'
 
-
 file_path = glob.glob(path)
 df, names, my_dict = data_processing(file_path)
-num_clusters=10
+num_clusters = 10
 kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(df[df.columns[1:]])
 S = predict_score(kmeans, df, provenance, visit, my_dict)
 print(S)

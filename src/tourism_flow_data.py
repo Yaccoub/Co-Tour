@@ -4,15 +4,16 @@ import pandas as pd
 def preprocessing(df):
     df['date'] = df['date'].replace({'Date of experience: ': ''}, regex=True)
     df['visit'] = df['visit'].replace({'Trip type: ': ''}, regex=True)
-    df['date']= [datetime.strptime(date, '%B %Y')for date in df['date']]
+    df['date'] = [datetime.strptime(date, '%B %Y') for date in df['date']]
     df = df.sort_values(by='date', ascending=False, inplace=False, ignore_index=True)
     df = df.set_index('date')
 
     return df
 
+
 def clustering_process(df):
     df[['city', 'country', 'extra']] = df['visitor_origin'].str.split(', ', expand=True, n=2)
-    df = df.drop(['rating','title','text'], axis=1)
+    df = df.drop(['rating', 'title', 'text'], axis=1)
     return df
 
 
@@ -25,10 +26,11 @@ def feature_extraction(df):
 
     return visitors_by_country, type_of_visitors, visitors_by_city
 
+
 def eu_countries(visitors_by_country):
     visitors_by_country["Non EU"] = 0
-    for i in range (len(visitors_by_country)):
-        if not(visitors_by_country.index[i] in EU_countries):
+    for i in range(len(visitors_by_country)):
+        if not (visitors_by_country.index[i] in EU_countries):
             visitors_by_country["Non EU"][i] = int(1)
     return visitors_by_country
 

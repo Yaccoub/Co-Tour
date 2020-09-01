@@ -1,41 +1,24 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[57]:
-
-
-pip install dateparser
-
-
-# In[55]:
-
 
 # Standard data science libraries
 import pandas as pd
 import copy
 import numpy as np
 from pathlib import Path
-import dateparser
+from geopy.geocoders import Nominatim
 from datetime import datetime
-from sklearn.impute import SimpleImputer
-# Visualization
+
 import seaborn as sns
 sns.set()
-import matplotlib
-import plotly.graph_objects as go
-import matplotlib.pyplot as plt
-import plotly.express as px
-#from countrygroups import EUROPEAN_UNION
-import re
-import os.path 
-get_ipython().run_line_magic('matplotlib', 'inline')
-import pycountry
-#from googletrans import Translator
+
+from countrygroups import EUROPEAN_UNION
+
 import glob
-import geopy
+
 import ntpath
 from sklearn.cluster import KMeans
-
 
 # In[33]:
 
@@ -43,7 +26,7 @@ from sklearn.cluster import KMeans
 import locale
 locale.setlocale(locale.LC_ALL, 'en_US')
 EU_countries = EUROPEAN_UNION.names
-path = "C:/Users/Oumaima/Documents/AMI/data/*.csv"
+path = "../data/Tripadvisor_datasets/*.csv"
 
 
 # In[34]:
@@ -172,7 +155,15 @@ def data_processing(file_path):
     return df, names
 
 
-# In[43]:
+def place_type(place):
+    global placeType
+    outdoors_places = ['Munchener Tierpark Hellabrunn','Allianz Arena', 'English Garden','Olympiapark','Olympiaturm', 'Viktualienmarkt','Marienplatz','Eisbach']
+    indoors_places = ['Museum Brandhorst','Asamkirche Munich','Alte Pinakothek','BMW Museum', 'Nymphenburg Palace','Deutsches Museum','Munich Residenz','Neues Rathaus Munich','Pinakothek der Moderne','St-Peter Munich','Bayerisches Nationalmuseum','Bayerisches Staatsoper']
+    if place in outdoors_places == True :
+        placeType = 'outdoors'
+    elif place in indoors_places == True :
+        placeType = 'indoors'
+    return placeType
 
 
 def predict_score(kmeans, df, ori, visit):
@@ -204,36 +195,18 @@ def predict_score(kmeans, df, ori, visit):
             user_eingaben[i-1] = 1
     
     return cluster_i[int(kmeans.predict(user_eingaben.reshape(1, -1)))]
+
+def update_score(data,user):
+    global placeType
+    for index,row in data.iterrows():
+        placeType = place_type(row.place_name)
+        if placeType == user['place_pref']:
+            row.place_score= row.place_score *1.5
+    return data
     
 
-Accepted strings are 
-- ori :
-'provenance_EU apart from GER'
-'provenance_Munich'
-'provenance_Outisde EU'
-'provenance_outside Munich'
-- visit :
-'visit_Traveled as a couple'
-'visit_Traveled on business'
-'visit_Traveled solo'
-'visit_Traveled with family'
-'visit_Traveled with friends'
-# In[44]:
 
-
-file_path = glob.glob("C:/Users/Oumaima/Documents/AMI/data/*.csv")
-df, names = data_processing(file_path)
-num_clusters=10
-kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(df[df.columns[1:]])
-S = predict_score(kmeans, df, 'provenance_outside Munich', 'visit_Traveled solo')
-#S['score']=  (S['score']-S['score'].min())/(S['score'].max()-S['score'].min())
-print(S)
-
-
-# In[45]:
-
-
-def preprocessing(df):
+def preprocessing2(df):
     df=df.groupby(by = ['place','city_district','type_door'], as_index=False).agg({'rating':'mean','all_metric_score':'mean',})
     df['place_score']=df['all_metric_score']
     return df
@@ -242,13 +215,13 @@ def score_func(user,df):
     for index, row in df.iterrows():
         place_score[index]=0
         if df['city_district'][index] == user['accomodation']:
-            place_score[index] = place_score[index]+10;
+            place_score[index] = place_score[index]+20;
         if df['type_door'][index] == user['place_pref']:
-            place_score[index] = place_score[index]+10;
+            place_score[index] = place_score[index]+20;
     return(place_score)
 def reshape_df(df):
     df=df.drop(columns=['city_district','type_door','rating','all_metric_score'])
-    df["place_score"] = (df["place_score"] /df["place_score"].sum())*10
+    df["place_score"] = (df["place_score"] -df["place_score"].min())/(df["place_score"].max()-df["place_score"].min())
     df=df.sort_values(by = "place_score",ascending=False)
     return df
 
@@ -256,12 +229,13 @@ def reshape_df(df):
 # In[46]:
 
 
-def get_metrics(df_metrics):
+def get_metrics(df_metrics,user):
+
     for index,row in df_metrics.iterrows():
-        if '2020-07-01' == df_metrics['DATE'][index]:
-            new_listing = df_metrics.loc[index].T
+        if user['date'][:7] == df_metrics['DATE'][index][:7]:
+            #new_listing = df_metrics.loc[index].T
             all_metric_score = df_metrics.loc[index]
-    all_metric_score=all_metric_score.replace({0.0: 100000})
+    #all_metric_score=all_metric_score.replace({0.0: 100000})
     return (all_metric_score)
 
 
@@ -280,64 +254,96 @@ def extract_places_features(rec_dataset,metrics):
     return (places_features)
 
 
-# In[48]:
-
-
-def place_type(df):
-    outdoors_places = ['Allianz Arena', 'English Garden','Olympiapark', 'Viktualienmarkt','Marienplatz']
-    indoors_places = ['Alte Pinakothek','BMW Museum', 'Nymphenburg Palace','Deutsches Museum','Munich Residenz','New_Town_Hall',"St.Peter's Church"]
-    return df
-
-
-# In[49]:
-
-
-df_metrics = pd.read_csv('C:/Users/Oumaima/Documents/AMI/dataset_predicted.csv')
-all_metric_score = get_metrics(df_metrics)
-     
-
-rec_dataset = pd.read_csv('C:/Users/Oumaima/Documents/AMI/rec_dataset.csv')
-places_features= extract_places_features(rec_dataset,all_metric_score)
-
-
-# In[50]:
-
-
-
-df = preprocessing(places_features)
-user = {'origin': 'Berlin', 'accomodation': 'Maxvorstadt', 'visit_type': 'alone', 'place_pref': 'indoors','date':'07.2020'}
-for index, row in df.iterrows():
-    df['place_score'][index]= score_func(user,df)[index]*10+ df['rating'][index] + df['all_metric_score'][index]*500
-dataframe = reshape_df(df)
-
-
-# In[51]:
-
 
 def merge_dfs(df1,df2):
-    df1.rename(columns={'score':'place_score'}, inplace=True)
-    df2.rename(columns={'place':'place_name'}, inplace=True)
-    for index,row in df1.iterrows():
-        if df1['place_name'][index]=='Deutsches_Museum':
-            df1['place_name'][index]='Deutsches Museum'
-        if df1['place_name'][index]=='Alte_Pinakothek':
-            df1['place_name'][index]='Alte Pinakothek'
-        if df1['place_name'][index]=="St.Peter's Church":
-            df1['place_name'][index]='St.Peters Church'
-    for index1,row1 in df1.iterrows():
-        for index2,row2 in df2.iterrows():
-           # print(df1['place_name'][index1],df2['place_name'][index2])
-            if df2['place_name'][index2]==df1['place_name'][index1]:
-                df2['place_score'][index2]=(df1['place_score'][index1]+df2['place_score'][index2])/2
-                df1=df1.drop([index1])
+    df1.rename(columns={'score': 'place_score'}, inplace=True)
+    df2.rename(columns={'place': 'place_name'}, inplace=True)
+    for index1, row1 in df1.iterrows():
+        for index2, row2 in df2.iterrows():
+            if row1.place_name == row2.place_name:
+                row2.place_score = (row1.place_score + row2.place_score) / 2
+                df1 = df1.drop([index1])
+            if (row1.place_name == 'Allianz Arena') & (row2.place_name == 'Olympiastadion'):
+                row2.place_score = (row1.place_score + row2.place_score) / 2
+                df1 = df1.drop([index1])
                 
     return(df1,df2)
 
+def get_user_country(user_country):
+    EU_countries = EUROPEAN_UNION.names
+    geolocator = Nominatim(user_agent="AMI")
+    location = geolocator.geocode(user_country, language="en")
+    if 'Munich' in location.address:
+        provenance = 'provenance_Munich'
+    elif ('Germany' in location.address) and not('Munich' in location.address):
+        provenance = 'outside Munich'
+    elif location.address.rsplit(', ')[-1] in EU_countries and location.address.rsplit(', ')[-1] != 'Germany':
+        provenance = 'provenance_EU apart from GER'
+    else:
+        provenance = 'provenance_Outisde EU'
+    return provenance
 
-# In[52]:
+"""Accepted strings are 
+- ori :
+'provenance_EU apart from GER'
+'provenance_Munich'
+'provenance_Outisde EU'
+'provenance_outside Munich'
+- visit :
+'visit_Traveled as a couple'
+'visit_Traveled on business'
+'visit_Traveled solo'
+'visit_Traveled with family'
+'visit_Traveled with friends'
+- place_pref :
+'indoors'
+'outdoors' 
+  """
 
+
+
+visit_type = 'visit_Traveled with family'
+user_country = 'Bonn'
+place_pref = 'outdoors'
+date_of_visit = '2020-08-01'
+provenance = get_user_country(user_country)
+placeType=''
+
+user = {'origin': provenance, 'accomodation': '', 'visit_type': visit_type, 'place_pref': place_pref,'date':date_of_visit}
+
+
+file_path = glob.glob("../data/Tripadvisor_datasets/*.csv")
+df, names = data_processing(file_path)
+
+num_clusters=10
+kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(df[df.columns[1:]])
+S = predict_score(kmeans, df, user['origin'], user['visit_type'])
+S = update_score(S,user)
+S['score']= (S['score']-S['score'].min())/(S['score'].max()-S['score'].min())
+print(S)
+
+
+
+df_metrics = pd.read_csv('../data/Forecast Data/dataset_predicted.csv')
+all_metric_score = get_metrics(df_metrics,user)
+
+rec_dataset = pd.read_csv('../data/Recommendation data/rec_dataset.csv')
+places_features = extract_places_features(rec_dataset, all_metric_score)
+
+df = preprocessing2(places_features)
+
+for index, row in df.iterrows():
+    df['place_score'][index]= score_func(user,df)[index]*10+ df['rating'][index] + df['all_metric_score'][index]*0.001
+dataframe = reshape_df(df)
+print(dataframe)
+print(S)
 
 dataframe1, dataframe2 = merge_dfs(S,dataframe)
 df=pd.concat([dataframe1,dataframe2]).drop_duplicates(keep=False)
-print(dataframe1)
+df=df.sort_values(by ='place_score',ascending=False)
+df = df.reset_index(drop=True)
+print(df)
+# Save data to csv
+#df.to_csv('../data/Test.csv',index=False)
+
 

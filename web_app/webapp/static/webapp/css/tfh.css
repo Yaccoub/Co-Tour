@@ -103,4 +103,12 @@
 .container-fluid{
     width: 90%;
 }
-
+.card{
+    all: unset;
+}
+.div-cen {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #FFFFFF;
+}

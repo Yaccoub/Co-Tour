@@ -64,3 +64,11 @@
     box-sizing: border-box;
     background-color: #FFFFFF;
 }
+.refresh-btn {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  float: right;
+}
+.card{
+    all: unset;
+}
