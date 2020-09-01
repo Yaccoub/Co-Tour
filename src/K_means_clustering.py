@@ -41,9 +41,9 @@ def feature_extraction(df, file_name):
     df = preprocessing(df)
     df = clustering_process(df)
     visitors_by_country = df.groupby('country').count().sort_values('visit', ascending=True)
-    type_of_visitors    = df.groupby('visit').count().sort_values('country', ascending=True)
-    type_of_visitors    = type_of_visitors.T.drop(index=['city', 'country'])
-    visitors_by_city    = df.groupby('city').count().sort_values('visit', ascending=True)
+    type_of_visitors = df.groupby('visit').count().sort_values('country', ascending=True)
+    type_of_visitors = type_of_visitors.T.drop(index=['city', 'country'])
+    visitors_by_city = df.groupby('city').count().sort_values('visit', ascending=True)
 
     type_of_visitors.index.rename(file_name)
 
