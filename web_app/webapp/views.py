@@ -1,6 +1,6 @@
 import math
 from datetime import datetime
-
+import numpy as np
 import folium
 import pandas as pd
 import simplejson
@@ -26,7 +26,6 @@ def load_state_geo_coords():
 def load_tripadvisor_geo_coords():
     geo_coords = pd.read_csv('../data/geocoordinates/TripAdvisor_geoattractions.csv', low_memory=False)
     geo_coords = geo_coords.set_index('place')
-
     return geo_coords
 
 
@@ -46,7 +45,6 @@ def load_data(type):
 
 def load_countries_list():
     dataset = pd.read_csv('../data/geocoordinates/country.csv')
-
     return dataset
 
 
@@ -135,6 +133,16 @@ def get_geo_data_predicted(dataset, date):
     return geo
 
 
+def get_flow_data():
+    data = pd.read_csv("../data/K_means_data/clusters.csv")
+    data = data.set_index('attraction_name')
+    data['Place'] = data.index
+    data['Longitude'] = ''
+    data['Latitude'] = ''
+
+    return data
+
+
 class HomeView(TemplateView):
     template_name = 'webapp/home.html'
 
@@ -152,15 +160,24 @@ class TfaView(TemplateView):
         print(tfa_place_select)
         return tfa_place_select
 
-    def get_map(self, **geo):
+    def get_map(self, df, **geo):
+        lst_elements = sorted(list(df['Cluster'].unique()))
+        lst_colors = ['#%06X' % np.random.randint(0, 0xFFFFFF) for i in
+                      range(len(lst_elements))]
+        df['Color'] = df['Cluster'].apply(lambda x:
+                                          lst_colors[lst_elements.index(x)])
         figure = folium.Figure()
         lat = 48.137154
         lon = 11.576124
         m = folium.Map(
             location=[lat, lon],
             tiles='cartodbpositron',
-            zoom_start=7,
+            zoom_start=12,
         )
+        df.apply(lambda row: folium.CircleMarker(radius=8,color=row['Color'],
+                                                 location=[row['Latitude'], row['Longitude']], fill=True,
+                                                 fill_color= row['Color'], tooltip=str(row["Place"])).add_to(m),
+                 axis=1)
         m.add_to(figure)
         figure.render()
         return figure
@@ -187,14 +204,24 @@ class TfaView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(TfaView, self).get_context_data(**kwargs)
         geo_coords = load_tripadvisor_geo_coords()
+        geo_flow = get_flow_data()
+
+        for place in geo_flow.index:
+            try:
+                geo_flow['Latitude'][place] = geo_coords['latitude'][place]
+                geo_flow['Longitude'][place] = geo_coords['longitude'][place]
+            except:
+                geo_flow['Latitude'][place] = ''
+                geo_flow['Longitude'][place] = ''
         PlacesList = geo_coords.index
         SeasonList = {'summer_pre_covid': 'Summer 2019', 'winter_pre_covid': 'Winter 2019',
                       'summer_covid': 'Summer 2020', 'winter_covid': 'Winter 2020'}
         season = self.get_season()
         place = self.get_place()
-        geo = pd.read_csv('../data/Tripadvisor_datasets/Seasons/{}.csv_{}.csv'.format(place, season))
-        figure = self.get_map()
-        figure2 = self.get_map2(geo)
+
+        geo_trajectory = pd.read_csv('../data/Tripadvisor_datasets/Seasons/{}.csv_{}.csv'.format(place, season))
+        figure = self.get_map(geo_flow)
+        figure2 = self.get_map2(geo_trajectory)
         context['map'] = figure
         context['map2'] = figure2
         context['selected_season'] = season
@@ -244,8 +271,8 @@ class ThfView(TemplateView):
         )
         m.add_to(figure)
         geo.apply(lambda row: folium.Marker(icon=folium.Icon(color=row['Color']),
-                                            location=[row["Latitude"], row["Longitude"]], tooltip=str(
-                row['Place']) + str(row["Weights"])).add_to(m), axis=1)
+                                            location=[row["Latitude"], row["Longitude"]], tooltip='<div class="card">' + str(
+                row['Place']) + str(row["Weights"]) + '</div>').add_to(m), axis=1)
         figure.render()
         return figure
 
@@ -295,6 +322,7 @@ class ThfView(TemplateView):
 
 class TrsView(TemplateView):
     template_name = 'webapp/tourism_recommendation_system.html'
+
 
 
 class ContactView(TemplateView):

@@ -17,7 +17,7 @@ def preprocessing(df):
     df['date'] = df['date'].replace({'Date of experience: ': ''}, regex=True)
     df['visit'] = df['visit'].replace({'Trip type: ': ''}, regex=True)
     df['date'] = [datetime.strptime(date, '%B %Y') for date in df['date']]
-    df = df.sort_values(by='date', ascending=False, inplace=False, ignore_index=True)
+    df = df.sort_values(by='date', ascending=False, inplace=False)
     # df['date'] = df['date'].dt.strftime('%Y-%m')
     df = df.set_index('date')
 
