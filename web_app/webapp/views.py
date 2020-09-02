@@ -9,12 +9,14 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 from geopy.geocoders import Nominatim
 import sys
+import glob
+import locale
 
+from sklearn.cluster import KMeans
 from sklearn.preprocessing import minmax_scale
 
 sys.path.insert(1, '../src')
-import Geocoding
-
+from recommendation_system import binary_encoding
 
 def load_state_geo_coords():
     geo_coords = pd.read_csv('../data/geocoordinates/State_geoattractions.csv', low_memory=False)
@@ -54,7 +56,7 @@ def get_geo_data_historical(dataset, date):
         'blue',
         'lightblue',
         'cadetblue',
-        'green'
+        'green',
         'lightgreen',
         'orange',
         'lightred',
@@ -85,7 +87,7 @@ def get_geo_data_historical(dataset, date):
 
     temp_colors_list = list()
     for i in range(len(geo)):
-        temp_colors_list.append(colors_list[math.ceil(geo["Weights"][i] * 10) - 1])
+        temp_colors_list.append(colors_list[int(geo["Weights"][i] * 10)])
     geo['Color'] = temp_colors_list
     return geo
 
@@ -96,7 +98,7 @@ def get_geo_data_predicted(dataset, date):
         'blue',
         'lightblue',
         'cadetblue',
-        'green'
+        'green',
         'lightgreen',
         'orange',
         'lightred',
@@ -128,7 +130,7 @@ def get_geo_data_predicted(dataset, date):
 
     temp_colors_list = list()
     for i in range(len(geo)):
-        temp_colors_list.append(colors_list[math.ceil(geo["Weights"][i] * 10) - 1])
+        temp_colors_list.append(colors_list[int(geo["Weights"][i] * 10)])
     geo['Color'] = temp_colors_list
     return geo
 
@@ -192,7 +194,7 @@ class TfaView(TemplateView):
             zoom_start=4,
         )
         # add a marker on each country propotional to the number of visitors to the selected location
-        df.apply(lambda row: folium.CircleMarker(radius=Geocoding.markersize(row["flux density"]),
+        df.apply(lambda row: folium.CircleMarker(radius=2 + math.ceil(row["flux density"]),
                                                  location=[row["latitude"], row["longitude"]], fill=True,
                                                  fill_color='#3186cc', tooltip=str(
                 round(row["flux density"], 1)) + '% of visitors originate from ' + str(row["country"])).add_to(map1),
@@ -322,6 +324,45 @@ class ThfView(TemplateView):
 
 class TrsView(TemplateView):
     template_name = 'webapp/tourism_recommendation_system.html'
+    """def get_context_data(self, **kwargs):
+        locale.setlocale(locale.LC_ALL, 'en_US')
+        visit_type = 'visit_Traveled with family'
+        user_country = 'France'
+        place_pref = 'outdoors'
+        date_of_visit = '2020-07-01'
+        provenance = recommendation_system.get_user_country(user_country)
+
+        user = {'origin': provenance, 'accomodation': 'Maxvorstadt', 'visit_type': visit_type, 'place_pref': place_pref,
+                'date': date_of_visit}
+
+        file_path = glob.glob("../data/Tripadvisor_datasets/*.csv")
+        df, names = recommendation_system.data_processing(file_path)
+
+        num_clusters = 10
+        kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(df[df.columns[1:]])
+        S = recommendation_system.predict_score(kmeans, df, user['origin'], user['visit_type'])
+        S['score'] = (S['score'] - S['score'].min()) / (S['score'].max() - S['score'].min())
+
+        df_metrics = pd.read_csv('../data/Forecast Data/dataset_predicted.csv')
+        all_metric_score = recommendation_system.get_metrics(df_metrics, user)
+
+        rec_dataset = pd.read_csv('../data/Recommendation data/rec_dataset.csv')
+        places_features = recommendation_system.extract_places_features(rec_dataset, all_metric_score)
+
+        df = recommendation_system.preprocessing2(places_features)
+
+        for index, row in df.iterrows():
+            df['place_score'][index] = recommendation_system.score_func(user, df)[index] * 10 + df['rating'][index] + df['all_metric_score'][
+                index] * 0.001
+        dataframe = recommendation_system.reshape_df(df)
+
+        dataframe1, dataframe2 = recommendation_system.merge_dfs(S, dataframe)
+        df = pd.concat([dataframe1, dataframe2]).drop_duplicates(keep=False)
+        df = df.sort_values(by='place_score', ascending=False)
+        df = df.reset_index(drop=True)
+        context['result'] = df[df.index[0:3]]
+
+        return context"""
 
 
 
