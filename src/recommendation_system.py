@@ -205,7 +205,7 @@ user = {'origin': provenance, 'accomodation': 'Maxvorstadt', 'visit_type': visit
 
 file_path = glob.glob("../data/Tripadvisor_datasets/*.csv")
 df, names = data_processing(file_path)
-
+df.to_csv('../data/Recommendation data/user_data.csv')
 num_clusters=10
 kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(df[df.columns[1:]])
 S = predict_score(kmeans, df, user['origin'], user['visit_type'])
