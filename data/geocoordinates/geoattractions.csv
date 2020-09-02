@@ -1,35 +1,35 @@
-place,latitude,longitude,city_district
-Allianz Arena,48.21880845,11.624664151799873,Schwabing-Freimann
-Alte Pinakothek,48.1482861,11.569970907138872,Maxvorstadt
-Asamkirche Munich,48.13513575,11.569318485876174,Sendling
-BMW Museum,48.176902600000005,11.559069230836359,Milbertshofen-Am Hart
-Bayerisches Nationalmuseum,48.1433855,11.5911498,Altstadt-Lehel
-Bayerisches Staatsoper,48.1396162,11.579513288504806,Altstadt-Lehel
-Deutsches Museum,48.13003865,11.582888488551909,Ludwigsvorstadt-Isarvorstadt
-Eisbach,48.1532473,11.5983076,Schwabing-Freimann
-English Garden,35.007081,-81.2181288,Schwabing-Freimann
-Kleine Olympiahalle,48.174612100000004,11.552323468351183,Milbertshofen-Am Hart
-Lenbachhaus,48.14693990000001,11.563502650813499,Maxvorstadt
-Marienplatz,48.137031750000006,11.575924590567384,Altstadt-Lehel
-Muenchner Kammerspiele,48.1384914,11.5825187,Altstadt-Lehel
-Muenchner Stadtmuseum,48.1351603,11.572607585081988,Altstadt-Lehel
-Munich Residenz,48.1411608,11.57904463904056,Altstadt-Lehel
-Museum Brandhorst,48.1476318,11.57385874695941,Maxvorstadt
-Museum Mensch und Natur,48.1602752,11.5038365,Neuhausen-Nymphenburg
-Nationaltheater,51.507038699999995,-0.11453015351581934,Altstadt-Lehel
-Neue Pinakothek,48.1499278,11.570937445883057,Maxvorstadt
-Neues Rathaus Munich,48.137788,11.575343667017169,Altstadt-Lehel
-Nymphenburg Palace,48.1582569,11.5032967,Neuhausen-Nymphenburg
-Olympia-Eissportzentrum,48.174995949999996,11.557195210531152,Schwabing-West
-Olympiahalle,48.17489745,11.55001605765424,Milbertshofen-Am Hart
-Olympiapark,48.16875265,11.55032660696114,Milbertshofen-Am Hart
-Olympiastadion,48.1730899,11.546491479187704,Milbertshofen-Am Hart
-Olympiaturm,48.17441755,11.553739717731808,Milbertshofen-Am Hart
-Pinakothek der Moderne,48.14716025,11.572227101401982,Maxvorstadt
-Prinzregententheater,48.1389662,11.605621448473153,Au-Haidhausen
-Residenztheater,48.1400883,11.5794794,Altstadt-Lehel
-Schack galerie,48.14250955,11.593434725593049,Altstadt-Lehel
-St-Peter Munich,48.13644495,11.576030455223243,Altstadt-Lehel
-Staatstheater am Gaertnerplatz,48.1312474,11.5757021,Ludwigsvorstadt-Isarvorstadt
-Tierpark Hellabrunn,48.096281149999996,11.554196865190177,Untergiesing-Harlaching
-Viktualienmarkt,48.1352964,11.5749958,Altstadt-Lehel
+place,latitude,longitude,city_district,address
+Allianz Arena,48.21880845,11.624664151799873,Schwabing-Freimann,"Allianz Arena, 25, Werner-Heisenberg-Allee, Bezirksteil Freimann, Schwabing-Freimann, München, Bayern, 80939, Deutschland"
+Alte Pinakothek,48.1482861,11.569970907138872,Maxvorstadt,"Alte Pinakothek, 27, Barer Straße, Bezirksteil Königsplatz, Maxvorstadt, München, Bayern, 80333, Deutschland"
+Asamkirche Munich,48.13513575,11.569318485876174,Sendling,"Asamkirche, Sendlinger Straße, Altstadt-Lehel, Bezirksteil Hackenviertel, München, Bayern, 80331, Deutschland"
+BMW Museum,48.176902600000005,11.559069230836359,Milbertshofen-Am Hart,"BMW Museum, 2, Am Olympiapark, Olympiapark, Bezirksteil Am Riesenfeld, Milbertshofen-Am Hart, München, Bayern, 80809, Deutschland"
+Bayerisches Nationalmuseum,48.1433855,11.5911498,Altstadt-Lehel,"Bayerisches Nationalmuseum, 3, Prinzregentenstraße, Bezirksteil Englischer Garten Süd, Altstadt-Lehel, München, Bayern, 80538, Deutschland"
+Bayerisches Staatsoper,48.1396162,11.579513288504806,Altstadt-Lehel,"Bayerisches Nationaltheater, 2, Max-Joseph-Platz, Bezirksteil Graggenau, Altstadt-Lehel, München, Bayern, 80539, Deutschland"
+Deutsches Museum,48.13003865,11.582888488551909,Ludwigsvorstadt-Isarvorstadt,"Deutsches Museum, 1, Museumsinsel, Ludwigsvorstadt-Isarvorstadt, Bezirksteil Deutsches Museum, München, Bayern, 80538, Deutschland"
+Eisbach,48.1532473,11.5983076,Schwabing-Freimann,"Eisbach, München, Bayern, 80538, Deutschland"
+English Garden,35.007081,-81.2181288,Schwabing-Freimann,"Englischer Garten, Gyßlingstraße, Hirschau, Bezirksteil Alte Heide - Hirschau, Schwabing-Freimann, München, Bayern, 80805, Deutschland"
+Kleine Olympiahalle,48.174612100000004,11.552323468351183,Milbertshofen-Am Hart,"Kleine Olympiahalle, 5, Spiridon-Louis-Ring, Olympiapark, Milbertshofen-Am Hart, Bezirksteil Am Riesenfeld, München, Bayern, 80809, Deutschland"
+Lenbachhaus,48.14693990000001,11.563502650813499,Maxvorstadt,"Lenbachhaus, Richard-Wagner-Straße, Maßmannbergl, Maxvorstadt, München, Bayern, 80333, Deutschland"
+Marienplatz,48.137031750000006,11.575924590567384,Altstadt-Lehel,"Marienplatz, Bezirksteil Angerviertel, Altstadt-Lehel, München, Bayern, 80331, Deutschland"
+Muenchner Kammerspiele,48.1384914,11.5825187,Altstadt-Lehel,"Münchner Kammerspiele, 26, Maximilianstraße, Altstadt-Lehel, Bezirksteil Graggenau, München, Bayern, 80539, Deutschland"
+Muenchner Stadtmuseum,48.1351603,11.572607585081988,Altstadt-Lehel,"Münchner Stadtmuseum, 1, Sankt-Jakobs-Platz, Angerviertel, Bezirksteil Angerviertel, Altstadt-Lehel, München, Bayern, 80331, Deutschland"
+Munich Residenz,48.1411608,11.57904463904056,Altstadt-Lehel,"Residenz, Alfons-Goppel-Straße, Bezirksteil Graggenau, Altstadt-Lehel, München, Bayern, 80539, Deutschland"
+Museum Brandhorst,48.1476318,11.57385874695941,Maxvorstadt,"Museum Brandhorst, 35a, Theresienstraße, Bezirksteil Universität, Maxvorstadt, München, Bayern, 80333, Deutschland"
+Museum Mensch und Natur,48.1602752,11.5038365,Neuhausen-Nymphenburg,"Mensch und Natur, Maria-Ward-Straße, Villenkolonie Neuwittelsbach, Neuhausen-Nymphenburg, Bezirksteil Nymphenburg, München, Bayern, 80638, Deutschland"
+Nationaltheater,51.507038699999995,-0.11453015351581934,Altstadt-Lehel,"Nationaltheater, Bezirksteil Graggenau, Altstadt-Lehel, München, Bayern, 80539, Deutschland"
+Neue Pinakothek,48.1499278,11.570937445883057,Maxvorstadt,"Neue Pinakothek, 29, Barer Straße, Am alten nördlichen Friedhof, Bezirksteil Am alten nördlichen Friedhof, Maxvorstadt, München, Bayern, 80799, Deutschland"
+Neues Rathaus Munich,48.137788,11.575343667017169,Altstadt-Lehel,"Neues Rathaus, 8, Marienplatz, Bezirksteil Graggenau, Altstadt-Lehel, München, Bayern, 80331, Deutschland"
+Nymphenburg Palace,48.1582569,11.5032967,Neuhausen-Nymphenburg,"Schloss Nymphenburg, 1, Schloss Nymphenburg, Villenkolonie Neuwittelsbach, Neuhausen-Nymphenburg, Bezirksteil Nymphenburg, München, Bayern, 80638, Deutschland"
+Olympia-Eissportzentrum,48.174995949999996,11.557195210531152,Schwabing-West,"Olympia-Eissportzentrum, 21, Spiridon-Louis-Ring, Olympiapark, Schwabing-West, Bezirksteil Am Riesenfeld, München, Bayern, 80809, Deutschland"
+Olympiahalle,48.17489745,11.55001605765424,Milbertshofen-Am Hart,"Olympiahalle, Coubertinplatz, Bezirksteil Am Riesenfeld, Milbertshofen-Am Hart, München, Bayern, 80809, Deutschland"
+Olympiapark,48.16875265,11.55032660696114,Milbertshofen-Am Hart,"Olympiapark, Bezirksteil Am Riesenfeld, Milbertshofen-Am Hart, München, Bayern, 80809, Deutschland"
+Olympiastadion,48.1730899,11.546491479187704,Milbertshofen-Am Hart,"Olympiastadion, 27, Spiridon-Louis-Ring, Olympiapark, Bezirksteil Am Riesenfeld, Milbertshofen-Am Hart, München, Bayern, 80809, Deutschland"
+Olympiaturm,48.17441755,11.553739717731808,Milbertshofen-Am Hart,"Olympiaturm, 7, Spiridon-Louis-Ring, Olympiapark, Bezirksteil Am Riesenfeld, Milbertshofen-Am Hart, München, Bayern, 80809, Deutschland"
+Pinakothek der Moderne,48.14716025,11.572227101401982,Maxvorstadt,"Pinakothek der Moderne, 40, Barer Straße, Bezirksteil Königsplatz, Maxvorstadt, München, Bayern, 80333, Deutschland"
+Prinzregententheater,48.1389662,11.605621448473153,Au-Haidhausen,"Prinzregententheater, Lucile-Grahn-Straße, Au-Haidhausen, Bezirksteil Steinhausen, München, Bayern, 81675, Deutschland"
+Residenztheater,48.1400883,11.5794794,Altstadt-Lehel,"Residenztheater, 1, Max-Joseph-Platz, Bezirksteil Graggenau, Altstadt-Lehel, München, Bayern, 80539, Deutschland"
+Schack galerie,48.14250955,11.593434725593049,Altstadt-Lehel,"Sammlung Schack, 9, Prinzregentenstraße, Altstadt-Lehel, Bezirksteil Englischer Garten Süd, München, Bayern, 80538, Deutschland"
+St-Peter Munich,48.13644495,11.576030455223243,Altstadt-Lehel,"St. Peter, 1, Petersplatz, Angerviertel, Bezirksteil Angerviertel, Altstadt-Lehel, München, Bayern, 80331, Deutschland"
+Staatstheater am Gaertnerplatz,48.1312474,11.5757021,Ludwigsvorstadt-Isarvorstadt,"Staatstheater am Gärtnerplatz, 3, Gärtnerplatz, Bezirksteil Gärtnerplatz, Ludwigsvorstadt-Isarvorstadt, München, Bayern, 80469, Deutschland"
+Tierpark Hellabrunn,48.096281149999996,11.554196865190177,Untergiesing-Harlaching,"Tierpark Hellabrunn, 30, Tierparkstraße, Siebenbrunn, Bezirksteil Siebenbrunn, Untergiesing-Harlaching, München, Bayern, 81543, Deutschland"
+Viktualienmarkt,48.1352964,11.5749958,Altstadt-Lehel,"Viktualienmarkt, Angerviertel, Bezirksteil Angerviertel, Altstadt-Lehel, München, Bayern, 80331, Deutschland"

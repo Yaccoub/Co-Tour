@@ -16,7 +16,6 @@ list__ = list()
 
 # Read and reformate tripadvisor data
 for fname in glob.glob(path):
-    df = pd.DataFrame()
     list__.append(Path(fname).stem)
 
 Attractions_tripadvisor['place'] = list__
@@ -47,7 +46,8 @@ city_district = ['Altstadt-Lehel', 'Ludwigsvorstadt-Isarvorstadt', 'Maxvorstadt'
     , 'Pasing-Obermenzing', 'Aubing-Lochhausen-Langwied', 'Allach-Untermenzing', 'Feldmoching-Hasenbergl'
     , 'Laim']
 places = Attractions['place'].unique()
-y = {}
+districtList__ = {}
+addressList__ = {}
 for place in places:
     print(place)
     location = geolocator.geocode(place, addressdetails=True, country_codes='de')
@@ -55,23 +55,32 @@ for place in places:
         location2 = location.address
         for district in city_district:
             if district in location2:
-                y[place] = district
+                districtList__[place] = district
+        addressList__[place] = location2
     except:
         # TODO: No entry in: Bayerisches Staatsorchester, Muenchner Philharmoniker, Staedtische Galerie im Lenbachhaus
-        y[place] = ''
+        districtList__[place] = ''
+        addressList__[place] = ''
 
-y['Eisbach'] = "Schwabing-Freimann"
+districtList__['Eisbach'] = "Schwabing-Freimann"
 Attractions['city_district'] = Attractions['place']
 Attractions_tripadvisor['city_district'] = Attractions_tripadvisor['place']
 Attractions_state['city_district'] = Attractions_state['place']
+
+Attractions['address'] = Attractions['place']
+Attractions_tripadvisor['address'] = Attractions_tripadvisor['place']
+Attractions_state['address'] = Attractions_state['place']
 for index, row in Attractions.iterrows():
-    Attractions.loc[index, 'city_district'] = y[row['place']]
+    Attractions.loc[index, 'city_district'] = districtList__[row['place']]
+    Attractions.loc[index, 'address'] = addressList__[row['place']]
 
 for index, row in Attractions_tripadvisor.iterrows():
-    Attractions_tripadvisor.loc[index, 'city_district'] = y[row['place']]
+    Attractions_tripadvisor.loc[index, 'city_district'] = districtList__[row['place']]
+    Attractions_tripadvisor.loc[index, 'address'] = addressList__[row['place']]
 
 for index, row in Attractions_state.iterrows():
-    Attractions_state.loc[index, 'city_district'] = y[row['place']]
+    Attractions_state.loc[index, 'city_district'] = districtList__[row['place']]
+    Attractions_state.loc[index, 'address'] = addressList__[row['place']]
 
 Attractions = Attractions.sort_values('place')
 Attractions_tripadvisor = Attractions_tripadvisor.sort_values('place')

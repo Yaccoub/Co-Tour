@@ -8,17 +8,22 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 from geopy.geocoders import Nominatim
-import sys
 import glob
 import locale
 from countrygroups import EUROPEAN_UNION
 import ntpath
 
+
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import minmax_scale
 
-sys.path.insert(1, '../src')
-#from recommendation_system import binary_encoding
+
+def load_geo_coords():
+    geo_coords = pd.read_csv('../data/geocoordinates/geoattractions.csv', low_memory=False)
+    geo_coords = geo_coords.set_index('place')
+
+    return geo_coords
+
 
 def load_state_geo_coords():
     geo_coords = pd.read_csv('../data/geocoordinates/State_geoattractions.csv', low_memory=False)
@@ -48,8 +53,11 @@ def load_data(type):
 
 
 def load_countries_list():
-    dataset = pd.read_csv('../data/geocoordinates/country.csv')
-    return dataset
+    dataset_countries = pd.read_csv('../data/geocoordinates/country.csv')
+    dataset_germanCities = pd.read_csv('../data/geocoordinates/germanCities.csv')
+    dataset_countries = dataset_countries.set_index('value')
+    dataset_germanCities = dataset_germanCities.set_index('city')
+    return dataset_countries, dataset_germanCities
 
 
 def get_geo_data_historical(dataset, date):
@@ -93,71 +101,8 @@ def get_geo_data_historical(dataset, date):
     geo['Color'] = temp_colors_list
     return geo
 
-def preprocessing(df):
-    df['date'] = df['date'].replace({'Date of experience: ': ''}, regex=True)
-    df['date'] = df['date'].replace({'Date of experience: ': ''}, regex=True)
-    df['visit'] = df['visit'].replace({'Trip type: ': ''}, regex=True)
-    df['date'] = [datetime.strptime(date, '%B %Y') for date in df['date']]
-    df = df.sort_values(by='date', ascending=False, inplace=False, ignore_index=True)
-    # df['date'] = df['date'].dt.strftime('%Y-%m')
-    df = df.set_index('date')
 
-    return df
-
-
-
-def clustering_process(df):
-    df[['city', 'country', 'extra']] = df['visitor_origin'].str.split(', ', expand=True, n=2)
-    df = df.drop(['rating','title','text'], axis=1)
-    return df
-
-
-
-
-def binary_encoding(df):
-    EU_countries = EUROPEAN_UNION.names
-    df = preprocessing(df)
-    df = clustering_process(df)
-    df = df.reset_index()
-    df['provenance'] = ''
-    for index, row in df.iterrows():
-        if df['city'][index] == 'Munich':
-            df['provenance'][index] = 'Munich'
-        elif df['country'][index] == 'Germany' and df['city'][index] != 'Munich':
-            df['provenance'][index] = 'outside Munich'
-        elif df['country'][index] in EU_countries and df['country'][index] != 'Germany' :
-            df['provenance'][index] = 'EU apart from GER'
-        else :
-            df['provenance'][index] = 'Outisde EU'
-    df = pd.get_dummies(df, columns=["provenance" , "visit"])
-    df = df.set_index('date')
-
-    return df
-
-
-def get_df_and_names(file_path):
-    names = list()
-    l_df = list()
-    for i in range (len(file_path)-1):
-        temp = ntpath.basename(file_path[i])
-        names.append(temp[:-4])
-    for i in range (len(file_path)-1):
-        temp_df = pd.read_csv(file_path[i],  header=0, squeeze=True)
-        temp_df['place_name'] = names[i]
-        l_df.append(temp_df)
-    df = pd.concat(l_df)
-    return df, names
-
-
-def data_processing(file_path):
-    df, names = get_df_and_names(file_path)
-    df = binary_encoding(df)
-    df = df.reset_index()
-    df = df.drop(['visitor_origin','city', 'country', 'country', 'extra', 'date'], axis=1)
-    return df, names
-
-
-def predict_score(kmeans, df, ori, visit,num_clusters):
+def predict_score(kmeans, df, ori, visit, num_clusters):
     cluster_map = pd.DataFrame()
     cluster_map['data_index'] = df[df.columns[1:]].index.values
     cluster_map['cluster'] = kmeans.labels_
@@ -187,58 +132,52 @@ def predict_score(kmeans, df, ori, visit,num_clusters):
     return cluster_i[int(kmeans.predict(user_eingaben.reshape(1, -1)))]
 
 
-def preprocessing2(df):
-    df=df.groupby(by = ['place','city_district','type_door'], as_index=False).agg({'rating':'mean','all_metric_score':'mean',})
-    df['place_score']=df['all_metric_score']
-    return df
-
-
-
-def score_func(user,df):
-    place_score ={}
+def score_func(user, df):
+    place_score = {}
     for index, row in df.iterrows():
-        place_score[index]=0
+        place_score[index] = 0
         if df['city_district'][index] == user['accomodation']:
-            place_score[index] = place_score[index]+10;
+            place_score[index] = place_score[index] + 10;
         if df['type_door'][index] == user['place_pref']:
-            place_score[index] = place_score[index]+10;
-    return(place_score)
-
+            place_score[index] = place_score[index] + 10;
+    return place_score
 
 
 def reshape_df(df):
-    df=df.drop(columns=['city_district','type_door','rating','all_metric_score'])
-    df["place_score"] = (df["place_score"] -df["place_score"].min())/(df["place_score"].max()-df["place_score"].min())
-    df=df.sort_values(by = "place_score",ascending=False)
+    df = df.drop(columns=['city_district', 'type_door', 'rating', 'all_metric_score'])
+    df["place_score"] = minmax_scale(df["place_score"])
+    df = df.sort_values(by="place_score", ascending=False)
     return df
 
 
-def get_metrics(df_metrics,user):
-
-    for index,row in df_metrics.iterrows():
+def get_metrics(df_metrics, user):
+    for index, row in df_metrics.iterrows():
         if user['date'][:7] == df_metrics['DATE'][index][:7]:
             new_listing = df_metrics.loc[index].T
             all_metric_score = df_metrics.loc[index]
-    #all_metric_score=all_metric_score.replace({0.0: 100000})
-    return (all_metric_score)
+    # all_metric_score=all_metric_score.replace({0.0: 100000})
+    return all_metric_score
 
 
-def extract_places_features(rec_dataset,metrics):
-    rec_dataset=rec_dataset.drop(columns = ['city_district_metric','#_of_visits'])
-    places_features = rec_dataset.groupby(by = ['place','city_district','type_door']).agg({'rating':'mean','all_metric_score':'mean'})
+def extract_places_features(rec_dataset, metrics, user):
+    rec_dataset = rec_dataset.drop(columns=['city_district_metric', '#_of_visits'])
+    places_features = rec_dataset.groupby(by=['place', 'city_district', 'type_door']).agg(
+        {'rating': 'mean', 'all_metric_score': 'mean'})
     places_features.reset_index(inplace=True, drop=False)
     for index, row in places_features.iterrows():
         for index2, value2 in metrics.items():
-            if places_features.loc[index]['place'] == index2 :
-                places_features['all_metric_score'][index] = metrics.get(key = index2)
-    places_features['all_metric_score'] =(places_features['all_metric_score']-places_features['all_metric_score'].min())/(places_features['all_metric_score'].max()-places_features['all_metric_score'].min())
-    return (places_features)
-
-
-def place_type(df):
-    outdoors_places = ['Allianz Arena', 'English Garden','Olympiapark', 'Viktualienmarkt','Marienplatz']
-    indoors_places = ['Alte Pinakothek','BMW Museum', 'Nymphenburg Palace','Deutsches Museum','Munich Residenz','New_Town_Hall',"St.Peter's Church"]
-    return df
+            if places_features.loc[index]['place'] == index2:
+                places_features['all_metric_score'][index] = metrics.get(key=index2)
+    places_features['all_metric_score'] = minmax_scale(places_features['all_metric_score'])
+    places_features = places_features.groupby(by=['place', 'city_district', 'type_door'], as_index=False).agg(
+        {'rating': 'mean', 'all_metric_score': 'mean', })
+    places_features['place_score'] = places_features['all_metric_score']
+    for index, row in places_features.iterrows():
+        places_features['place_score'][index] = score_func(user, places_features)[index] * 10 + \
+                                                places_features['rating'][index] + \
+                                                places_features['all_metric_score'][
+                                                    index] * 0.001
+    return places_features
 
 
 def merge_dfs(df1, df2):
@@ -250,8 +189,7 @@ def merge_dfs(df1, df2):
                 row2.place_score = (row1.place_score + row2.place_score) / 2
                 df1 = df1.drop([index1])
 
-    return (df1, df2)
-
+    return df1, df2
 
 
 def get_user_country(user_country):
@@ -260,12 +198,12 @@ def get_user_country(user_country):
     location = geolocator.geocode(user_country, language="en")
     if 'Munich' in location.address:
         provenance = 'provenance_Munich'
-    elif ('Germany' in location.address) and not('Munich' in location.address):
+    elif ('Germany' in location.address) and not ('Munich' in location.address):
         provenance = 'outside Munich'
     elif location.address.rsplit(', ')[-1] in EU_countries and location.address.rsplit(', ')[-1] != 'Germany':
         provenance = 'provenance_EU apart from GER'
     else:
-        provenance = 'provenance_Outisde EU'
+        provenance = 'provenance_Outside EU'
     return provenance
 
 
@@ -353,9 +291,9 @@ class TfaView(TemplateView):
             tiles='cartodbpositron',
             zoom_start=12,
         )
-        df.apply(lambda row: folium.CircleMarker(radius=8,color=row['Color'],
+        df.apply(lambda row: folium.CircleMarker(radius=8, color=row['Color'],
                                                  location=[row['Latitude'], row['Longitude']], fill=True,
-                                                 fill_color= row['Color'], tooltip=str(row["Place"])).add_to(m),
+                                                 fill_color=row['Color'], tooltip=str(row["Place"])).add_to(m),
                  axis=1)
         m.add_to(figure)
         figure.render()
@@ -450,8 +388,9 @@ class ThfView(TemplateView):
         )
         m.add_to(figure)
         geo.apply(lambda row: folium.Marker(icon=folium.Icon(color=row['Color']),
-                                            location=[row["Latitude"], row["Longitude"]], tooltip='<div class="card">' + str(
-                row['Place']) + str(row["Weights"]) + '</div>').add_to(m), axis=1)
+                                            location=[row["Latitude"], row["Longitude"]],
+                                            tooltip='<div class="card">' + str(
+                                                row['Place']) + str(row["Weights"]) + '</div>').add_to(m), axis=1)
         figure.render()
         return figure
 
@@ -501,47 +440,107 @@ class ThfView(TemplateView):
 
 class TrsView(TemplateView):
     template_name = 'webapp/tourism_recommendation_system.html'
+
+    def get_country(self):
+        trs_country_select = self.request.GET.get('trs_country_select', 'Tunisia')
+        print(trs_country_select)
+        return trs_country_select
+
+    def get_gerCity(self):
+        trs_city_select = self.request.GET.get('trs_city_select', 'Munich')
+        print(trs_city_select)
+        return trs_city_select
+
+    def get_visit(self):
+        trs_visit_select = self.request.GET.get('trs_visit_select', 'solo')
+        trs_visit_select = 'visit_Traveled ' + trs_visit_select
+        print(trs_visit_select)
+        return trs_visit_select
+
+    def get_accommodation(self):
+        trs_accommodation_select = self.request.GET.get('trs_accommodation_select', 'Maxvorstadt')
+        print(trs_accommodation_select)
+        return trs_accommodation_select
+
+    def get_date_visit(self):
+        date_picker = self.request.GET.get('date_picker', '2020-08-10')
+        print(date_picker)
+        return date_picker
+
+    def get_preference(self):
+        trs_preferences_select = self.request.GET.get('trs_preferences_select', 'outdoors')
+        print(trs_preferences_select)
+        return trs_preferences_select
+
+
     def get_context_data(self, **kwargs):
         context = super(TrsView, self).get_context_data(**kwargs)
-        locale.setlocale(locale.LC_ALL, 'en_US')
-        visit_type = 'visit_Traveled with family'
-        user_country = 'France'
-        place_pref = 'outdoors'
-        date_of_visit = '2020-07-01'
-        provenance = get_user_country(user_country)
+        # locale.setlocale(locale.LC_ALL, 'en_US')
+        country_list, cities_list = load_countries_list()
+        CountriesList = country_list.index
+        GermanCitiesList = cities_list.index
+        DistrictList = ['Altstadt-Lehel', 'Ludwigsvorstadt-Isarvorstadt', 'Maxvorstadt', 'Schwabing-West'
+            , 'Au-Haidhausen', 'Sendling', 'Sendling-Westpark', 'Schwanthalerhöhe'
+            , 'Neuhausen-Nymphenburg', 'Muenchen-Moosach', 'Milbertshofen-Am Hart', 'Schwabing-Freimann'
+            , 'Bogenhausen', 'Berg am Laim', 'Trudering-Riem', 'Ramersdorf-Perlach', 'Obergiesing'
+            , 'Untergiesing-Harlaching', 'Thalkirchen-Obersendling-Forstenried-Fürstenried-Solln', 'Hadern'
+            , 'Pasing-Obermenzing', 'Aubing-Lochhausen-Langwied', 'Allach-Untermenzing', 'Feldmoching-Hasenbergl'
+            , 'Laim']
+        country = self.get_country()
 
-        user = {'origin': provenance, 'accomodation': 'Maxvorstadt', 'visit_type': visit_type, 'place_pref': place_pref,
+        if country == 'Germany':
+            gerCity = self.get_gerCity()
+            context['selected_city'] = gerCity
+            user_location = gerCity
+        else:
+            user_location = country
+
+        visit_type = self.get_visit()
+        place_pref = self.get_preference()
+        date_of_visit = self.get_date_visit()
+        provenance = get_user_country(user_location)
+        accommodation = self.get_accommodation()
+
+        user = {'origin': provenance, 'accomodation': accommodation, 'visit_type': visit_type, 'place_pref': place_pref,
                 'date': date_of_visit}
 
-        file_path = glob.glob("../data/Tripadvisor_datasets/*.csv")
-        df, names = data_processing(file_path)
-
+        user_data = pd.read_csv('../data/Recommendation data/user_data.csv')
         num_clusters = 10
-        kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(df[df.columns[1:]])
-        S = predict_score(kmeans, df, user['origin'], user['visit_type'],num_clusters)
-        S['score'] = (S['score'] - S['score'].min()) / (S['score'].max() - S['score'].min())
+        kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(user_data[user_data.columns[1:]])
+
+        S = predict_score(kmeans, user_data, user['origin'], user['visit_type'], num_clusters)
+        S['score'] = minmax_scale(S['score'])
 
         df_metrics = pd.read_csv('../data/Forecast Data/dataset_predicted.csv')
         all_metric_score = get_metrics(df_metrics, user)
 
         rec_dataset = pd.read_csv('../data/Recommendation data/rec_dataset.csv')
-        places_features = extract_places_features(rec_dataset, all_metric_score)
+        places_features = extract_places_features(rec_dataset, all_metric_score, user)
 
-        df = preprocessing2(places_features)
-
-        for index, row in df.iterrows():
-            df['place_score'][index] = score_func(user, df)[index] * 10 + df['rating'][index] + df['all_metric_score'][
-                index] * 0.001
-        dataframe = reshape_df(df)
+        dataframe = reshape_df(places_features)
 
         dataframe1, dataframe2 = merge_dfs(S, dataframe)
         df = pd.concat([dataframe1, dataframe2]).drop_duplicates(keep=False)
         df = df.sort_values(by='place_score', ascending=False)
         df = df.reset_index(drop=True)
-        context['result'] = df.iloc[df.index[0:3],:]
+        recommendation_results = pd.DataFrame(df.iloc[df.index[0:3]]['place_name'])
+        recommendation_results = recommendation_results.set_index('place_name')
+        recommendation_results['address'] = ''# recommendation_results.index
+        addresses = load_geo_coords()
+        for idx in recommendation_results.index:
+            recommendation_results['address'][idx] = addresses['address'][idx]
+        recommendation_results = recommendation_results.to_dict()
+        context['selected_country'] = country
+        context['selected_visit'] = visit_type
+        context['selected_accommodation'] = accommodation
+        context['selected_preference'] = place_pref
+        context['date_picker'] = date_of_visit
+        context['RecommendationResults'] = recommendation_results['address']
 
+        context['CountriesList'] = CountriesList
+        context['GermanCitiesList'] = GermanCitiesList
+        context['DistrictList'] = DistrictList
         return context
-
 
 
 class ContactView(TemplateView):

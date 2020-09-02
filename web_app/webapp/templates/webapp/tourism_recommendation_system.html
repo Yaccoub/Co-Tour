@@ -20,33 +20,42 @@
                             <div class="card-body">
                                 <div class="filter-sidebar">
                                     <h3 class="heading-3">Recommendation System</h3>
+                                    <form>
+                                    {% csrf_token %}
                                     <div class="form-group">
-                                        <select class="form-control" id="trs_origin_select" name="trs_origin_select">
-                                            <option disabled selected>State your country of origin</option>
-                                            <option value="Tunisia">Tunisia</option>
-                                            <option value="Germany">Germany</option>
-                                            <option value="France">France</option>
+                                        <label for="trs_country_select">State your country</label>
+                                        <select class="form-control" id="trs_country_select" name="trs_country_select">
+                                            {% for country in CountriesList %}
+                                                <option value="{{country}}" {% if country == selected_country %} selected {% endif %} >{{country}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group display-od div-cities" >
+                                        <select class="form-control" id="trs_city_select" name="trs_city_select">
+                                            {% for city in GermanCitiesList %}
+                                                <option value="{{city}}" {% if city == selected_city %} selected {% endif %} >{{city}}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                     <div class="form-group">
+
                                         <select class="form-control" id="trs_visit_select" name="trs_visit_select">
-                                            <option disabled selected>Specify your travelling group</option>
-                                            <option value="solo">Solo Traveller</option>
-                                            <option value="couple">Couple</option>
-                                            <option value="family">Family</option>
-                                            <option value="friends">Friends</option>
-                                            <option value="work">Professional/Work Travel</option>
+
+                                            <option value="solo" {% if selected_visit == "visit_Traveled solo" %} selected {% endif %} >Solo Traveller</option>
+                                            <option value="as a couple" {% if selected_visit == 'visit_Traveled as a couple' %} selected {% endif %}>Couple</option>
+                                            <option value="with family" {% if selected_visit == 'visit_Traveled with family' %} selected {% endif %}>Family</option>
+                                            <option value="with friends" {% if selected_visit == 'visit_Traveled with friends' %} selected {% endif %}>Friends</option>
+                                            <option value="on business" {% if selected_visit == 'visit_Traveled on business' %} selected {% endif %}>Professional/Work Travel</option>
                                         </select>
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="trs_accommodation_select">Specify where you'll be staying</label>
                                         <select class="form-control" id="trs_accommodation_select"
                                                 name="trs_accommodation_select">
-                                            <option disabled selected>Specify where you'll be staying</option>
-                                            <option value="maxvorstadt">Maxvorstadt</option>
-                                            <option value="laim">Laim</option>
-                                            <option value="moosach">Moosach</option>
-                                            <option value="milbertshofen-am-hart">Milbertshofen-am-Hart</option>
+                                            {% for accommodation in DistrictList %}
+                                                <option value="{{accommodation}}" {% if accommodation == selected_accommodation %} selected {% endif %} >{{accommodation}}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                     <div class="form-inline">
@@ -60,19 +69,20 @@
                                         <div class="form-check form-check-inline col-sm-3">
                                             <input class="form-check-input" id="trs_indoor_select"
                                                    name="trs_preferences_select"
-                                                   type="radio" value="option1">
+                                                   type="radio" value="indoors" {% if selected_preference == 'indoors' %} checked {% endif %}>
                                             <label class="form-check-label" for="trs_indoor_select">Indoor</label>
                                         </div>
                                         <div class="form-check form-check-inline col-sm-3">
                                             <input class="form-check-input" id="trs_outdoor_select"
                                                    name="trs_preferences_select"
-                                                   type="radio" value="option2">
+                                                   type="radio" value="outdoors" {% if selected_preference == 'outdoors' %} checked {% endif %}>
                                             <label class="form-check-label" for="trs_outdoor_select">Outdoor</label>
                                         </div>
                                     </div>
                                     <hr>
                                     <button class="btn btn-danger float-right" type="btn">Show me</button>
                                     <div class="pb-3"></div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -81,11 +91,31 @@
             </div>
             <div class="col-md-8">
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="card shadow-lg">
-                            <div class="card-body"></div>
+                    {% for result, address in RecommendationResults.items %}
+                        <div class="col-md-12 lib-panel">
+                            <div class="card shadow-lg">
+                                <div class="card-body">
+                                    <div class="row box-shadow">
+                                        <div class="col-md-6">
+                                            <img class="lib-img-show" src="http://lorempixel.com/850/850/?random=123">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="lib-row lib-header">
+                                                {{result}}
+                                                <div class="lib-header-seperator"></div>
+                                            </div>
+                                            <div class="lib-row lib-desc">
+                                                <div class="row">
+                                                    <p class="font-weight-bold"> <i class="fas fa-map-marker-alt"></i> Address: </p>
+                                                    {{address}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -99,5 +129,5 @@
         src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" type="text/javascript"></script>
 <script src="{% static 'webapp/js/trs.js' %}"></script>
-
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzXDFxm8yzy-R6RWAHQm22kyyhQMg2KdY&libraries=places"></script>
 {% endblock javascripts %}
