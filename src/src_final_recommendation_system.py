@@ -194,6 +194,7 @@ def predict_score(kmeans, df, ori, visit):
 def preprocessing2(df):
     df=df.groupby(by = ['place','city_district','type_door'], as_index=False).agg({'rating':'mean','all_metric_score':'mean',})
     df['place_score']=df['all_metric_score']
+    print(df['city_district'].unique())
     return df
 def score_func(user,df):
     place_score ={}
@@ -295,13 +296,13 @@ def get_user_country(user_country):
 
 
 
-visit_type = 'visit_Traveled with family'
+visit_type = 'visit_Traveled solo'
 user_country = 'France'
-place_pref = 'outdoors'
-date_of_visit = '2020-07-01'
+place_pref = 'indoors'
+date_of_visit = '2020-08-01'
 provenance = get_user_country(user_country)
 
-user = {'origin': provenance, 'accomodation': 'Maxvorstadt', 'visit_type': visit_type, 'place_pref': place_pref,'date':date_of_visit}
+user = {'origin': provenance, 'accomodation': 'Moosach', 'visit_type': visit_type, 'place_pref': place_pref,'date':date_of_visit}
 
 
 file_path = glob.glob("../data/Tripadvisor_datasets/*.csv")
