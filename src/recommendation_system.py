@@ -188,15 +188,15 @@ def get_user_country(user_country):
     elif location.address.rsplit(', ')[-1] in EU_countries and location.address.rsplit(', ')[-1] != 'Germany':
         provenance = 'provenance_EU apart from GER'
     else:
-        provenance = 'provenance_Outisde EU'
+        provenance = 'provenance_Outside EU'
     return provenance
 
 
 locale.setlocale(locale.LC_ALL, 'en_US')
 path = "../data/Tripadvisor_datasets/*.csv"
 visit_type = 'visit_Traveled with family'
-user_country = 'France'
-place_pref = 'outdoors'
+user_country = 'Munich'
+place_pref = 'indoors'
 date_of_visit = '2020-07-01'
 provenance = get_user_country(user_country)
 
@@ -215,7 +215,7 @@ S['score']= (S['score']-S['score'].min())/(S['score'].max()-S['score'].min())
 df_metrics = pd.read_csv('../data/Forecast Data/dataset_predicted.csv')
 all_metric_score = get_metrics(df_metrics,user)
 
-rec_dataset = pd.read_csv('../data/Recommendation data/rec_dataset.csv')
+rec_dataset = pd.read_csv('../data/Recommendation data/rec_dataset_new.csv')
 places_features = extract_places_features(rec_dataset, all_metric_score)
 
 df = preprocessing2(places_features)
@@ -228,4 +228,5 @@ dataframe1, dataframe2 = merge_dfs(S,dataframe)
 df=pd.concat([dataframe1,dataframe2]).drop_duplicates(keep=False)
 df=df.sort_values(by ='place_score',ascending=False)
 df = df.reset_index(drop=True)
-print(df)
+print(S)
+print(dataframe)
