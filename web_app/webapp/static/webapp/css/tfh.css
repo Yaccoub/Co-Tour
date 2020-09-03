@@ -55,7 +55,7 @@
 }
 .paragraph-2 {
   margin-top: 20px;
-  margin-bottom: 60px;
+  margin-bottom: 30px;
   text-align: left;
 }
 
@@ -83,6 +83,7 @@
     background-color: #8ea3b8;
     margin-top: 10px;
     padding-top: 10px;
+    padding-bottom: 30px;
 }
 .heading-4 {
   margin-top: 10px;

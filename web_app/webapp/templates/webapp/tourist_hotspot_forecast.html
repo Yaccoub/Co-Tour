@@ -19,9 +19,7 @@
                             <div class="card-body">
                                 <div class="filter-sidebar">
                                     <h3 class="heading-3 font-weight-bold">Tourist Hot Spot Forecast</h3>
-                                    <p class="paragraph-2 font-weight-light">A Machine Learning Model To forecast
-                                        tourist hot spots for the
-                                        upcoming month using historical data</p>
+                                    <p class="paragraph-2 font-weight-light">Discover the impact of COVID-19 on the popularity of the different attractions in Munich</p>
                                     <form>
                                         {% csrf_token %}
                                         <label class="sr-only" for="tfh_month_select">Select an upcoming Month: </label>
@@ -39,8 +37,23 @@
                         </div>
                     </div>
                 </div>
-                <p class="paragraph-2 font-weight-light">Need to add place here to display top 10 places
-                    {{Text}}</p>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card shadow-lg">
+                            <div class="card-body">
+                                <div class="filter-sidebar">
+                                    <ul class="list-group">
+                                        {% for place in top_10 %}
+                                        <li class="list-group-item">
+                                            {{place}}
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="column-map col-md-9">
                 {{map.html.render|safe}}
@@ -57,21 +70,18 @@
         <div class="row">
             <div class="col-md-12">
                 <h3 class="heading-4 font-weight-bold">Historical Data</h3>
-            </div>
-        </div>
-        <div class="row">
-                <div class="div-cen col-md-12">
-                    <form class="form-inline">
-                        {% csrf_token %}
-                        <label for="month_picker" class="mb-2 mr-sm-2">Choose a month to visualize: </label>
-                        <select class="form-control mb-2 mr-sm-2" id="month_picker"
+
+                <p class="paragraph-2 font-weight-normal text-center text-white">Navigate through historical data and explore the popularity of the different attractions in Munich</p>
+                <form>
+                    {% csrf_token %}
+                    <select class="form-control mb-2 mr-sm-2" id="month_picker"
                                 name="month_picker">
                             {% for date in HistDateList %}
                              <option value="{{date}}" {% if date == selected_hist_date %} selected {% endif %} >{{date}}</option>
                             {% endfor %}
-                        </select>
-                    </form>
-                </div>
+                    </select>
+                </form>
+            </div>
         </div>
         <div class="row hist-map">
             <div class="column-map col-md-12">

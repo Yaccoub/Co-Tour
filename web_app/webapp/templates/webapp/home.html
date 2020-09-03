@@ -5,67 +5,62 @@
     <h1 class="display-3"><b>CO-TOUR</b></h1>
     <p class="lead">The only compass you'll ever need</p>
     <p class="lead">
-        <a class="btn btn-outline-primary btn-md" href="#" role="button">More</a>
+        <a class="btn btn-outline-primary btn-md" href="#services" role="button">More</a>
     </p>
 </div>
 {% endblock parallax %}
 {% block content %}
-<div class="container services">
-    <h2 class="text-center">Key Features</h2>
-    <p class="text-muted mb-5 text-center text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Suspendisse blandit arcu consectetur massa maximus, quis hendrerit mi finibus. Cras elementum pretium libero id
-        feugiat. Sed sollicitudin felis quam, eu facilisis nulla hendrerit eu. Morbi congue lacinia facilisis. Nullam
-        condimentum gravida pharetra. Phasellus dictum volutpat finibus. Nullam ac venenatis lorem. Quisque gravida arcu
-        odio, nec dictum leo lacinia accumsan. Quisque laoreet dolor sit amet nulla aliquam eleifend a sed nunc. Nulla
-        facilisi. </p>
+<div class="container services" id="services">
+    <h2 class="heading-1 text-center">Key Features</h2>
+    <p class="text-muted mb-5 text-center text-justify paragraph-1">CO-TOUR enables users to explores changes in the
+        tourist flow
+        due to the COVID19-crisis in the city of Munich. Using a wide spectrum of data-driven
+        approaches. CO-TOUR presents various models that provide to analyze the tourism flow in the next period
+        and deliver a tourism recommendation system for Munich post-COVID19. </p>
     <div class="row">
         <div class="col-sm-4 col-md-4 col-lg-4 mt-4">
             <div class="card card-inverse card-info">
-                <img class="card-img-top" src="https://picsum.photos/200/150/?random">
+                <img class="card-img-top" src="../../static/webapp/img/Flow_analysis.jpg">
                 <div class="card-block">
-                    <h4 class="card-title">Tourism Activity Explorer</h4>
+                    <h4 class="card-title">Tourist Flow Analysis</h4>
                     <div class="card-text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Cluster the attractions in Munich by similarity. Explore the changes in tourism
+                        patterns before and after the pandemic.
                     </div>
                 </div>
-                <div class="card-footer">
-                    <button class="btn btn-info float-right btn-sm">More</button>
-                </div>
+                <a class="stretched-link" href="{% url 'tfa'%}"></a>
             </div>
         </div>
         <div class="col-sm-4 col-md-4 col-lg-4 mt-4">
             <div class="card card-inverse card-info">
-                <img class="card-img-top" src="https://picsum.photos/200/150/?random">
+                <img class="card-img-top" src="../../static/webapp/img/Hotspot_forecast.jpg">
                 <div class="card-block">
-                    <h4 class="card-title">Tourist Hotspot Predictor</h4>
+                    <h4 class="card-title">Tourist Hotspot Forecast</h4>
                     <div class="card-text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Discover the impact of COVID-19 on the popularity of the different attractions in Munich
                     </div>
                 </div>
-                <div class="card-footer">
-                    <button class="btn btn-info float-right btn-sm">More</button>
-                </div>
+                <a class="stretched-link" href="{% url 'thf'%}"></a>
             </div>
         </div>
         <div class="col-sm-4 col-md-4 col-lg-4 mt-4">
             <div class="card card-inverse card-info">
-                <img class="card-img-top" src="https://picsum.photos/200/150/?random">
+                <img class="card-img-top" src="../../static/webapp/img/Recommendation_system.jpg">
                 <div class="card-block">
-                    <h4 class="card-title">Destination Finder</h4>
+                    <h4 class="card-title">Recommendation System</h4>
                     <div class="card-text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        A personalised recommendation system that suggests attractions to visit based on the user
+                        entries
                     </div>
                 </div>
-                <div class="card-footer">
-                    <button class="btn btn-info float-right btn-sm">More</button>
-                </div>
+                <a class="stretched-link" href="{% url 'trs'%}"></a>
             </div>
         </div>
 
     </div>
 </div>
 <div class="container-fluid team">
-    <h5 class="section-title h1">OUR TEAM</h5>
+    <h5 class="section-title h1 heading-1 text-center">Our Team</h5>
     <div class="row">
         <div class="col-xs-3 col-sm-3 col-md-3">
             <div class="image-flip">
@@ -75,50 +70,22 @@
                             <div class="card-body text-center">
                                 <p><img alt="card image"
                                         class=" img-fluid"
-                                        src="https://sunlimetech.com/portfolio/boot4menu/assets/imgs/team/img_01.png">
+                                        src="../../static/webapp/img/AY.jpg">
                                 </p>
-                                <h4 class="card-title">Lorem Ipsun</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Suspendisse blandit arcu consectetur massa maximus, quis hendrerit mi finibus. Cras
-                                    elementum pretium libero id feugiat.</p>
-                                <a class="btn btn-primary btn-sm" href="https://www.fiverr.com/share/qb8D02"><i
-                                        class="fa fa-plus"></i></a>
+                                <h4 class="card-title">Alaeddine Yacoub</h4>
+                                <p class="card-text">Alaeddine is currently in his 2nd semester at the Technical
+                                    University of Munich.
+                                    He's enrolled in the Master degree Electrical Engineering and Information Technology
+                                    with a major in Automation and Robotics </p>
                             </div>
                         </div>
                     </div>
                     <div class="backside">
                         <div class="card">
                             <div class="card-body text-center mt-4">
-                                <h4 class="card-title">Lorem Ipsum</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Suspendisse blandit arcu consectetur massa maximus, quis hendrerit mi finibus. Cras
-                                    elementum pretium libero id feugiat.</p>
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-facebook"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-skype"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-google"></i>
-                                        </a>
-                                    </li>
-                                </ul>
+                                <h4 class="card-title">Favourite Quote:</h4>
+                                <p class="card-text">"Some days I amaze myself. Other days I put my keys in the
+                                    fridge."</p>
                             </div>
                         </div>
                     </div>
@@ -133,50 +100,21 @@
                             <div class="card-body text-center">
                                 <p><img alt="card image"
                                         class=" img-fluid"
-                                        src="https://sunlimetech.com/portfolio/boot4menu/assets/imgs/team/img_01.png">
+                                        src="../../static/webapp/img/KA.jpg">
                                 </p>
-                                <h4 class="card-title">Lorem Ipsum</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Suspendisse blandit arcu consectetur massa maximus, quis hendrerit mi finibus. Cras
-                                    elementum pretium libero id feugiat.</p>
-                                <a class="btn btn-primary btn-sm" href="https://www.fiverr.com/share/qb8D02"><i
-                                        class="fa fa-plus"></i></a>
+                                <h4 class="card-title">Kheireddine Achour</h4>
+                                <p class="card-text">Kheireddine is currently in his 2nd semester at the Technical
+                                    University of Munich.
+                                    He's enrolled in the Master degree Electrical Engineering and Information Technology
+                                    with a major in Automation and Robotics</p>
                             </div>
                         </div>
                     </div>
                     <div class="backside">
                         <div class="card">
                             <div class="card-body text-center mt-4">
-                                <h4 class="card-title">Lorem Ipsum</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Suspendisse blandit arcu consectetur massa maximus, quis hendrerit mi finibus. Cras
-                                    elementum pretium libero id feugiat.</p>
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-facebook"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-skype"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-google"></i>
-                                        </a>
-                                    </li>
-                                </ul>
+                                <h4 class="card-title">Favourite Quote</h4>
+                                <p class="card-text">"You cannot be disappointed if you have no expectations"</p>
                             </div>
                         </div>
                     </div>
@@ -191,50 +129,22 @@
                             <div class="card-body text-center">
                                 <p><img alt="card image"
                                         class=" img-fluid"
-                                        src="https://sunlimetech.com/portfolio/boot4menu/assets/imgs/team/img_01.png">
+                                        src="../../static/webapp/img/MM.jpg">
                                 </p>
-                                <h4 class="card-title">Lorem Ipsum</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Suspendisse blandit arcu consectetur massa maximus, quis hendrerit mi finibus. Cras
-                                    elementum pretium libero id feugiat.</p>
-                                <a class="btn btn-primary btn-sm" href="https://www.fiverr.com/share/qb8D02"><i
-                                        class="fa fa-plus"></i></a>
+                                <h4 class="card-title">Mohamed Mezghanni</h4>
+                                <p class="card-text">Mohamed is currently in his 2nd semester at the Technical
+                                    University of Munich.
+                                    He's enrolled in the Master degree Electrical Engineering and Information Technology
+                                    with a major in Automation and Robotics</p>
+
                             </div>
                         </div>
                     </div>
                     <div class="backside">
                         <div class="card">
                             <div class="card-body text-center mt-4">
-                                <h4 class="card-title">Lorem Ipsum</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Suspendisse blandit arcu consectetur massa maximus, quis hendrerit mi finibus. Cras
-                                    elementum pretium libero id feugiat.</p>
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-facebook"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-skype"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-google"></i>
-                                        </a>
-                                    </li>
-                                </ul>
+                                <h4 class="card-title">Favourite Quote</h4>
+                                <p class="card-text">"Light travels faster than sound. This is why some people appear bright until you hear them speak."</p>
                             </div>
                         </div>
                     </div>
@@ -249,282 +159,23 @@
                             <div class="card-body text-center">
                                 <p><img alt="card image"
                                         class=" img-fluid"
-                                        src="https://sunlimetech.com/portfolio/boot4menu/assets/imgs/team/img_01.png">
+                                        src="../../static/webapp/img/OZ.jpeg">
                                 </p>
-                                <h4 class="card-title">Lorem Ipsum</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Suspendisse blandit arcu consectetur massa maximus, quis hendrerit mi finibus. Cras
-                                    elementum pretium libero id feugiat.</p>
-                                <a class="btn btn-primary btn-sm" href="https://www.fiverr.com/share/qb8D02"><i
-                                        class="fa fa-plus"></i></a>
+                                <h4 class="card-title">Oumaima Zneidi</h4>
+                                <p class="card-text">Oumaima is currently in her 2nd semester at the Technical
+                                    University of Munich.
+                                    She's enrolled in the Master degree Electrical Engineering and Information
+                                    Technology
+                                    with a major in Automation and Robotics</p>
+
                             </div>
                         </div>
                     </div>
                     <div class="backside">
                         <div class="card">
                             <div class="card-body text-center mt-4">
-                                <h4 class="card-title">Lorem Ipsum</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Suspendisse blandit arcu consectetur massa maximus, quis hendrerit mi finibus. Cras
-                                    elementum pretium libero id feugiat.</p>
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-facebook"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-skype"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-google"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-3 col-sm-3 col-md-3">
-            <div class="image-flip">
-                <div class="mainflip flip-0">
-                    <div class="frontside">
-                        <div class="card">
-                            <div class="card-body text-center">
-                                <p><img alt="card image"
-                                        class=" img-fluid"
-                                        src="https://sunlimetech.com/portfolio/boot4menu/assets/imgs/team/img_01.png">
-                                </p>
-                                <h4 class="card-title">Lorem Ipsum</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Suspendisse blandit arcu consectetur massa maximus, quis hendrerit mi finibus. Cras
-                                    elementum pretium libero id feugiat.</p>
-                                <a class="btn btn-primary btn-sm" href="https://www.fiverr.com/share/qb8D02"><i
-                                        class="fa fa-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="backside">
-                        <div class="card">
-                            <div class="card-body text-center mt-4">
-                                <h4 class="card-title">Lorem Ipsum</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Suspendisse blandit arcu consectetur massa maximus, quis hendrerit mi finibus. Cras
-                                    elementum pretium libero id feugiat.</p>
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-facebook"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-skype"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-google"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-3 col-sm-3 col-md-3">
-            <div class="image-flip">
-                <div class="mainflip flip-0">
-                    <div class="frontside">
-                        <div class="card">
-                            <div class="card-body text-center">
-                                <p><img alt="card image"
-                                        class=" img-fluid"
-                                        src="https://sunlimetech.com/portfolio/boot4menu/assets/imgs/team/img_01.png">
-                                </p>
-                                <h4 class="card-title">Lorem Ipsum</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Suspendisse blandit arcu consectetur massa maximus, quis hendrerit mi finibus. Cras
-                                    elementum pretium libero id feugiat.</p>
-                                <a class="btn btn-primary btn-sm" href="https://www.fiverr.com/share/qb8D02"><i
-                                        class="fa fa-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="backside">
-                        <div class="card">
-                            <div class="card-body text-center mt-4">
-                                <h4 class="card-title">Lorem Ipsum</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Suspendisse blandit arcu consectetur massa maximus, quis hendrerit mi finibus. Cras
-                                    elementum pretium libero id feugiat.</p>
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-facebook"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-skype"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-google"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-3 col-sm-3 col-md-3">
-            <div class="image-flip">
-                <div class="mainflip flip-0">
-                    <div class="frontside">
-                        <div class="card">
-                            <div class="card-body text-center">
-                                <p><img alt="card image"
-                                        class=" img-fluid"
-                                        src="https://sunlimetech.com/portfolio/boot4menu/assets/imgs/team/img_01.png">
-                                </p>
-                                <h4 class="card-title">Lorem Ipsum</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Suspendisse blandit arcu consectetur massa maximus, quis hendrerit mi finibus. Cras
-                                    elementum pretium libero id feugiat.</p>
-                                <a class="btn btn-primary btn-sm" href="https://www.fiverr.com/share/qb8D02"><i
-                                        class="fa fa-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="backside">
-                        <div class="card">
-                            <div class="card-body text-center mt-4">
-                                <h4 class="card-title">Lorem Ipsum</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Suspendisse blandit arcu consectetur massa maximus, quis hendrerit mi finibus. Cras
-                                    elementum pretium libero id feugiat.</p>
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-facebook"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-skype"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-google"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-3 col-sm-3 col-md-3">
-            <div class="image-flip">
-                <div class="mainflip flip-0">
-                    <div class="frontside">
-                        <div class="card">
-                            <div class="card-body text-center">
-                                <p><img alt="card image"
-                                        class=" img-fluid"
-                                        src="https://sunlimetech.com/portfolio/boot4menu/assets/imgs/team/img_01.png">
-                                </p>
-                                <h4 class="card-title">Lorem Ipsum</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Suspendisse blandit arcu consectetur massa maximus, quis hendrerit mi finibus. Cras
-                                    elementum pretium libero id feugiat.</p>
-                                <a class="btn btn-primary btn-sm" href="https://www.fiverr.com/share/qb8D02"><i
-                                        class="fa fa-plus"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="backside">
-                        <div class="card">
-                            <div class="card-body text-center mt-4">
-                                <h4 class="card-title">Lorem Ipsum</h4>
-                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Suspendisse blandit arcu consectetur massa maximus, quis hendrerit mi finibus. Cras
-                                    elementum pretium libero id feugiat.</p>
-                                <ul class="list-inline">
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-facebook"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-skype"></i>
-                                        </a>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <a class="social-icon text-xs-center" href="https://www.fiverr.com/share/qb8D02"
-                                           target="_blank">
-                                            <i class="fa fa-google"></i>
-                                        </a>
-                                    </li>
-                                </ul>
+                                <h4 class="card-title">Favourite Quote</h4>
+                                <p class="card-text">"Be a disappointment, so that the slightest effort you make would impress them"</p>
                             </div>
                         </div>
                     </div>
@@ -532,6 +183,100 @@
             </div>
         </div>
     </div>
+    <div class="row justify-content-center">
+        <div class="col-xs-3 col-sm-3 col-md-3">
+            <div class="image-flip">
+                <div class="mainflip flip-0">
+                    <div class="frontside">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <p><img alt="card image"
+                                        class=" img-fluid"
+                                        src="../../static/webapp/img/SS.jpg">
+                                </p>
+                                <h4 class="card-title">Salem Sfaxi</h4>
+                                <p class="card-text">Salem is currently in his 2nd semester at the Technical
+                                    University of Munich.
+                                    He's enrolled in the Master degree Electrical Engineering and Information Technology
+                                    with a major in Automation and Robotics</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="backside">
+                        <div class="card">
+                            <div class="card-body text-center mt-4">
+                                <h4 class="card-title">Favourite Quote</h4>
+                                <p class="card-text">"You know, the very powerful and the very stupid have one thing in
+                                    common: they don’t alter their views to fit the facts; they alter the facts to fit
+                                    their views."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3">
+            <div class="image-flip">
+                <div class="mainflip flip-0">
+                    <div class="frontside">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <p><img alt="card image"
+                                        class=" img-fluid"
+                                        src="../../static/webapp/img/SR.jpg">
+                                </p>
+                                <h4 class="card-title">Stephan Rappensperger</h4>
+                                <p class="card-text">Stephan is currently in his 1st semester at the Technical
+                                    University of Munich.
+                                    He's enrolled in the Master degree Electrical Engineering and Information Technology
+                                    with a major in Automation and Robotics</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="backside">
+                        <div class="card">
+                            <div class="card-body text-center mt-4">
+                                <h4 class="card-title">Favourite Quote</h4>
+                                <p class="card-text">"You can do whatever you want, just do it with passion."</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3">
+            <div class="image-flip">
+                <div class="mainflip flip-0">
+                    <div class="frontside">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <p><img alt="card image"
+                                        class=" img-fluid"
+                                        src="../../static/webapp/img/YB.jpg">
+                                </p>
+                                <h4 class="card-title">Yosra Bahri</h4>
+                                <p class="card-text">Yosra is currently in her 3rd semester at the Technical
+                                    University of Munich.
+                                    She's enrolled in the Master degree Electrical Engineering and Information
+                                    Technology
+                                    with a major in Automation and Robotics</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="backside">
+                        <div class="card">
+                            <div class="card-body text-center mt-4">
+                                <h4 class="card-title">Favourite Quote</h4>
+                                <p class="card-text">"If you’re offered a seat on a rocket ship, don’t ask what seat ! Just get on"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 
 {% endblock content %}

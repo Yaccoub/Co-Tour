@@ -239,7 +239,7 @@ def get_geo_data_predicted(dataset, date):
 
     geo['Weights'] = geo['Weights'] * 100
 
-    geo.sort_values(by='Weights', ascending=False)
+    geo = geo.sort_values(by='Weights', ascending=False)
     geo['Place'] = geo.index
     geo["Weights"] = minmax_scale(geo["Weights"])
 
@@ -247,6 +247,7 @@ def get_geo_data_predicted(dataset, date):
     for i in range(len(geo)):
         temp_colors_list.append(colors_list[int(geo["Weights"][i] * 10)])
     geo['Color'] = temp_colors_list
+    geo = geo.sort_values(by='Weights', ascending=False)
     return geo
 
 
@@ -373,7 +374,7 @@ class ThfView(TemplateView):
         Row_list = []
         # Iterate over each row
         for index, rows in top_10.iterrows():
-            my_list = [index]
+            my_list = index
             Row_list.append(my_list)
         return Row_list
 
@@ -434,7 +435,7 @@ class ThfView(TemplateView):
         date_hist = datetime.strptime(date_hist, '%Y-%m-%d')
         context['selected_pred_date'] = date_pred.strftime("%b %Y")
         context['selected_hist_date'] = date_hist.strftime("%b %Y")
-        context['Text'] = top_10  # self.top_ten_place()
+        context['top_10'] = top_10
         return context
 
 

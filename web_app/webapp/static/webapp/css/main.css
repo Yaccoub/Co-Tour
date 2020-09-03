@@ -99,8 +99,8 @@ html{
 
 .card-img-top {
     display: block;
+    height: 200px;
     width: 100%;
-    height: auto;
 }
 
 .card-title {
@@ -275,7 +275,8 @@ bgc2,
 }
 
 .footer {
-    padding: 60px 0;
+
+    padding: 40px 40px;
 }
 
 section .section-title {
@@ -344,4 +345,12 @@ section .section-title {
     padding-bottom: 0px;
     margin-bottom: 10px;
 }
+}
+.heading-1 {
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+.paragraph-1 {
+  margin-top: 20px;
+  margin-bottom: 30px;
 }

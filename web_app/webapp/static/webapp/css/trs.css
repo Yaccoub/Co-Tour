@@ -103,15 +103,8 @@ body{
 .lib-panel {
     margin-bottom: 20Px;
 }
-.lib-panel img {
-    width: 100%;
-    background-color: transparent;
-}
 
-.lib-panel .row,
-.lib-panel .col-md-6 {
-    padding: 0;
-}
+
 
 
 .lib-panel .lib-row {
@@ -141,4 +134,9 @@ body{
     width: 100%;
     bottom: 10px;
     left: 20px;
+}
+.lib-img-show {
+    border-radius: 5px;
+    height : 200px;
+    width : 100%;
 }
