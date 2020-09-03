@@ -21,7 +21,7 @@ def preprocessing(df):
     df['date'] = df['date'].replace({'Date of experience: ': ''}, regex=True)
     df['visit'] = df['visit'].replace({'Trip type: ': ''}, regex=True)
     df['date'] = [datetime.strptime(date, '%B %Y') for date in df['date']]
-    df = df.sort_values(by='date', ascending=False, inplace=False, ignore_index=True)
+    df = df.sort_values(by='date', ascending=False, inplace=False)
     # df['date'] = df['date'].dt.strftime('%Y-%m')
     df = df.set_index('date')
 
@@ -158,6 +158,11 @@ def extract_places_features(rec_dataset,metrics):
     return (places_features)
 
 
+def place_type(df):
+    outdoors_places = ['Allianz Arena', 'English Garden','Olympiapark', 'Viktualienmarkt','Marienplatz']
+    indoors_places = ['Alte Pinakothek','BMW Museum', 'Nymphenburg Palace','Deutsches Museum','Munich Residenz','New_Town_Hall',"St.Peter's Church"]
+    return df
+
 
 def merge_dfs(df1, df2):
     df1.rename(columns={'score': 'place_score'}, inplace=True)
@@ -192,7 +197,7 @@ path = "../data/Tripadvisor_datasets/*.csv"
 visit_type = 'visit_Traveled with family'
 user_country = 'France'
 place_pref = 'outdoors'
-date_of_visit = '2020-07-09'
+date_of_visit = '2020-07-01'
 provenance = get_user_country(user_country)
 
 user = {'origin': provenance, 'accomodation': 'Maxvorstadt', 'visit_type': visit_type, 'place_pref': place_pref,'date':date_of_visit}
@@ -200,7 +205,7 @@ user = {'origin': provenance, 'accomodation': 'Maxvorstadt', 'visit_type': visit
 
 file_path = glob.glob("../data/Tripadvisor_datasets/*.csv")
 df, names = data_processing(file_path)
-df.to_csv('../data/Recommendation data/user_data.csv', index = False)
+df.to_csv('../data/Recommendation data/user_data.csv',index = False)
 num_clusters=10
 kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(df[df.columns[1:]])
 S = predict_score(kmeans, df, user['origin'], user['visit_type'])

@@ -5,7 +5,7 @@ $(document).ready(function() {
                     var tfa_place_select = $("#tfa_place_select").children("option:selected").val();
                     data = {'tfa_season_select' : tfa_season_select, 'tfa_place_select' : tfa_place_select};
                     $.ajax.get({
-                         url: '/tourist_hotspot_forecast/',
+                         url: '/tourist_flow_analysis/',
                          method : 'GET',
                          data: data,
                          beforeSend: function() {
