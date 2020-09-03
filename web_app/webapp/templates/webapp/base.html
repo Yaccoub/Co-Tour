@@ -13,9 +13,9 @@
 
     {% block styles %} {% endblock styles %}
     {% if title %}
-    <title>Lorem Ipsum - {{ title }}</title>
+    <title>CO-TOUR - {{ title }}</title>
     {% else %}
-    <title>Lorem Ipsum </title>
+    <title>CO-TOUR</title>
     {% endif %}
 </head>
 
@@ -26,8 +26,7 @@
             <a class="navbar-brand" href="{% url 'home'%}"><img alt=""
                                                                 class="d-inline-block align-top profile icon"
                                                                 loading="lazy"
-                                                                src="https://picsum.photos/35/35/?random">Lorem
-                Ipsum</a>
+                                                                src="../../static/webapp/img/logo.png">CO-Tour</a>
             <button aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"
                     class="navbar-toggler"
                     data-target="#navbarResponsive" data-toggle="collapse" type="button">
@@ -62,7 +61,72 @@
 <main class="main" role="main">
 
     {% block content %}{% endblock content %}
+    <div class="container-fluid footer">
+        <div class="row text-center text-xs-center text-sm-left text-md-left">
+            <div class="col-md-4">
+                <div class="pr-xl-4"><a class="brand" href={% url 'home'%}><img alt=""
+                                                                                class="brand-logo-light"
+                                                                                src="../../static/webapp/img/logo.png"
+                                                                                srcset="../../static/webapp/img/logo.png 2x"></a>
+                    <p>We are an award-winning creative agency, dedicated to the best result in web design, promotion,
+                        business consulting, and marketing.</p>
+                    <!-- Rights-->
+                    <p class="h6">© All right Reversed.<a class="text-green ml-2" href="https://tum.de/"
+                                                          target="_blank">Technical University Munich</a></p></div>
+            </div>
+            <div class="col-md-4">
+                <h5>Contacts</h5>
+                <dl class="contact-list">
+                    <dt>Address:</dt>
+                    <dd>Everywhere and Nowhere</dd>
+                </dl>
+                <dl class="contact-list">
+                    <dt>Email:</dt>
+                    <dd><a href="mailto:#">ami.group16@tum.de</a></dd>
+                </dl>
 
+            </div>
+            <div class="col-md-4">
+                <h5>Quick links</h5>
+                <ul class="list-unstyled quick-links">
+                    <li>
+                        <a class="nav-link" href="{% url 'home'%}">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'tfa'%}">Tourist Flow Analysis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'thf'%}">Tourist Hotspot Forecast</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'trs'%}">Tourism Recommendation System</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact'%}">Contact</a>
+                    </li>
+                    <li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>Home</a>
+                    </li>
+                    <li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>About</a>
+                    </li>
+                    <li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>FAQ</a>
+                    </li>
+                    <li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>Get
+                        Started</a></li>
+                    <li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>Videos</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
+                <p><u><a href="https://tum.de/">Technical University Munich</a></u></p>
+
+            </div>
+            <hr>
+        </div>
+    </div>
 </main>
 
 <!-- Optional JavaScript -->
