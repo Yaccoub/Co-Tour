@@ -77,20 +77,25 @@ def main():
     # df_clean = df_clean.drop(['Olympia-Eissportzentrum', 'Olympiahalle', 'Olympiaturm', 'Kleine Olympiahalle'],axis=1)
     # df_clean = df_clean.rename(columns={"Außenanlagen Olympiapark (Veranstaltungen)": "Olympiapark"})
 
+    # Special character treatment
+    df_clean = special_characters_col(df_clean)
+
     # Rename some columns for better clarity
     df_clean = df_clean.rename(columns={"insgesamt": "Kinos"})
     df_clean = df_clean.rename(columns={"Prinzregententheater (Großes Haus)": "Prinzregententheater"})
     df_clean = df_clean.rename(columns={"Ausland": "Ausland (Tourismus)"})
     df_clean = df_clean.rename(columns={"Inland": "Inland (Tourismus)"})
     df_clean = df_clean.rename(columns={"Außenanlagen Olympiapark (Veranstaltungen)": "Olympiapark"})
-    df_clean = df_clean.rename(columns={"Schackgalerie": "MSchack galerie"})
-
+    df_clean = df_clean.rename(columns={"Schackgalerie": "Schack galerie"})
+    df_clean = df_clean.rename(columns={"Theater am Gaertnerplatz": "Staatstheater am Gaertnerplatz"})
+    df_clean = df_clean.rename(columns={"Staedtische Galerie im Lenbachhaus": "Lenbachhaus"})
+    df_clean = df_clean.rename(columns={"Residenztheater": "Munich Residenz"})
+    df_clean = df_clean.rename(columns={"Bayerisches Staatsorchester": "Bayerisches Staatsoper"})
 
     # Reset index
     df_clean = df_clean.reset_index()
 
-    # Special character treatment
-    df_clean = special_characters_col(df_clean)
+
 
     # Save file
     df_clean.to_csv('../data/munich_visitors/munich_visitors.csv', index=False)

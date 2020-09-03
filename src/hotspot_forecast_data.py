@@ -23,7 +23,7 @@ def special_characters_col(data):
 
 # Read munich visitor data
 state = pd.read_csv('../data/munich_visitors/munich_visitors.csv', engine='python')
-state['DATE'] = [datetime.strptime(date, '%d/%m/%Y') for date in state['DATE']]
+state['DATE'] = [datetime.strptime(date, '%d/%b/%Y') for date in state['DATE']]
 state = state.set_index('DATE')
 state = state.drop(['Ausland (Tourismus)', 'Inland (Tourismus)', 'Kinos', 'Muenchner Philharmoniker',
                     'Schauburg - Theater fuer junges Publikum'], axis=1)
