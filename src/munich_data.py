@@ -83,6 +83,8 @@ def main():
     df_clean = df_clean.rename(columns={"Ausland": "Ausland (Tourismus)"})
     df_clean = df_clean.rename(columns={"Inland": "Inland (Tourismus)"})
     df_clean = df_clean.rename(columns={"Außenanlagen Olympiapark (Veranstaltungen)": "Olympiapark"})
+    df_clean = df_clean.rename(columns={"Schackgalerie": "MSchack galerie"})
+
 
     # Reset index
     df_clean = df_clean.reset_index()

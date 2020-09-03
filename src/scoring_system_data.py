@@ -12,7 +12,7 @@
 
 
 outdoors_places = ['Allianz Arena', 'English Garden', 'Eisbach', 'Marienplatz', 'Olympiaturm',
-                   'Olympiastadion', 'Olympiapark', 'Tierpark Hellabrunn', 'Viktualienmarkt', ]
+                   'Olympiastadion', 'Olympiapark', 'Tierpark Hellabrunn', 'Viktualienmarkt' ]
 
 indoors_places = ['Alte Pinakothek', 'Asamkirche Munich', 'Bayerisches Nationalmuseum', 'Bayerisches Staatsoper',
                   'BMW Museum', 'Deutsches Museum', 'Kleine Olympiahalle', 'Lenbachhaus', 'Museum Mensch und Natur',
