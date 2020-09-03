@@ -9,13 +9,19 @@
 # df: tripadvisor dataframe (columns: date, place,rating, #_of_visits, city_district: Maxvorstadt, Hadern...)
 # dataframe: (date, place,rating,visit: als paar;mit der Familie ect.. )
 # dataset : date, places (metrics= ratings)
-outdoors_places = ['Olympiastadion', 'Tierpark Hellabrunn', 'Olympiapark']
-indoors_places = ['Bayerisches Nationalmuseum', 'Neue Pinakothek',
-                  'Bayerisches Staatsorchester', 'Muenchner Stadtmuseum',
-                  'Museum Brandhorst', 'Nationaltheater', 'Residenztheater',
-                  'Alte Pinakothek', 'Museum Mensch und Natur', 'Muenchner Philharmoniker',
-                  'Prinzregententheater', 'Pinakothek der Moderne', 'Staedtische Galerie im Lenbachhaus',
-                  'Deutsches Museum', 'Theater am Gaertnerplatz']
+
+
+outdoors_places = ['Allianz Arena', 'English Garden', 'Eisbach', 'Marienplatz', 'Olympiaturm',
+                   'Olympiastadion', 'Olympiapark', 'Tierpark Hellabrunn', 'Viktualienmarkt', ]
+
+indoors_places = ['Alte Pinakothek', 'Asamkirche Munich', 'Bayerisches Nationalmuseum', 'Bayerisches Staatsoper',
+                  'BMW Museum', 'Deutsches Museum', 'Kleine Olympiahalle', 'Lenbachhaus', 'Museum Mensch und Natur',
+                  'Muenchner Stadtmuseum', 'Muenchner Kammerspiele', 'Munich Residenz', 'Muenchner Philharmoniker',
+                  'Museum Brandhorst', 'Nationaltheater', 'Neue Pinakothek', 'Neues Rathaus Munich',
+                  'Nymphenburg Palace',
+                  'Olympiahalle', 'Olympia-Eissportzentrum',
+                  'Prinzregententheater', 'Pinakothek der Moderne',
+                  'Schack galerie', 'St-Peter Munich', 'Staatstheater am Gaertnerplatz']
 # take the metrics at June 2020 for all places ( from dataset.csv)
 all_metric_score = dataset.tail(1)
 # df is dataframe taken from data_forecast code
