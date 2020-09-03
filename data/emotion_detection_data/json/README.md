@@ -1,2 +1,0 @@
-The generated JSON files have a size bigger than 10MB. We were unable to upload them, however it is possible to get them by using the hydrate_data function along with the csv files.
-For testing purposes, we provided a JSON file for tweets collected on the 15-03-2020 under this [link](https://drive.google.com/file/d/1JXpUtXKwkBbrtQ2BuVIL6_8O-AXqGzra/view?usp=sharing)
