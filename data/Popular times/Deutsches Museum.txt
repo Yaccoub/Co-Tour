@@ -1,0 +1,410 @@
+
+Deutsches Museum
+Museumsinsel 1, 80538 Munich, Germany
+
+ Sunday   ,  6:00 AM   ,   0 , 
+ Sunday   ,  7:00 AM   ,   0 , 
+ Sunday   ,  8:00 AM   ,   0 , 
+ Sunday   ,  9:00 AM   ,  13 , Usually not busy
+ Sunday   ,  10:00 AM  ,  37 , Usually not too busy
+ Sunday   ,  11:00 AM  ,  71 , Usually a little busy
+ Sunday   ,  12:00 PM  ,  96 , Usually as busy as it gets
+ Sunday   ,  1:00 PM   , 100 , Usually as busy as it gets
+ Sunday   ,  2:00 PM   ,  91 , Usually as busy as it gets
+ Sunday   ,  3:00 PM   ,  75 , Usually a little busy
+ Sunday   ,  4:00 PM   ,  47 , Usually not too busy
+ Sunday   ,  5:00 PM   ,   0 , 
+ Sunday   ,  6:00 PM   ,   0 , 
+ Sunday   ,  7:00 PM   ,   0 , 
+ Sunday   ,  8:00 PM   ,   0 , 
+ Sunday   ,  9:00 PM   ,   0 , 
+ Sunday   ,  10:00 PM  ,   0 , 
+ Sunday   ,  11:00 PM  ,   0 , 
+ Monday   ,  6:00 AM   ,   0 , 
+ Monday   ,  7:00 AM   ,   0 , 
+ Monday   ,  8:00 AM   ,   0 , 
+ Monday   ,  9:00 AM   ,  17 , Usually not busy
+ Monday   ,  10:00 AM  ,  38 , Usually not too busy
+ Monday   ,  11:00 AM  ,  61 , Usually a little busy
+ Monday   ,  12:00 PM  ,  72 , Usually a little busy
+ Monday   ,  1:00 PM   ,  70 , Usually a little busy
+ Monday   ,  2:00 PM   ,  66 , Usually a little busy
+ Monday   ,  3:00 PM   ,  59 , Usually a little busy
+ Monday   ,  4:00 PM   ,  35 , Usually not too busy
+ Monday   ,  5:00 PM   ,   0 , 
+ Monday   ,  6:00 PM   ,   0 , 
+ Monday   ,  7:00 PM   ,   0 , 
+ Monday   ,  8:00 PM   ,   0 , 
+ Monday   ,  9:00 PM   ,   0 , 
+ Monday   ,  10:00 PM  ,   0 , 
+ Monday   ,  11:00 PM  ,   0 , 
+ Tuesday  ,  6:00 AM   ,   0 , 
+ Tuesday  ,  7:00 AM   ,   0 , 
+ Tuesday  ,  8:00 AM   ,   0 , 
+ Tuesday  ,  9:00 AM   ,  20 , Usually not too busy
+ Tuesday  ,  10:00 AM  ,  39 , Usually not too busy
+ Tuesday  ,  11:00 AM  ,  59 , Usually a little busy
+ Tuesday  ,  12:00 PM  ,  71 , Usually a little busy
+ Tuesday  ,  1:00 PM   ,  72 , Usually a little busy
+ Tuesday  ,  2:00 PM   ,  65 , Usually a little busy
+ Tuesday  ,  3:00 PM   ,  51 , Usually a little busy
+ Tuesday  ,  4:00 PM   ,  32 , Usually not too busy
+ Tuesday  ,  5:00 PM   ,   0 , 
+ Tuesday  ,  6:00 PM   ,   0 , 
+ Tuesday  ,  7:00 PM   ,   0 , 
+ Tuesday  ,  8:00 PM   ,   0 , 
+ Tuesday  ,  9:00 PM   ,   0 , 
+ Tuesday  ,  10:00 PM  ,   0 , 
+ Tuesday  ,  11:00 PM  ,   0 , 
+Wednesday ,  6:00 AM   ,   0 , 
+Wednesday ,  7:00 AM   ,   0 , 
+Wednesday ,  8:00 AM   ,   0 , 
+Wednesday ,  9:00 AM   ,  19 , Usually not busy
+Wednesday ,  10:00 AM  ,  41 , Usually not too busy
+Wednesday ,  11:00 AM  ,  63 , Usually a little busy
+Wednesday ,  12:00 PM  ,  75 , Usually a little busy
+Wednesday ,  1:00 PM   ,  75 , Usually a little busy
+Wednesday ,  2:00 PM   ,  68 , Usually a little busy
+Wednesday ,  3:00 PM   ,  55 , Usually a little busy
+Wednesday ,  4:00 PM   ,  36 , Usually not too busy
+Wednesday ,  5:00 PM   ,   0 , 
+Wednesday ,  6:00 PM   ,   0 , 
+Wednesday ,  7:00 PM   ,   0 , 
+Wednesday ,  8:00 PM   ,   0 , 
+Wednesday ,  9:00 PM   ,   0 , 
+Wednesday ,  10:00 PM  ,   0 , 
+Wednesday ,  11:00 PM  ,   0 , 
+Thursday  ,  6:00 AM   ,   0 , 
+Thursday  ,  7:00 AM   ,   0 , 
+Thursday  ,  8:00 AM   ,   0 , 
+Thursday  ,  9:00 AM   ,  16 , Usually not busy
+Thursday  ,  10:00 AM  ,  36 , Usually not too busy
+Thursday  ,  11:00 AM  ,  59 , Usually a little busy
+Thursday  ,  12:00 PM  ,  73 , Usually a little busy
+Thursday  ,  1:00 PM   ,  76 , Usually a little busy
+Thursday  ,  2:00 PM   ,  71 , Usually a little busy
+Thursday  ,  3:00 PM   ,  59 , Usually a little busy
+Thursday  ,  4:00 PM   ,  38 , Usually not too busy
+Thursday  ,  5:00 PM   ,   0 , 
+Thursday  ,  6:00 PM   ,   0 , 
+Thursday  ,  7:00 PM   ,   0 , 
+Thursday  ,  8:00 PM   ,   0 , 
+Thursday  ,  9:00 PM   ,   0 , 
+Thursday  ,  10:00 PM  ,   0 , 
+Thursday  ,  11:00 PM  ,   0 , 
+ Friday   ,  6:00 AM   ,   0 , 
+ Friday   ,  7:00 AM   ,   0 , 
+ Friday   ,  8:00 AM   ,   0 , 
+ Friday   ,  9:00 AM   ,  20 , Usually not too busy
+ Friday   ,  10:00 AM  ,  42 , Usually not too busy
+ Friday   ,  11:00 AM  ,  68 , Usually a little busy
+ Friday   ,  12:00 PM  ,  83 , Usually as busy as it gets
+ Friday   ,  1:00 PM   ,  84 , Usually as busy as it gets
+ Friday   ,  2:00 PM   ,  78 , Usually a little busy
+ Friday   ,  3:00 PM   ,  66 , Usually a little busy
+ Friday   ,  4:00 PM   ,  42 , Usually not too busy
+ Friday   ,  5:00 PM   ,   0 , 
+ Friday   ,  6:00 PM   ,   0 , 
+ Friday   ,  7:00 PM   ,   0 , 
+ Friday   ,  8:00 PM   ,   0 , 
+ Friday   ,  9:00 PM   ,   0 , 
+ Friday   ,  10:00 PM  ,   0 , 
+ Friday   ,  11:00 PM  ,   0 , 
+Saturday  ,  6:00 AM   ,   0 , 
+Saturday  ,  7:00 AM   ,   0 , 
+Saturday  ,  8:00 AM   ,   0 , 
+Saturday  ,  9:00 AM   ,  14 , Usually not busy
+Saturday  ,  10:00 AM  ,  36 , Usually not too busy
+Saturday  ,  11:00 AM  ,  67 , Usually a little busy
+Saturday  ,  12:00 PM  ,  91 , Usually as busy as it gets
+Saturday  ,  1:00 PM   ,  99 , Usually as busy as it gets
+Saturday  ,  2:00 PM   ,  96 , Usually as busy as it gets
+Saturday  ,  3:00 PM   ,  83 , Usually as busy as it gets
+Saturday  ,  4:00 PM   ,  52 , Usually a little busy
+Saturday  ,  5:00 PM   ,   0 , 
+Saturday  ,  6:00 PM   ,   0 , 
+Saturday  ,  7:00 PM   ,   0 , 
+Saturday  ,  8:00 PM   ,   0 , 
+Saturday  ,  9:00 PM   ,   0 , 
+Saturday  ,  10:00 PM  ,   0 , 
+Saturday  ,  11:00 PM  ,   0 , 
+
+Deutsches Museum Verkehrszentrum
+Am Bavariapark 5, 80339 M�nchen, Germany
+
+ Sunday   ,  6:00 AM   ,   0 , 
+ Sunday   ,  7:00 AM   ,   0 , 
+ Sunday   ,  8:00 AM   ,   0 , 
+ Sunday   ,  9:00 AM   ,  13 , Usually not busy
+ Sunday   ,  10:00 AM  ,  35 , Usually not too busy
+ Sunday   ,  11:00 AM  ,  67 , Usually a little busy
+ Sunday   ,  12:00 PM  ,  94 , Usually as busy as it gets
+ Sunday   ,  1:00 PM   , 100 , Usually as busy as it gets
+ Sunday   ,  2:00 PM   ,  97 , Usually as busy as it gets
+ Sunday   ,  3:00 PM   ,  88 , Usually as busy as it gets
+ Sunday   ,  4:00 PM   ,  50 , Usually a little busy
+ Sunday   ,  5:00 PM   ,   0 , 
+ Sunday   ,  6:00 PM   ,   0 , 
+ Sunday   ,  7:00 PM   ,   0 , 
+ Sunday   ,  8:00 PM   ,   0 , 
+ Sunday   ,  9:00 PM   ,   0 , 
+ Sunday   ,  10:00 PM  ,   0 , 
+ Sunday   ,  11:00 PM  ,   0 , 
+ Monday   ,  6:00 AM   ,   0 , 
+ Monday   ,  7:00 AM   ,   0 , 
+ Monday   ,  8:00 AM   ,   0 , 
+ Monday   ,  9:00 AM   ,  20 , Usually not too busy
+ Monday   ,  10:00 AM  ,  32 , Usually not too busy
+ Monday   ,  11:00 AM  ,  41 , Usually not too busy
+ Monday   ,  12:00 PM  ,  42 , Usually not too busy
+ Monday   ,  1:00 PM   ,  39 , Usually not too busy
+ Monday   ,  2:00 PM   ,  37 , Usually not too busy
+ Monday   ,  3:00 PM   ,  31 , Usually not too busy
+ Monday   ,  4:00 PM   ,  17 , Usually not busy
+ Monday   ,  5:00 PM   ,   0 , 
+ Monday   ,  6:00 PM   ,   0 , 
+ Monday   ,  7:00 PM   ,   0 , 
+ Monday   ,  8:00 PM   ,   0 , 
+ Monday   ,  9:00 PM   ,   0 , 
+ Monday   ,  10:00 PM  ,   0 , 
+ Monday   ,  11:00 PM  ,   0 , 
+ Tuesday  ,  6:00 AM   ,   0 , 
+ Tuesday  ,  7:00 AM   ,   0 , 
+ Tuesday  ,  8:00 AM   ,   0 , 
+ Tuesday  ,  9:00 AM   ,  15 , Usually not busy
+ Tuesday  ,  10:00 AM  ,  31 , Usually not too busy
+ Tuesday  ,  11:00 AM  ,  48 , Usually not too busy
+ Tuesday  ,  12:00 PM  ,  57 , Usually a little busy
+ Tuesday  ,  1:00 PM   ,  57 , Usually a little busy
+ Tuesday  ,  2:00 PM   ,  53 , Usually a little busy
+ Tuesday  ,  3:00 PM   ,  40 , Usually not too busy
+ Tuesday  ,  4:00 PM   ,  21 , Usually not too busy
+ Tuesday  ,  5:00 PM   ,   0 , 
+ Tuesday  ,  6:00 PM   ,   0 , 
+ Tuesday  ,  7:00 PM   ,   0 , 
+ Tuesday  ,  8:00 PM   ,   0 , 
+ Tuesday  ,  9:00 PM   ,   0 , 
+ Tuesday  ,  10:00 PM  ,   0 , 
+ Tuesday  ,  11:00 PM  ,   0 , 
+Wednesday ,  6:00 AM   ,   0 , 
+Wednesday ,  7:00 AM   ,   0 , 
+Wednesday ,  8:00 AM   ,   0 , 
+Wednesday ,  9:00 AM   ,  13 , Usually not busy
+Wednesday ,  10:00 AM  ,  25 , Usually not too busy
+Wednesday ,  11:00 AM  ,  33 , Usually not too busy
+Wednesday ,  12:00 PM  ,  33 , Usually not too busy
+Wednesday ,  1:00 PM   ,  32 , Usually not too busy
+Wednesday ,  2:00 PM   ,  31 , Usually not too busy
+Wednesday ,  3:00 PM   ,  27 , Usually not too busy
+Wednesday ,  4:00 PM   ,  19 , Usually not busy
+Wednesday ,  5:00 PM   ,   0 , 
+Wednesday ,  6:00 PM   ,   0 , 
+Wednesday ,  7:00 PM   ,   0 , 
+Wednesday ,  8:00 PM   ,   0 , 
+Wednesday ,  9:00 PM   ,   0 , 
+Wednesday ,  10:00 PM  ,   0 , 
+Wednesday ,  11:00 PM  ,   0 , 
+Thursday  ,  6:00 AM   ,   0 , 
+Thursday  ,  7:00 AM   ,   0 , 
+Thursday  ,  8:00 AM   ,   0 , 
+Thursday  ,  9:00 AM   ,  13 , Usually not busy
+Thursday  ,  10:00 AM  ,  24 , Usually not too busy
+Thursday  ,  11:00 AM  ,  38 , Usually not too busy
+Thursday  ,  12:00 PM  ,  47 , Usually not too busy
+Thursday  ,  1:00 PM   ,  49 , Usually not too busy
+Thursday  ,  2:00 PM   ,  41 , Usually not too busy
+Thursday  ,  3:00 PM   ,  28 , Usually not too busy
+Thursday  ,  4:00 PM   ,  16 , Usually not busy
+Thursday  ,  5:00 PM   ,   0 , 
+Thursday  ,  6:00 PM   ,   0 , 
+Thursday  ,  7:00 PM   ,   0 , 
+Thursday  ,  8:00 PM   ,   0 , 
+Thursday  ,  9:00 PM   ,   0 , 
+Thursday  ,  10:00 PM  ,   0 , 
+Thursday  ,  11:00 PM  ,   0 , 
+ Friday   ,  6:00 AM   ,   0 , 
+ Friday   ,  7:00 AM   ,   0 , 
+ Friday   ,  8:00 AM   ,   0 , 
+ Friday   ,  9:00 AM   ,  14 , Usually not busy
+ Friday   ,  10:00 AM  ,  28 , Usually not too busy
+ Friday   ,  11:00 AM  ,  37 , Usually not too busy
+ Friday   ,  12:00 PM  ,  38 , Usually not too busy
+ Friday   ,  1:00 PM   ,  40 , Usually not too busy
+ Friday   ,  2:00 PM   ,  37 , Usually not too busy
+ Friday   ,  3:00 PM   ,  25 , Usually not too busy
+ Friday   ,  4:00 PM   ,  11 , Usually not busy
+ Friday   ,  5:00 PM   ,   0 , 
+ Friday   ,  6:00 PM   ,   0 , 
+ Friday   ,  7:00 PM   ,   0 , 
+ Friday   ,  8:00 PM   ,   0 , 
+ Friday   ,  9:00 PM   ,   0 , 
+ Friday   ,  10:00 PM  ,   0 , 
+ Friday   ,  11:00 PM  ,   0 , 
+Saturday  ,  6:00 AM   ,   0 , 
+Saturday  ,  7:00 AM   ,   0 , 
+Saturday  ,  8:00 AM   ,   0 , 
+Saturday  ,  9:00 AM   ,  16 , Usually not busy
+Saturday  ,  10:00 AM  ,  34 , Usually not too busy
+Saturday  ,  11:00 AM  ,  52 , Usually a little busy
+Saturday  ,  12:00 PM  ,  63 , Usually a little busy
+Saturday  ,  1:00 PM   ,  71 , Usually a little busy
+Saturday  ,  2:00 PM   ,  77 , Usually a little busy
+Saturday  ,  3:00 PM   ,  63 , Usually a little busy
+Saturday  ,  4:00 PM   ,  33 , Usually not too busy
+Saturday  ,  5:00 PM   ,   0 , 
+Saturday  ,  6:00 PM   ,   0 , 
+Saturday  ,  7:00 PM   ,   0 , 
+Saturday  ,  8:00 PM   ,   0 , 
+Saturday  ,  9:00 PM   ,   0 , 
+Saturday  ,  10:00 PM  ,   0 , 
+Saturday  ,  11:00 PM  ,   0 , 
+
+Deutsches Museum
+80538 Munich, Germany
+
+There are no popular times listed for this location
+
+M�nchen-Deutsches Museum
+Hochstra�e 19, 81669 M�nchen, Germany
+
+There are no popular times listed for this location
+
+Deutsches Museum SHOP Innenstadt
+Rindermarkt 17, 80331 M�nchen, Germany
+
+There are no popular times listed for this location
+
+Deutsches Museum Selbstbedienungsrestaurant
+Museumsinsel, 80538 M�nchen, Germany
+
+There are no popular times listed for this location
+
+Deutsches Museum Flugwerft Schleissheim
+Effnerstra�e 18, 85764 Oberschlei�heim, Germany
+
+ Sunday   ,  6:00 AM   ,   0 , 
+ Sunday   ,  7:00 AM   ,   0 , 
+ Sunday   ,  8:00 AM   ,   0 , 
+ Sunday   ,  9:00 AM   ,  17 , Usually not busy
+ Sunday   ,  10:00 AM  ,  46 , Usually not too busy
+ Sunday   ,  11:00 AM  ,  83 , Usually as busy as it gets
+ Sunday   ,  12:00 PM  , 100 , Usually as busy as it gets
+ Sunday   ,  1:00 PM   ,  96 , Usually as busy as it gets
+ Sunday   ,  2:00 PM   ,  97 , Usually as busy as it gets
+ Sunday   ,  3:00 PM   ,  85 , Usually as busy as it gets
+ Sunday   ,  4:00 PM   ,  45 , Usually not too busy
+ Sunday   ,  5:00 PM   ,   0 , 
+ Sunday   ,  6:00 PM   ,   0 , 
+ Sunday   ,  7:00 PM   ,   0 , 
+ Sunday   ,  8:00 PM   ,   0 , 
+ Sunday   ,  9:00 PM   ,   0 , 
+ Sunday   ,  10:00 PM  ,   0 , 
+ Sunday   ,  11:00 PM  ,   0 , 
+ Monday   ,  6:00 AM   ,   0 , 
+ Monday   ,  7:00 AM   ,   0 , 
+ Monday   ,  8:00 AM   ,   0 , 
+ Monday   ,  9:00 AM   ,   7 , Usually not busy
+ Monday   ,  10:00 AM  ,  14 , Usually not busy
+ Monday   ,  11:00 AM  ,  22 , Usually not too busy
+ Monday   ,  12:00 PM  ,  29 , Usually not too busy
+ Monday   ,  1:00 PM   ,  35 , Usually not too busy
+ Monday   ,  2:00 PM   ,  33 , Usually not too busy
+ Monday   ,  3:00 PM   ,  24 , Usually not too busy
+ Monday   ,  4:00 PM   ,  14 , Usually not busy
+ Monday   ,  5:00 PM   ,   0 , 
+ Monday   ,  6:00 PM   ,   0 , 
+ Monday   ,  7:00 PM   ,   0 , 
+ Monday   ,  8:00 PM   ,   0 , 
+ Monday   ,  9:00 PM   ,   0 , 
+ Monday   ,  10:00 PM  ,   0 , 
+ Monday   ,  11:00 PM  ,   0 , 
+ Tuesday  ,  6:00 AM   ,   0 , 
+ Tuesday  ,  7:00 AM   ,   0 , 
+ Tuesday  ,  8:00 AM   ,   0 , 
+ Tuesday  ,  9:00 AM   ,  11 , Usually not busy
+ Tuesday  ,  10:00 AM  ,  21 , Usually not too busy
+ Tuesday  ,  11:00 AM  ,  31 , Usually not too busy
+ Tuesday  ,  12:00 PM  ,  33 , Usually not too busy
+ Tuesday  ,  1:00 PM   ,  28 , Usually not too busy
+ Tuesday  ,  2:00 PM   ,  20 , Usually not too busy
+ Tuesday  ,  3:00 PM   ,  14 , Usually not busy
+ Tuesday  ,  4:00 PM   ,  10 , Usually not busy
+ Tuesday  ,  5:00 PM   ,   0 , 
+ Tuesday  ,  6:00 PM   ,   0 , 
+ Tuesday  ,  7:00 PM   ,   0 , 
+ Tuesday  ,  8:00 PM   ,   0 , 
+ Tuesday  ,  9:00 PM   ,   0 , 
+ Tuesday  ,  10:00 PM  ,   0 , 
+ Tuesday  ,  11:00 PM  ,   0 , 
+Wednesday ,  6:00 AM   ,   0 , 
+Wednesday ,  7:00 AM   ,   0 , 
+Wednesday ,  8:00 AM   ,   0 , 
+Wednesday ,  9:00 AM   ,  12 , Usually not busy
+Wednesday ,  10:00 AM  ,  25 , Usually not too busy
+Wednesday ,  11:00 AM  ,  37 , Usually not too busy
+Wednesday ,  12:00 PM  ,  42 , Usually not too busy
+Wednesday ,  1:00 PM   ,  37 , Usually not too busy
+Wednesday ,  2:00 PM   ,  29 , Usually not too busy
+Wednesday ,  3:00 PM   ,  23 , Usually not too busy
+Wednesday ,  4:00 PM   ,  18 , Usually not busy
+Wednesday ,  5:00 PM   ,   0 , 
+Wednesday ,  6:00 PM   ,   0 , 
+Wednesday ,  7:00 PM   ,   0 , 
+Wednesday ,  8:00 PM   ,   0 , 
+Wednesday ,  9:00 PM   ,   0 , 
+Wednesday ,  10:00 PM  ,   0 , 
+Wednesday ,  11:00 PM  ,   0 , 
+Thursday  ,  6:00 AM   ,   0 , 
+Thursday  ,  7:00 AM   ,   0 , 
+Thursday  ,  8:00 AM   ,   0 , 
+Thursday  ,  9:00 AM   ,  13 , Usually not busy
+Thursday  ,  10:00 AM  ,  25 , Usually not too busy
+Thursday  ,  11:00 AM  ,  38 , Usually not too busy
+Thursday  ,  12:00 PM  ,  46 , Usually not too busy
+Thursday  ,  1:00 PM   ,  47 , Usually not too busy
+Thursday  ,  2:00 PM   ,  39 , Usually not too busy
+Thursday  ,  3:00 PM   ,  28 , Usually not too busy
+Thursday  ,  4:00 PM   ,  18 , Usually not busy
+Thursday  ,  5:00 PM   ,   0 , 
+Thursday  ,  6:00 PM   ,   0 , 
+Thursday  ,  7:00 PM   ,   0 , 
+Thursday  ,  8:00 PM   ,   0 , 
+Thursday  ,  9:00 PM   ,   0 , 
+Thursday  ,  10:00 PM  ,   0 , 
+Thursday  ,  11:00 PM  ,   0 , 
+ Friday   ,  6:00 AM   ,   0 , 
+ Friday   ,  7:00 AM   ,   0 , 
+ Friday   ,  8:00 AM   ,   0 , 
+ Friday   ,  9:00 AM   ,  12 , Usually not busy
+ Friday   ,  10:00 AM  ,  27 , Usually not too busy
+ Friday   ,  11:00 AM  ,  42 , Usually not too busy
+ Friday   ,  12:00 PM  ,  46 , Usually not too busy
+ Friday   ,  1:00 PM   ,  41 , Usually not too busy
+ Friday   ,  2:00 PM   ,  33 , Usually not too busy
+ Friday   ,  3:00 PM   ,  25 , Usually not too busy
+ Friday   ,  4:00 PM   ,  17 , Usually not busy
+ Friday   ,  5:00 PM   ,   0 , 
+ Friday   ,  6:00 PM   ,   0 , 
+ Friday   ,  7:00 PM   ,   0 , 
+ Friday   ,  8:00 PM   ,   0 , 
+ Friday   ,  9:00 PM   ,   0 , 
+ Friday   ,  10:00 PM  ,   0 , 
+ Friday   ,  11:00 PM  ,   0 , 
+Saturday  ,  6:00 AM   ,   0 , 
+Saturday  ,  7:00 AM   ,   0 , 
+Saturday  ,  8:00 AM   ,   0 , 
+Saturday  ,  9:00 AM   ,  11 , Usually not busy
+Saturday  ,  10:00 AM  ,  34 , Usually not too busy
+Saturday  ,  11:00 AM  ,  67 , Usually a little busy
+Saturday  ,  12:00 PM  ,  80 , Usually as busy as it gets
+Saturday  ,  1:00 PM   ,  72 , Usually a little busy
+Saturday  ,  2:00 PM   ,  71 , Usually a little busy
+Saturday  ,  3:00 PM   ,  64 , Usually a little busy
+Saturday  ,  4:00 PM   ,  33 , Usually not too busy
+Saturday  ,  5:00 PM   ,   0 , 
+Saturday  ,  6:00 PM   ,   0 , 
+Saturday  ,  7:00 PM   ,   0 , 
+Saturday  ,  8:00 PM   ,   0 , 
+Saturday  ,  9:00 PM   ,   0 , 
+Saturday  ,  10:00 PM  ,   0 , 
+Saturday  ,  11:00 PM  ,   0 , 
