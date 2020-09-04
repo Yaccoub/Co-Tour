@@ -55,12 +55,13 @@ for fname in glob.glob(path):
     x = x[['date', 'place', 'rating', 'visit']]
     dataframe = pd.concat([dataframe, x], axis=0)
 
+# Set the date to begining of the month
+dataframe['date'] = dataframe['date'] + pd.offsets.MonthBegin(1)
+
 # Grouping the tripadvisor datasets
 df = dataframe.groupby(['date', 'place'], as_index=False)[['rating']].mean()
 df2 = dataframe.groupby(['date', 'place'])[['date']].count()
 df['#_of_visits'] = df2['date'].values
-# df['city_district'] = df['place']
-df['date'] = df['date'] + timedelta(days=1)
 df = special_characters_col(df)
 # Special character treatment
 
@@ -98,14 +99,15 @@ alpha = pd.DataFrame(index=state.index, columns=list__)
 state = pd.DataFrame(state, index=state.index, columns=list__)
 df_clean = pd.DataFrame(df_clean, index=state.index, columns=list__)
 listings = pd.DataFrame(listings, index=state.index)
-#
-#
+
+
 
 for place in alpha.columns:
-    arr = np.array([df_clean[place][listings.index], state[place][listings.index],
-                    listings[geo_coords.loc[place]['city_district']]])
+    arr = np.array([df_clean[place][listings.index], state[place][listings.index],listings[geo_coords.loc[place]['city_district']]])
     arr = pd.DataFrame(arr).replace(float('nan'), np.nan)
-    alpha[place][listings.index] = arr.mean()
+    arr = np.nanmean(arr.values,axis=0)
+    alpha[place][listings.index] = arr
+
 #         else:
 #             arr = np.array([df_clean[place][listings.index],
 #                             listings[geo_coords.loc[place]['city_district']]])
@@ -114,8 +116,11 @@ for place in alpha.columns:
 #
 #
 dataset = pd.DataFrame(alpha)
-dataset.div(dataset.sum(axis=1), axis=0)
-#
+dataset = dataset.div(dataset.sum(axis=1), axis=0)
+
+# If having nan values in case of div 0/0
+dataset = dataset.fillna(0)
+
 # Read COVID-19 data
 Covid_19 = pd.read_csv('../data/covid_19_data/rki/COVID_19_Cases_SK_Muenchen.csv', low_memory=False)
 Covid_19['Refdatum'] = [datetime.strptime(date, '%Y-%m-%d') for date in Covid_19['Refdatum']]
@@ -130,7 +135,7 @@ dataset = dataset.rename(columns={"index": "DATE"})
 dataset['AnzahlFall'] = dataset['AnzahlFall'].fillna(0)
 
 # Drop the last rows as this data is not complete
-dataset = dataset[dataset.DATE <= datetime.strptime("2020-04-01", '%Y-%m-%d')].copy()
+dataset = dataset[:-3]
 
 # Save data to csv file
 dataset.to_csv('../data/Forecast Data/dataset.csv', index=False)

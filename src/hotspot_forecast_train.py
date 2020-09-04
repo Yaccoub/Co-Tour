@@ -165,7 +165,6 @@ for idx in np.arange(len(places)):
 
     # Create and build the model
     model = build_model_lstm(n_steps,n_feats,n_fore)
-    model.summary()
 
     # Train the model
     history = model.fit(
