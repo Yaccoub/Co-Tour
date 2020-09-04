@@ -1,17 +1,16 @@
-# Computer Vision SS 2020 Challenge
+# Co-Tour : Applied Machine Intelligence Project SS20
 
-Distinction  of foreground and background of a given scenery, the ability to eliminate unwanted
-elements of this sequence and optionally creating a background video.
+A tourism analysis, clustering and recommendation system for the post-COVID period in the city of Munich contributing to the management of the tourism flow of the city and the policies concerning COVID-19 in the region.
 
 
  * For a full description of the project, please read the project documentation included
  in the repository:
 
-   ```https://github.com/Yaccoub/Computer_Vision_Challenge/tree/master/doc```
+   ```https://gitlab.ldv.ei.tum.de/ami2020/group16/-/tree/master/docs```
 
  * To submit bug reports and feature suggestions, or track changes:
 
-     ```https://github.com/Yaccoub/Computer_Vision_Challenge/issues```
+     ```https://gitlab.ldv.ei.tum.de/ami2020/group16/-/issues```
 
 Getting Started
 -------------
@@ -21,79 +20,91 @@ for development and testing purposes.
 Clone this repo to your local machine using:
 
 ```
-git clone https://github.com/Yaccoub/Computer_Vision_Challenge.git
+git clone https://gitlab.ldv.ei.tum.de/ami2020/group16.git
 ```
+TripAdvisor Web Scraping App
+-------------
 
-* The ChokePoint dataset used for this project can be found under
+* This project contains a web scraping app for TripAdvisor. This sub-project will help us
+scrape information found in the travel-related website “TripAdvisor”.
+Key factors such as Reviews, Ratings, Satisfaction  levels, Visit period, Origin of the visitor and Trip type (solo, couple, family, business and friends) of Munich’  tourist attractions and turning them into a database, helping us later to cluster these attractions and unveil the tourism patterns changes during the corona crisis. For further information about this sub-project, the Readme file can be found under :
 
-    ```http://arma.sourceforge.net/chokepoint/#download```
+    ```https://gitlab.ldv.ei.tum.de/ami2020/group16/-/tree/master/Tripadvisor_web_scraper```
 
-* The folder naming in this dataset follows the pattern {P#*_S#_C#} :
-
-    ```<Portal.no.type_Sequence.no_Camera.no>```
-
-
-* Each folder contains:
-
-    ```all_file.txt        --> list of all images```
-
-    ```bg_img.txt          --> list of background images```
 
 Prerequisites
 -------------
 
-This project requires the following modules:
+This project requires the following software:
 
- * Matlab Release 2020a     (https://de.mathworks.com/products/matlab.html)
- * Image Processing Toolbox (https://www.mathworks.com/products/image.html)
+ * Python stable release 3.8.0        (https://www.python.org/downloads/release/python-380/)
+ * TensorFlow stable release 2.3.0    (https://www.tensorflow.org/install)
 
 
 Configuration
 -------------
 
- * The user can configure the source paths and the program parameters (Left, Right, Start and N) using:
+ * If the project is directly cloned from Gitlab, the database paths are already contained in the ./data directory and implemented in the code. In case of any changes, you can find the requested database in the according sub-directory ./data/...
 
-   - **Graphical User Interface:** *start_gui*
+ * All the required packages and modules that don’t come as part of the python standard library are to be found in the requirements.txt file.
 
-     Created using the Matlab built-in app developemnt framework App Designer, this user friendly GUI
-      provides standard components such as buttons, check boxes, trees, and drop-down lists
-      to configure and customize the program intuitivly.
-
-   - *config.m*
-
-     Users can manually configure and customize the program parameters by changing the variables
-     values in the ``config.m`` file.
 
 
 Deployment
 -------------
 
-After installing the prerequisites and setting up the enviroment you
-can deploy the program using the command window:
+After installing the prerequisites you should set up a Python virtual environment using the command window:
 ```
-start_gui
+pip install virtualenv
+```
+```
+virtualenv venv
+
+```
+```
+source venv/bin/activate venv
+
 ```
 
-This command will open the GUI where you can generate a masked output
-stream and an extra video with a virtual background
+You can install the required packages and modules that don’t come as part of the python standard library using the command window:
+
+```
+$ conda create --name <env> --file <this file>
+```
+
+This command can be used to create an environment and install all the required packages.
+
+To access the Web App, first install Docker on your local machine then with the command window run:
+
+```
+$ cd TO ROOT
+$ docker-compose build
+$ docker-compose up -d
+```
+The Web App should be then accessible from your web browser using the address http://localhost:8000/ which would land on the home page of Co-Tour
+
 
 Additional Features
 -------------
 
-Alternatively to a virtual background picture, the user have the
-the possibility to use a virtual background video. To use this feature please enter a
-video as background and check the box
-``background video``
+You can use the web scraping app to create your own database. To do so please follow the instructions under:
+
+```
+https://gitlab.ldv.ei.tum.de/ami2020/group16/-/tree/master/Tripadvisor_web_scraper
+```
+
 
 
 ## Versioning
 
-We use [Git](https://github.com/) for versioning. For the versions available, see the [tags on this repository](https://github.com/Yaccoub/Computer_Vision_Challenge).
+We use [Gitlab](https://gitlab.ldv.ei.tum.de/) for versioning. For the versions available, see the [tags on this repository](https://gitlab.ldv.ei.tum.de/ami2020/group16/-/commits/master).
 
 ## Authors
 
 * **Alaeddine Yacoub** - *alaeddine.yacoub@tum.de* -
 * **Kheireddine Achour** - *kheireddine.achour@tum.de* -
+* **Stephan Rappenpserger** - *stephan.rappenpserger@tum.de* -
+* **Yosra Bahri** - *yosra.bahri@tum.de* -
 * **Mohamed Mezghanni** - *mohamed.mezghanni@tum.de* -
 * **Oumaima Zneidi** - *oumaima.zneidi@tum.de* -
 * **Salem Sfaxi** - *salem.sfaxi@tum.de* -

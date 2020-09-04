@@ -51,6 +51,8 @@ def feature_extraction(df, file_name):
     return visitors_by_country, type_of_visitors, visitors_by_city
 
 
+
+
 def eu_countries(visitors_by_country):
     visitors_by_country["Non EU"] = 0
     for i in range(len(visitors_by_country)):

@@ -7,7 +7,6 @@ import ast
 from datetime import datetime
 from datetime import timedelta
 
-
 def special_characters_col(data):
     """Function to get rid of the special characters in tripadvisor dataset"""
     ret = []
@@ -18,7 +17,6 @@ def special_characters_col(data):
     ret = pd.DataFrame(ret, columns=['place'])
     data = data.assign(place=ret['place'], city_district=ret['place'])
     return data
-
 
 # Read munich visitor data
 state = pd.read_csv('../data/munich_visitors/munich_visitors.csv', engine='python')
@@ -62,20 +60,19 @@ dataframe['date'] = dataframe['date'] + pd.offsets.MonthBegin(1)
 df = dataframe.groupby(['date', 'place'], as_index=False)[['rating']].mean()
 df2 = dataframe.groupby(['date', 'place'])[['date']].count()
 df['#_of_visits'] = df2['date'].values
-df = special_characters_col(df)
-# Special character treatment
 
+# Special character treatment
+df = special_characters_col(df)
+
+# Load geocoord
 geo_coords = pd.read_csv('../data/geocoordinates/geoattractions.csv', low_memory=False)
 geo_coords = geo_coords.set_index('place')
 places = df['place'].unique()
 
-# for place in places:
-#     df['city_district'] =
-
-#
+# Assign the coordinates to the places
 for index, row in df.iterrows():
     df['city_district'][index] = geo_coords.loc[row['place']]['city_district']
-#
+
 ret = []
 for place in places:
     name = place
@@ -92,15 +89,10 @@ for place in places:
 df_clean = pd.concat(ret, axis=1, sort=True)
 
 list__ = list(state.columns)
-# for x in state.columns:
-#     if x not in list__:
-#         list__.append(x)
 alpha = pd.DataFrame(index=state.index, columns=list__)
 state = pd.DataFrame(state, index=state.index, columns=list__)
 df_clean = pd.DataFrame(df_clean, index=state.index, columns=list__)
 listings = pd.DataFrame(listings, index=state.index)
-
-
 
 for place in alpha.columns:
     arr = np.array([df_clean[place][listings.index], state[place][listings.index],listings[geo_coords.loc[place]['city_district']]])
@@ -108,13 +100,6 @@ for place in alpha.columns:
     arr = np.nanmean(arr.values,axis=0)
     alpha[place][listings.index] = arr
 
-#         else:
-#             arr = np.array([df_clean[place][listings.index],
-#                             listings[geo_coords.loc[place]['city_district']]])
-#             arr = pd.DataFrame(arr).replace(float('nan'), np.nan)
-#             alpha[place][listings.index] = arr.mean()
-#
-#
 dataset = pd.DataFrame(alpha)
 dataset = dataset.div(dataset.sum(axis=1), axis=0)
 
@@ -139,4 +124,3 @@ dataset = dataset[:-3]
 
 # Save data to csv file
 dataset.to_csv('../data/Forecast Data/dataset.csv', index=False)
-#
