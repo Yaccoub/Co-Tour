@@ -1,6 +1,8 @@
 import pandas as pd
-
-
+import glob
+import os
+from datetime import datetime
+from countrygroups import EUROPEAN_UNION
 def preprocessing(df):
     df['date'] = df['date'].replace({'Date of experience: ': ''}, regex=True)
     df['visit'] = df['visit'].replace({'Trip type: ': ''}, regex=True)
@@ -17,7 +19,7 @@ def clustering_process(df):
     return df
 
 
-def feature_extraction(df):
+def feature_extraction(df, file_name):
     df = preprocessing(df)
     df = clustering_process(df)
     visitors_by_country = df.groupby('country').count().sort_values('visit', ascending=True)
@@ -28,6 +30,7 @@ def feature_extraction(df):
 
 
 def eu_countries(visitors_by_country):
+    EU_countries = EUROPEAN_UNION.names
     visitors_by_country["Non EU"] = 0
     for i in range(len(visitors_by_country)):
         if not (visitors_by_country.index[i] in EU_countries):
@@ -72,5 +75,5 @@ def get_file(path):
 
     return data
 
-
+path = "../data/Tripadvisor_datasets/*.csv"
 data = get_file(path)

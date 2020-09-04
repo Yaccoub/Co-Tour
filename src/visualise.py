@@ -26,4 +26,5 @@ def visualise(df):
              axis=1)
     return map1
 
+map1
 
