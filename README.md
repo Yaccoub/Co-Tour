@@ -94,19 +94,24 @@ https://gitlab.ldv.ei.tum.de/ami2020/group16/-/tree/master/Tripadvisor_web_scrap
 ```
 ## Run from python files
 **Tourist flow analysis**
+```
 1- K-means_clustring.py
 2- tourism_flow_data.py
 3- visual K means.py
 4- visualise.py
+```
 **Hotsport forcast**
+```
 1- hotspot_forecast_data.py
 2- hotspot_forecast_train.py
 3- hotspot_forecast_prediction.py
+```
 **Recommendation system**
+```
 1- K-means_recommendation_system.py
 2- scoring_system_data.py
 3- recommendation_system.py
-
+```
 ## Versioning
 
 We use [Gitlab](https://gitlab.ldv.ei.tum.de/) for versioning. For the versions available, see the [tags on this repository](https://gitlab.ldv.ei.tum.de/ami2020/group16/-/commits/master).
