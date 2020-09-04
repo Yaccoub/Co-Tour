@@ -66,13 +66,13 @@ source venv/bin/activate venv
 
 ```
 
-can deploy the program using the command window:
+You can install the required packages and modules that don’t come as part of the python standard library using the command window:
+
 ```
-start_gui
+$ conda create --name <env> --file <this file>
 ```
 
-This command will open the GUI where you can generate a masked output
-stream and an extra video with a virtual background
+This command can be used to create an environment and install all the required packages. 
 
 Additional Features
 -------------
