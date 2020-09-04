@@ -85,10 +85,9 @@ Additional Features
 
 You can use the web scraping app to create your own database. To do so please follow the instructions under:
 
-    ```
-    https://gitlab.ldv.ei.tum.de/ami2020/group16/-/tree/master/Tripadvisor_web_scraper
-
-    ```
+```
+https://gitlab.ldv.ei.tum.de/ami2020/group16/-/tree/master/Tripadvisor_web_scraper
+```
 
 
 
