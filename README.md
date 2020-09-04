@@ -72,25 +72,33 @@ You can install the required packages and modules that don’t come as part of t
 $ conda create --name <env> --file <this file>
 ```
 
-This command can be used to create an environment and install all the required packages. 
+This command can be used to create an environment and install all the required packages.
+
+To deploy the web app, you can use command window
+
+```
+python3 manage.py runserver
+```
 
 Additional Features
 -------------
 
-Alternatively to a virtual background picture, the user have the
-the possibility to use a virtual background video. To use this feature please enter a
-video as background and check the box
-``background video``
+You can use the web scraping app to create your own database. To do so please follow the instructions under:
+
+    ```https://gitlab.ldv.ei.tum.de/ami2020/group16/-/tree/master/Tripadvisor_web_scraper```
+
 
 
 ## Versioning
 
-We use [Git](https://github.com/) for versioning. For the versions available, see the [tags on this repository](https://github.com/Yaccoub/Computer_Vision_Challenge).
+We use [Gitlab](https://gitlab.ldv.ei.tum.de/) for versioning. For the versions available, see the [tags on this repository](https://gitlab.ldv.ei.tum.de/ami2020/group16/-/commits/master).
 
 ## Authors
 
 * **Alaeddine Yacoub** - *alaeddine.yacoub@tum.de* -
 * **Kheireddine Achour** - *kheireddine.achour@tum.de* -
+* ** Stephan Rappenpserger** - *stephan.rappenpserger@tum.de* -
+* ** Yosra Bahri** - *yosra.bahri@tum.de* -
 * **Mohamed Mezghanni** - *mohamed.mezghanni@tum.de* -
 * **Oumaima Zneidi** - *oumaima.zneidi@tum.de* -
 * **Salem Sfaxi** - *salem.sfaxi@tum.de* -
