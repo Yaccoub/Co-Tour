@@ -12,33 +12,33 @@ from sklearn.preprocessing import minmax_scale
 
 
 def load_geo_coords():
-    geo_coords = pd.read_csv('../data/geocoordinates/geoattractions.csv', low_memory=False)
+    geo_coords = pd.read_csv('./data/geocoordinates/geoattractions.csv', low_memory=False)
     geo_coords = geo_coords.set_index('place')
 
     return geo_coords
 
 
 def load_state_geo_coords():
-    geo_coords = pd.read_csv('../data/geocoordinates/State_geoattractions.csv', low_memory=False)
+    geo_coords = pd.read_csv('./data/geocoordinates/State_geoattractions.csv', low_memory=False)
     geo_coords = geo_coords.set_index('place')
 
     return geo_coords
 
 
 def load_tripadvisor_geo_coords():
-    geo_coords = pd.read_csv('../data/geocoordinates/TripAdvisor_geoattractions.csv', low_memory=False)
+    geo_coords = pd.read_csv('./data/geocoordinates/TripAdvisor_geoattractions.csv', low_memory=False)
     geo_coords = geo_coords.set_index('place')
     return geo_coords
 
 
 def load_data(type):
     if type == 'pred':
-        dataset = pd.read_csv('../data/Forecast Data/dataset_predicted.csv')
+        dataset = pd.read_csv('./data/Forecast Data/dataset_predicted.csv')
 
         dataset['DATE'] = [datetime.strptime(date, '%Y-%m-%d') for date in dataset['DATE']]
         dataset = dataset.set_index('DATE')
     elif type == 'hist':
-        dataset = pd.read_csv('../data/Forecast Data/dataset.csv')
+        dataset = pd.read_csv('./data/Forecast Data/dataset.csv')
 
         dataset['DATE'] = [datetime.strptime(date, '%Y-%m-%d') for date in dataset['DATE']]
         dataset = dataset.set_index('DATE')
@@ -46,8 +46,8 @@ def load_data(type):
 
 
 def load_countries_list():
-    dataset_countries = pd.read_csv('../data/geocoordinates/country.csv')
-    dataset_germanCities = pd.read_csv('../data/geocoordinates/germanCities.csv')
+    dataset_countries = pd.read_csv('./data/geocoordinates/country.csv')
+    dataset_germanCities = pd.read_csv('./data/geocoordinates/germanCities.csv')
     dataset_countries = dataset_countries.set_index('value')
     dataset_germanCities = dataset_germanCities.set_index('city')
     return dataset_countries, dataset_germanCities
@@ -238,7 +238,7 @@ def get_geo_data_predicted(dataset, date):
 
 
 def get_flow_data():
-    data = pd.read_csv("../data/K_means_data/clusters.csv")
+    data = pd.read_csv("./data/K_means_data/clusters.csv")
     data = data.set_index('attraction_name')
     data['Place'] = data.index
     data['Longitude'] = ''
@@ -323,7 +323,7 @@ class TfaView(TemplateView):
         season = self.get_season()
         place = self.get_place()
 
-        geo_trajectory = pd.read_csv('../data/Tripadvisor_datasets/Seasons/{}_{}.csv'.format(place, season))
+        geo_trajectory = pd.read_csv('./data/Tripadvisor_datasets/Seasons/{}_{}.csv'.format(place, season))
         figure = self.get_map(geo_flow)
         figure2 = self.get_map2(geo_trajectory)
         context['map'] = figure
@@ -523,7 +523,7 @@ class TrsView(TemplateView):
         user = {'origin': provenance, 'accomodation': accommodation, 'visit_type': visit_type, 'place_pref': place_pref,
                 'date': date_of_visit}
 
-        user_data = pd.read_csv('../data/Recommendation data/user_data.csv')
+        user_data = pd.read_csv('./data/Recommendation data/user_data.csv')
         num_clusters = 10
         kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(user_data[user_data.columns[1:]])
 
@@ -537,10 +537,10 @@ class TrsView(TemplateView):
         S = S.drop(columns=['place_type'])
         S['score'] = minmax_scale(S['score'])
 
-        df_metrics = pd.read_csv('../data/Forecast Data/dataset_predicted.csv')
+        df_metrics = pd.read_csv('./data/Forecast Data/dataset_predicted.csv')
         all_metric_score = get_metrics(df_metrics, user)
 
-        rec_dataset = pd.read_csv('../data/Recommendation data/rec_dataset.csv')
+        rec_dataset = pd.read_csv('./data/Recommendation data/rec_dataset.csv')
         rec_dataset['all_metric_score'] = 0
         rec_dataset['place_score'] = 0
         places_features = extract_places_features(rec_dataset, all_metric_score, user)

@@ -1,0 +1,511 @@
+,date,place,rating,#_of_visits,city_district,city_district_metric,all_metric_score,type_door
+0,2016-06-04,Museum Brandhorst,26.666666666666668,3,Maxvorstadt,Maxvorstadt,15512.5,indoors
+1,2016-07-04,Museum Brandhorst,40.0,8,Maxvorstadt,Maxvorstadt,15512.5,indoors
+2,2016-08-04,Bayerisches Staatsoper,50.0,1,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+3,2016-08-04,Museum Brandhorst,40.0,3,Maxvorstadt,Maxvorstadt,15512.5,indoors
+4,2016-09-04,Museum Brandhorst,50.0,4,Maxvorstadt,Maxvorstadt,15512.5,indoors
+5,2016-10-04,Bayerisches Staatsoper,50.0,1,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+6,2016-10-04,Museum Brandhorst,48.0,5,Maxvorstadt,Maxvorstadt,15512.5,indoors
+7,2016-11-04,Museum Brandhorst,26.666666666666668,6,Maxvorstadt,Maxvorstadt,15512.5,indoors
+8,2016-12-04,Bayerisches Staatsoper,40.0,1,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+9,2016-12-04,Museum Brandhorst,34.0,5,Maxvorstadt,Maxvorstadt,15512.5,indoors
+10,2017-01-04,Bayerisches Staatsoper,50.0,1,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+11,2017-01-04,Museum Brandhorst,30.0,5,Maxvorstadt,Maxvorstadt,15512.5,indoors
+12,2017-02-04,Museum Brandhorst,46.0,5,Maxvorstadt,Maxvorstadt,15512.5,indoors
+13,2017-03-04,Bayerisches Staatsoper,43.333333333333336,3,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+14,2017-03-04,Museum Brandhorst,50.0,6,Maxvorstadt,Maxvorstadt,15512.5,indoors
+15,2017-04-04,Bayerisches Staatsoper,50.0,2,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+16,2017-04-04,Museum Brandhorst,35.0,6,Maxvorstadt,Maxvorstadt,15512.5,indoors
+17,2017-05-04,Bayerisches Staatsoper,48.333333333333336,6,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+18,2017-06-04,Bayerisches Staatsoper,45.0,2,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+19,2017-06-04,Museum Brandhorst,29.375,16,Maxvorstadt,Maxvorstadt,15512.5,indoors
+20,2017-07-04,BMW Museum,50.0,1,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+21,2017-07-04,Bayerisches Staatsoper,50.0,1,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+22,2017-07-04,Museum Brandhorst,40.0,3,Maxvorstadt,Maxvorstadt,15512.5,indoors
+23,2017-08-04,Bayerisches Staatsoper,50.0,1,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+24,2017-08-04,Museum Brandhorst,35.0,2,Maxvorstadt,Maxvorstadt,15512.5,indoors
+25,2017-09-04,Bayerisches Staatsoper,40.0,3,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+26,2017-09-04,Museum Brandhorst,46.0,5,Maxvorstadt,Maxvorstadt,15512.5,indoors
+27,2017-10-04,Alte Pinakothek,46.666666666666664,3,Maxvorstadt,Maxvorstadt,15512.5,indoors
+28,2017-10-04,BMW Museum,50.0,1,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+29,2017-10-04,Bayerisches Staatsoper,45.0,2,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+30,2017-10-04,Marienplatz,40.0,1,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+31,2017-10-04,Museum Brandhorst,50.0,2,Maxvorstadt,Maxvorstadt,15512.5,indoors
+32,2017-11-04,BMW Museum,50.0,1,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+33,2017-11-04,Bayerisches Staatsoper,32.0,5,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+34,2017-11-04,Museum Brandhorst,50.0,3,Maxvorstadt,Maxvorstadt,15512.5,indoors
+35,2017-12-04,Bayerisches Staatsoper,50.0,8,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+36,2017-12-04,Museum Brandhorst,33.333333333333336,6,Maxvorstadt,Maxvorstadt,15512.5,indoors
+37,2017-12-04,Olympiapark,50.0,2,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+38,2018-01-04,Alte Pinakothek,45.0,2,Maxvorstadt,Maxvorstadt,15512.5,indoors
+39,2018-01-04,BMW Museum,50.0,1,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+40,2018-01-04,Bayerisches Staatsoper,50.0,4,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+41,2018-01-04,Museum Brandhorst,33.333333333333336,3,Maxvorstadt,Maxvorstadt,15512.5,indoors
+42,2018-01-04,Olympiapark,45.0,2,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+43,2018-02-04,Allianz Arena,40.0,1,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+44,2018-02-04,Alte Pinakothek,50.0,1,Maxvorstadt,Maxvorstadt,15512.5,indoors
+45,2018-02-04,BMW Museum,50.0,2,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+46,2018-02-04,Bayerisches Staatsoper,50.0,2,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+47,2018-02-04,Museum Brandhorst,45.0,2,Maxvorstadt,Maxvorstadt,15512.5,indoors
+48,2018-03-04,Allianz Arena,50.0,2,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+49,2018-03-04,BMW Museum,50.0,1,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+50,2018-03-04,Bayerisches Staatsoper,50.0,6,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+51,2018-03-04,Munich Residenz,50.0,1,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+52,2018-03-04,Museum Brandhorst,43.333333333333336,3,Maxvorstadt,Maxvorstadt,15512.5,indoors
+53,2018-03-04,Olympiapark,50.0,1,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+54,2018-04-04,Allianz Arena,46.666666666666664,3,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+55,2018-04-04,Alte Pinakothek,40.0,1,Maxvorstadt,Maxvorstadt,15512.5,indoors
+56,2018-04-04,BMW Museum,50.0,5,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+57,2018-04-04,Bayerisches Nationalmuseum,50.0,1,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+58,2018-04-04,Bayerisches Staatsoper,50.0,4,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+59,2018-04-04,Munich Residenz,50.0,2,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+60,2018-04-04,Olympiapark,50.0,2,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+61,2018-04-04,Pinakothek der Moderne,50.0,1,Maxvorstadt,Maxvorstadt,15512.5,indoors
+62,2018-05-04,Allianz Arena,50.0,1,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+63,2018-05-04,Alte Pinakothek,50.0,4,Maxvorstadt,Maxvorstadt,15512.5,indoors
+64,2018-05-04,BMW Museum,50.0,2,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+65,2018-05-04,Bayerisches Staatsoper,46.666666666666664,6,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+66,2018-05-04,Munich Residenz,50.0,2,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+67,2018-05-04,Museum Brandhorst,25.0,4,Maxvorstadt,Maxvorstadt,15512.5,indoors
+68,2018-05-04,Nymphenburg Palace,50.0,1,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+69,2018-05-04,Olympiapark,35.0,2,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+70,2018-05-04,Olympiaturm,40.0,1,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+71,2018-06-04,Allianz Arena,48.333333333333336,6,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+72,2018-06-04,Alte Pinakothek,45.0,2,Maxvorstadt,Maxvorstadt,15512.5,indoors
+73,2018-06-04,BMW Museum,45.0,2,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+74,2018-06-04,Bayerisches Staatsoper,50.0,3,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+75,2018-06-04,Munich Residenz,40.0,1,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+76,2018-06-04,Museum Brandhorst,40.0,2,Maxvorstadt,Maxvorstadt,15512.5,indoors
+77,2018-06-04,Nymphenburg Palace,42.5,4,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+78,2018-06-04,Olympiapark,50.0,2,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+79,2018-06-04,Tierpark Hellabrunn,50.0,1,Untergiesing-Harlaching,Untergiesing-Harlaching,3599.5,outdoors
+80,2018-07-04,Allianz Arena,40.0,4,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+81,2018-07-04,Alte Pinakothek,50.0,2,Maxvorstadt,Maxvorstadt,15512.5,indoors
+82,2018-07-04,BMW Museum,43.333333333333336,6,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+83,2018-07-04,Bayerisches Nationalmuseum,40.0,2,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+84,2018-07-04,Bayerisches Staatsoper,45.0,12,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+85,2018-07-04,Munich Residenz,45.0,2,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+86,2018-07-04,Museum Brandhorst,50.0,3,Maxvorstadt,Maxvorstadt,15512.5,indoors
+87,2018-07-04,Nymphenburg Palace,40.0,1,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+88,2018-07-04,Olympiapark,46.666666666666664,3,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+89,2018-07-04,Olympiaturm,50.0,1,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+90,2018-07-04,Pinakothek der Moderne,50.0,1,Maxvorstadt,Maxvorstadt,15512.5,indoors
+91,2018-07-04,Tierpark Hellabrunn,50.0,1,Untergiesing-Harlaching,Untergiesing-Harlaching,3599.5,outdoors
+92,2018-07-04,Viktualienmarkt,40.0,1,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+93,2018-08-04,Allianz Arena,43.0,10,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+94,2018-08-04,Alte Pinakothek,47.77777777777778,27,Maxvorstadt,Maxvorstadt,15512.5,indoors
+95,2018-08-04,BMW Museum,42.72727272727273,11,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+96,2018-08-04,Bayerisches Nationalmuseum,30.0,2,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+97,2018-08-04,Bayerisches Staatsoper,45.0,4,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+98,2018-08-04,Deutsches Museum,50.0,1,Ludwigsvorstadt-Isarvorstadt,Ludwigsvorstadt-Isarvorstadt,16075.5,indoors
+99,2018-08-04,English Garden,50.0,1,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+100,2018-08-04,Munich Residenz,50.0,3,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+101,2018-08-04,Museum Brandhorst,22.5,8,Maxvorstadt,Maxvorstadt,15512.5,indoors
+102,2018-08-04,Nymphenburg Palace,41.666666666666664,6,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+103,2018-08-04,Olympiapark,45.0,4,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+104,2018-08-04,Pinakothek der Moderne,40.0,3,Maxvorstadt,Maxvorstadt,15512.5,indoors
+105,2018-08-04,St-Peter Munich,45.0,2,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+106,2018-08-04,Tierpark Hellabrunn,50.0,2,Untergiesing-Harlaching,Untergiesing-Harlaching,3599.5,outdoors
+107,2018-08-04,Viktualienmarkt,45.0,2,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+108,2018-09-04,Allianz Arena,43.333333333333336,3,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+109,2018-09-04,Alte Pinakothek,45.333333333333336,15,Maxvorstadt,Maxvorstadt,15512.5,indoors
+110,2018-09-04,BMW Museum,43.10344827586207,29,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+111,2018-09-04,Bayerisches Nationalmuseum,33.333333333333336,6,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+112,2018-09-04,Deutsches Museum,50.0,1,Ludwigsvorstadt-Isarvorstadt,Ludwigsvorstadt-Isarvorstadt,16075.5,indoors
+113,2018-09-04,English Garden,50.0,4,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+114,2018-09-04,Marienplatz,45.0,2,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+115,2018-09-04,Munich Residenz,40.0,3,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+116,2018-09-04,Museum Brandhorst,40.0,3,Maxvorstadt,Maxvorstadt,15512.5,indoors
+117,2018-09-04,Nymphenburg Palace,50.0,2,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+118,2018-09-04,Olympiapark,44.61538461538461,13,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+119,2018-09-04,Olympiaturm,50.0,2,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+120,2018-09-04,Pinakothek der Moderne,50.0,3,Maxvorstadt,Maxvorstadt,15512.5,indoors
+121,2018-10-04,Allianz Arena,45.714285714285715,7,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+122,2018-10-04,Alte Pinakothek,50.0,15,Maxvorstadt,Maxvorstadt,15512.5,indoors
+123,2018-10-04,BMW Museum,38.0,25,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+124,2018-10-04,Bayerisches Nationalmuseum,50.0,4,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+125,2018-10-04,Bayerisches Staatsoper,45.0,4,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+126,2018-10-04,English Garden,48.0,5,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+127,2018-10-04,Marienplatz,48.57142857142857,7,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+128,2018-10-04,Munich Residenz,50.0,2,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+129,2018-10-04,Nymphenburg Palace,46.666666666666664,9,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+130,2018-10-04,Olympiapark,43.333333333333336,15,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+131,2018-10-04,Pinakothek der Moderne,46.666666666666664,9,Maxvorstadt,Maxvorstadt,15512.5,indoors
+132,2018-10-04,St-Peter Munich,40.0,1,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+133,2018-10-04,Viktualienmarkt,50.0,1,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+134,2018-11-04,Allianz Arena,48.0,15,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+135,2018-11-04,Alte Pinakothek,46.8421052631579,19,Maxvorstadt,Maxvorstadt,15512.5,indoors
+136,2018-11-04,Asamkirche Munich,50.0,4,Sendling,Sendling,0,indoors
+137,2018-11-04,BMW Museum,42.666666666666664,15,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+138,2018-11-04,Bayerisches Nationalmuseum,30.0,6,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+139,2018-11-04,Bayerisches Staatsoper,50.0,5,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+140,2018-11-04,Deutsches Museum,50.0,3,Ludwigsvorstadt-Isarvorstadt,Ludwigsvorstadt-Isarvorstadt,16075.5,indoors
+141,2018-11-04,Eisbach,40.0,5,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+142,2018-11-04,English Garden,50.0,2,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+143,2018-11-04,Marienplatz,42.5,4,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+144,2018-11-04,Munich Residenz,46.666666666666664,3,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+145,2018-11-04,Neues Rathaus Munich,40.0,1,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+146,2018-11-04,Nymphenburg Palace,45.0,2,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+147,2018-11-04,Olympiapark,45.0,28,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+148,2018-11-04,Pinakothek der Moderne,44.0,5,Maxvorstadt,Maxvorstadt,15512.5,indoors
+149,2018-11-04,St-Peter Munich,50.0,1,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+150,2018-11-04,Viktualienmarkt,40.0,1,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+151,2018-12-04,Allianz Arena,45.609756097560975,41,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+152,2018-12-04,Alte Pinakothek,48.666666666666664,15,Maxvorstadt,Maxvorstadt,15512.5,indoors
+153,2018-12-04,Asamkirche Munich,50.0,1,Sendling,Sendling,0,indoors
+154,2018-12-04,BMW Museum,44.0,30,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+155,2018-12-04,Bayerisches Nationalmuseum,44.0,10,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+156,2018-12-04,Bayerisches Staatsoper,34.0,5,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+157,2018-12-04,English Garden,50.0,1,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+158,2018-12-04,Marienplatz,42.22222222222222,9,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+159,2018-12-04,Munich Residenz,44.44444444444444,9,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+160,2018-12-04,Museum Brandhorst,40.0,1,Maxvorstadt,Maxvorstadt,15512.5,indoors
+161,2018-12-04,Olympiapark,44.193548387096776,31,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+162,2018-12-04,Pinakothek der Moderne,44.166666666666664,12,Maxvorstadt,Maxvorstadt,15512.5,indoors
+163,2018-12-04,St-Peter Munich,40.0,1,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+164,2018-12-04,Tierpark Hellabrunn,50.0,1,Untergiesing-Harlaching,Untergiesing-Harlaching,3599.5,outdoors
+165,2019-01-04,Allianz Arena,45.55555555555556,27,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+166,2019-01-04,Alte Pinakothek,46.111111111111114,18,Maxvorstadt,Maxvorstadt,15512.5,indoors
+167,2019-01-04,BMW Museum,37.333333333333336,15,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+168,2019-01-04,Bayerisches Nationalmuseum,46.666666666666664,6,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+169,2019-01-04,Bayerisches Staatsoper,26.666666666666668,3,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+170,2019-01-04,English Garden,50.0,1,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+171,2019-01-04,Marienplatz,45.0,6,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+172,2019-01-04,Munich Residenz,45.0,24,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+173,2019-01-04,Museum Brandhorst,30.0,1,Maxvorstadt,Maxvorstadt,15512.5,indoors
+174,2019-01-04,Neues Rathaus Munich,40.0,2,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+175,2019-01-04,Nymphenburg Palace,45.0,2,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+176,2019-01-04,Olympiapark,43.0,20,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+177,2019-01-04,Pinakothek der Moderne,40.0,3,Maxvorstadt,Maxvorstadt,15512.5,indoors
+178,2019-01-04,St-Peter Munich,50.0,1,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+179,2019-02-04,Allianz Arena,43.46153846153846,26,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+180,2019-02-04,Alte Pinakothek,45.0,20,Maxvorstadt,Maxvorstadt,15512.5,indoors
+181,2019-02-04,BMW Museum,44.44444444444444,18,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+182,2019-02-04,Bayerisches Nationalmuseum,46.666666666666664,3,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+183,2019-02-04,Bayerisches Staatsoper,50.0,3,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+184,2019-02-04,Deutsches Museum,50.0,2,Ludwigsvorstadt-Isarvorstadt,Ludwigsvorstadt-Isarvorstadt,16075.5,indoors
+185,2019-02-04,Eisbach,50.0,1,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+186,2019-02-04,English Garden,46.666666666666664,3,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+187,2019-02-04,Marienplatz,48.333333333333336,6,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+188,2019-02-04,Munich Residenz,46.875,16,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+189,2019-02-04,Museum Brandhorst,40.0,1,Maxvorstadt,Maxvorstadt,15512.5,indoors
+190,2019-02-04,Neues Rathaus Munich,50.0,1,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+191,2019-02-04,Nymphenburg Palace,45.0,2,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+192,2019-02-04,Olympiapark,43.333333333333336,18,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+193,2019-02-04,Olympiaturm,40.0,2,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+194,2019-02-04,Pinakothek der Moderne,44.54545454545455,11,Maxvorstadt,Maxvorstadt,15512.5,indoors
+195,2019-02-04,St-Peter Munich,43.333333333333336,3,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+196,2019-02-04,Viktualienmarkt,40.0,2,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+197,2019-03-04,Allianz Arena,47.142857142857146,42,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+198,2019-03-04,Alte Pinakothek,46.0,15,Maxvorstadt,Maxvorstadt,15512.5,indoors
+199,2019-03-04,BMW Museum,47.391304347826086,23,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+200,2019-03-04,Bayerisches Nationalmuseum,40.0,1,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+201,2019-03-04,Bayerisches Staatsoper,40.0,2,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+202,2019-03-04,Deutsches Museum,48.0,5,Ludwigsvorstadt-Isarvorstadt,Ludwigsvorstadt-Isarvorstadt,16075.5,indoors
+203,2019-03-04,English Garden,45.0,8,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+204,2019-03-04,Lenbachhaus,50.0,1,Maxvorstadt,Maxvorstadt,15512.5,indoors
+205,2019-03-04,Marienplatz,49.0,10,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+206,2019-03-04,Munich Residenz,45.18518518518518,27,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+207,2019-03-04,Museum Brandhorst,50.0,2,Maxvorstadt,Maxvorstadt,15512.5,indoors
+208,2019-03-04,Neues Rathaus Munich,50.0,1,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+209,2019-03-04,Nymphenburg Palace,47.27272727272727,11,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+210,2019-03-04,Olympiapark,43.57142857142857,28,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+211,2019-03-04,Olympiaturm,46.666666666666664,3,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+212,2019-03-04,Pinakothek der Moderne,40.90909090909091,11,Maxvorstadt,Maxvorstadt,15512.5,indoors
+213,2019-03-04,St-Peter Munich,46.666666666666664,3,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+214,2019-03-04,Tierpark Hellabrunn,50.0,1,Untergiesing-Harlaching,Untergiesing-Harlaching,3599.5,outdoors
+215,2019-03-04,Viktualienmarkt,47.5,4,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+216,2019-04-04,Allianz Arena,43.38461538461539,65,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+217,2019-04-04,Alte Pinakothek,42.608695652173914,23,Maxvorstadt,Maxvorstadt,15512.5,indoors
+218,2019-04-04,BMW Museum,44.516129032258064,31,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+219,2019-04-04,Bayerisches Nationalmuseum,44.0,5,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+220,2019-04-04,Bayerisches Staatsoper,50.0,6,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+221,2019-04-04,Deutsches Museum,47.5,4,Ludwigsvorstadt-Isarvorstadt,Ludwigsvorstadt-Isarvorstadt,16075.5,indoors
+222,2019-04-04,English Garden,46.666666666666664,12,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+223,2019-04-04,Marienplatz,43.07692307692308,13,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+224,2019-04-04,Munich Residenz,44.41860465116279,43,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+225,2019-04-04,Museum Brandhorst,36.666666666666664,3,Maxvorstadt,Maxvorstadt,15512.5,indoors
+226,2019-04-04,Neues Rathaus Munich,50.0,2,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+227,2019-04-04,Nymphenburg Palace,45.69620253164557,79,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+228,2019-04-04,Olympiapark,45.348837209302324,43,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+229,2019-04-04,Olympiaturm,48.57142857142857,7,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+230,2019-04-04,Pinakothek der Moderne,46.0,5,Maxvorstadt,Maxvorstadt,15512.5,indoors
+231,2019-04-04,St-Peter Munich,45.0,2,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+232,2019-04-04,Tierpark Hellabrunn,43.333333333333336,3,Untergiesing-Harlaching,Untergiesing-Harlaching,3599.5,outdoors
+233,2019-04-04,Viktualienmarkt,46.666666666666664,6,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+234,2019-05-04,Allianz Arena,46.25,32,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+235,2019-05-04,Alte Pinakothek,45.45454545454545,22,Maxvorstadt,Maxvorstadt,15512.5,indoors
+236,2019-05-04,Asamkirche Munich,40.0,2,Sendling,Sendling,0,indoors
+237,2019-05-04,BMW Museum,46.8421052631579,38,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+238,2019-05-04,Bayerisches Nationalmuseum,45.0,8,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+239,2019-05-04,Bayerisches Staatsoper,46.666666666666664,3,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+240,2019-05-04,Deutsches Museum,48.333333333333336,6,Ludwigsvorstadt-Isarvorstadt,Ludwigsvorstadt-Isarvorstadt,16075.5,indoors
+241,2019-05-04,English Garden,45.55555555555556,9,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+242,2019-05-04,Marienplatz,42.857142857142854,7,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+243,2019-05-04,Munich Residenz,45.95744680851064,47,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+244,2019-05-04,Museum Brandhorst,50.0,2,Maxvorstadt,Maxvorstadt,15512.5,indoors
+245,2019-05-04,Neues Rathaus Munich,50.0,3,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+246,2019-05-04,Nymphenburg Palace,45.78125,64,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+247,2019-05-04,Olympiapark,42.22222222222222,27,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+248,2019-05-04,Olympiaturm,46.0,15,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+249,2019-05-04,Pinakothek der Moderne,46.25,8,Maxvorstadt,Maxvorstadt,15512.5,indoors
+250,2019-05-04,St-Peter Munich,44.09090909090909,22,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+251,2019-05-04,Tierpark Hellabrunn,48.0,5,Untergiesing-Harlaching,Untergiesing-Harlaching,3599.5,outdoors
+252,2019-05-04,Viktualienmarkt,44.0,15,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+253,2019-06-04,Allianz Arena,47.03703703703704,27,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+254,2019-06-04,Alte Pinakothek,45.0,18,Maxvorstadt,Maxvorstadt,15512.5,indoors
+255,2019-06-04,Asamkirche Munich,50.0,7,Sendling,Sendling,0,indoors
+256,2019-06-04,BMW Museum,43.05555555555556,36,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+257,2019-06-04,Bayerisches Nationalmuseum,30.0,4,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+258,2019-06-04,Bayerisches Staatsoper,47.0,10,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+259,2019-06-04,Deutsches Museum,50.0,1,Ludwigsvorstadt-Isarvorstadt,Ludwigsvorstadt-Isarvorstadt,16075.5,indoors
+260,2019-06-04,Eisbach,50.0,4,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+261,2019-06-04,English Garden,47.5,12,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+262,2019-06-04,Lenbachhaus,43.333333333333336,3,Maxvorstadt,Maxvorstadt,15512.5,indoors
+263,2019-06-04,Marienplatz,46.111111111111114,18,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+264,2019-06-04,Munich Residenz,45.58139534883721,43,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+265,2019-06-04,Museum Brandhorst,28.0,5,Maxvorstadt,Maxvorstadt,15512.5,indoors
+266,2019-06-04,Neues Rathaus Munich,50.0,7,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+267,2019-06-04,Nymphenburg Palace,47.111111111111114,45,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+268,2019-06-04,Olympiapark,43.529411764705884,34,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+269,2019-06-04,Olympiaturm,44.54545454545455,11,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+270,2019-06-04,Pinakothek der Moderne,30.0,3,Maxvorstadt,Maxvorstadt,15512.5,indoors
+271,2019-06-04,St-Peter Munich,45.67567567567568,37,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+272,2019-06-04,Tierpark Hellabrunn,45.0,12,Untergiesing-Harlaching,Untergiesing-Harlaching,3599.5,outdoors
+273,2019-06-04,Viktualienmarkt,46.5625,32,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+274,2019-07-04,Allianz Arena,42.666666666666664,45,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+275,2019-07-04,Alte Pinakothek,44.8,25,Maxvorstadt,Maxvorstadt,15512.5,indoors
+276,2019-07-04,Asamkirche Munich,41.42857142857143,7,Sendling,Sendling,0,indoors
+277,2019-07-04,BMW Museum,42.857142857142854,35,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+278,2019-07-04,Bayerisches Nationalmuseum,41.42857142857143,7,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+279,2019-07-04,Bayerisches Staatsoper,50.0,3,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+280,2019-07-04,Deutsches Museum,36.42857142857143,28,Ludwigsvorstadt-Isarvorstadt,Ludwigsvorstadt-Isarvorstadt,16075.5,indoors
+281,2019-07-04,Eisbach,46.0,5,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+282,2019-07-04,English Garden,47.523809523809526,105,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+283,2019-07-04,Lenbachhaus,50.0,2,Maxvorstadt,Maxvorstadt,15512.5,indoors
+284,2019-07-04,Marienplatz,45.65217391304348,23,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+285,2019-07-04,Munich Residenz,44.285714285714285,49,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+286,2019-07-04,Museum Brandhorst,41.81818181818182,11,Maxvorstadt,Maxvorstadt,15512.5,indoors
+287,2019-07-04,Neues Rathaus Munich,43.333333333333336,15,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+288,2019-07-04,Nymphenburg Palace,45.15625,64,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+289,2019-07-04,Olympiapark,43.8235294117647,34,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+290,2019-07-04,Olympiaturm,38.57142857142857,14,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+291,2019-07-04,Pinakothek der Moderne,45.38461538461539,13,Maxvorstadt,Maxvorstadt,15512.5,indoors
+292,2019-07-04,St-Peter Munich,43.7037037037037,27,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+293,2019-07-04,Tierpark Hellabrunn,48.18181818181818,11,Untergiesing-Harlaching,Untergiesing-Harlaching,3599.5,outdoors
+294,2019-07-04,Viktualienmarkt,44.63414634146341,41,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+295,2019-08-04,Allianz Arena,42.63157894736842,57,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+296,2019-08-04,Alte Pinakothek,45.0,18,Maxvorstadt,Maxvorstadt,15512.5,indoors
+297,2019-08-04,Asamkirche Munich,47.142857142857146,14,Sendling,Sendling,0,indoors
+298,2019-08-04,BMW Museum,43.421052631578945,38,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+299,2019-08-04,Bayerisches Nationalmuseum,37.0,10,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+300,2019-08-04,Bayerisches Staatsoper,35.0,2,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+301,2019-08-04,Deutsches Museum,38.08510638297872,47,Ludwigsvorstadt-Isarvorstadt,Ludwigsvorstadt-Isarvorstadt,16075.5,indoors
+302,2019-08-04,Eisbach,46.666666666666664,9,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+303,2019-08-04,English Garden,47.08920187793427,213,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+304,2019-08-04,Lenbachhaus,40.0,10,Maxvorstadt,Maxvorstadt,15512.5,indoors
+305,2019-08-04,Marienplatz,46.283185840707965,113,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+306,2019-08-04,Munich Residenz,44.93150684931507,73,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+307,2019-08-04,Neues Rathaus Munich,46.93877551020408,49,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+308,2019-08-04,Nymphenburg Palace,44.92063492063492,63,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+309,2019-08-04,Olympiapark,44.90196078431372,51,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+310,2019-08-04,Olympiaturm,49.411764705882355,17,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+311,2019-08-04,Pinakothek der Moderne,31.666666666666668,6,Maxvorstadt,Maxvorstadt,15512.5,indoors
+312,2019-08-04,St-Peter Munich,43.23529411764706,34,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+313,2019-08-04,Tierpark Hellabrunn,48.0,30,Untergiesing-Harlaching,Untergiesing-Harlaching,3599.5,outdoors
+314,2019-08-04,Viktualienmarkt,45.90163934426229,61,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+315,2019-09-04,Allianz Arena,45.357142857142854,28,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+316,2019-09-04,Alte Pinakothek,49.375,16,Maxvorstadt,Maxvorstadt,15512.5,indoors
+317,2019-09-04,Asamkirche Munich,48.18181818181818,11,Sendling,Sendling,0,indoors
+318,2019-09-04,BMW Museum,43.92857142857143,28,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+319,2019-09-04,Bayerisches Nationalmuseum,50.0,2,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+320,2019-09-04,Bayerisches Staatsoper,38.0,5,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+321,2019-09-04,Deutsches Museum,39.04761904761905,21,Ludwigsvorstadt-Isarvorstadt,Ludwigsvorstadt-Isarvorstadt,16075.5,indoors
+322,2019-09-04,Eisbach,45.294117647058826,17,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+323,2019-09-04,English Garden,46.43356643356643,143,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+324,2019-09-04,Lenbachhaus,43.333333333333336,3,Maxvorstadt,Maxvorstadt,15512.5,indoors
+325,2019-09-04,Marienplatz,46.57142857142857,210,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+326,2019-09-04,Munich Residenz,48.13953488372093,43,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+327,2019-09-04,Neues Rathaus Munich,46.808510638297875,47,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+328,2019-09-04,Nymphenburg Palace,45.645161290322584,62,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+329,2019-09-04,Olympiapark,42.8,25,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+330,2019-09-04,Olympiaturm,46.0,15,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+331,2019-09-04,Pinakothek der Moderne,46.666666666666664,6,Maxvorstadt,Maxvorstadt,15512.5,indoors
+332,2019-09-04,St-Peter Munich,45.0,36,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+333,2019-09-04,Tierpark Hellabrunn,41.42857142857143,14,Untergiesing-Harlaching,Untergiesing-Harlaching,3599.5,outdoors
+334,2019-09-04,Viktualienmarkt,44.61538461538461,52,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+335,2019-10-04,Allianz Arena,45.38461538461539,39,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+336,2019-10-04,Alte Pinakothek,47.64705882352941,17,Maxvorstadt,Maxvorstadt,15512.5,indoors
+337,2019-10-04,Asamkirche Munich,45.0,10,Sendling,Sendling,0,indoors
+338,2019-10-04,BMW Museum,40.60606060606061,33,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+339,2019-10-04,Bayerisches Nationalmuseum,42.5,4,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+340,2019-10-04,Bayerisches Staatsoper,30.0,2,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+341,2019-10-04,Deutsches Museum,41.851851851851855,27,Ludwigsvorstadt-Isarvorstadt,Ludwigsvorstadt-Isarvorstadt,16075.5,indoors
+342,2019-10-04,Eisbach,43.47826086956522,23,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+343,2019-10-04,English Garden,47.19101123595506,89,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+344,2019-10-04,Lenbachhaus,47.0,10,Maxvorstadt,Maxvorstadt,15512.5,indoors
+345,2019-10-04,Marienplatz,46.16279069767442,172,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+346,2019-10-04,Munich Residenz,45.68181818181818,44,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+347,2019-10-04,Museum Brandhorst,46.666666666666664,3,Maxvorstadt,Maxvorstadt,15512.5,indoors
+348,2019-10-04,Neues Rathaus Munich,45.13513513513514,37,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+349,2019-10-04,Nymphenburg Palace,45.416666666666664,48,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+350,2019-10-04,Olympiapark,45.416666666666664,24,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+351,2019-10-04,Olympiaturm,45.0,16,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+352,2019-10-04,Pinakothek der Moderne,45.0,6,Maxvorstadt,Maxvorstadt,15512.5,indoors
+353,2019-10-04,St-Peter Munich,45.90909090909091,22,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+354,2019-10-04,Tierpark Hellabrunn,50.0,16,Untergiesing-Harlaching,Untergiesing-Harlaching,3599.5,outdoors
+355,2019-10-04,Viktualienmarkt,44.61538461538461,39,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+356,2019-11-04,Allianz Arena,47.64705882352941,34,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+357,2019-11-04,Alte Pinakothek,45.45454545454545,11,Maxvorstadt,Maxvorstadt,15512.5,indoors
+358,2019-11-04,Asamkirche Munich,46.92307692307692,26,Sendling,Sendling,0,indoors
+359,2019-11-04,BMW Museum,39.285714285714285,14,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+360,2019-11-04,Bayerisches Nationalmuseum,50.0,3,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+361,2019-11-04,Bayerisches Staatsoper,40.0,1,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+362,2019-11-04,Deutsches Museum,42.285714285714285,35,Ludwigsvorstadt-Isarvorstadt,Ludwigsvorstadt-Isarvorstadt,16075.5,indoors
+363,2019-11-04,Eisbach,43.333333333333336,15,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+364,2019-11-04,English Garden,46.07843137254902,51,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+365,2019-11-04,Lenbachhaus,50.0,4,Maxvorstadt,Maxvorstadt,15512.5,indoors
+366,2019-11-04,Marienplatz,46.50406504065041,123,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+367,2019-11-04,Munich Residenz,45.142857142857146,35,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+368,2019-11-04,Museum Brandhorst,50.0,1,Maxvorstadt,Maxvorstadt,15512.5,indoors
+369,2019-11-04,Neues Rathaus Munich,48.0,20,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+370,2019-11-04,Nymphenburg Palace,45.3125,32,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+371,2019-11-04,Olympiapark,48.333333333333336,6,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+372,2019-11-04,Olympiaturm,44.44444444444444,9,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+373,2019-11-04,Pinakothek der Moderne,50.0,5,Maxvorstadt,Maxvorstadt,15512.5,indoors
+374,2019-11-04,St-Peter Munich,46.0,10,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+375,2019-11-04,Tierpark Hellabrunn,48.57142857142857,7,Untergiesing-Harlaching,Untergiesing-Harlaching,3599.5,outdoors
+376,2019-11-04,Viktualienmarkt,46.111111111111114,18,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+377,2019-12-04,Allianz Arena,42.36842105263158,38,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+378,2019-12-04,Alte Pinakothek,43.10344827586207,29,Maxvorstadt,Maxvorstadt,15512.5,indoors
+379,2019-12-04,Asamkirche Munich,48.4,25,Sendling,Sendling,0,indoors
+380,2019-12-04,BMW Museum,40.869565217391305,23,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+381,2019-12-04,Bayerisches Nationalmuseum,41.666666666666664,6,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+382,2019-12-04,Bayerisches Staatsoper,45.0,2,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+383,2019-12-04,Deutsches Museum,38.541666666666664,48,Ludwigsvorstadt-Isarvorstadt,Ludwigsvorstadt-Isarvorstadt,16075.5,indoors
+384,2019-12-04,Eisbach,45.294117647058826,17,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+385,2019-12-04,English Garden,44.34782608695652,69,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+386,2019-12-04,Lenbachhaus,47.333333333333336,15,Maxvorstadt,Maxvorstadt,15512.5,indoors
+387,2019-12-04,Marienplatz,45.821596244131456,213,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+388,2019-12-04,Munich Residenz,46.19047619047619,63,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+389,2019-12-04,Museum Brandhorst,43.333333333333336,3,Maxvorstadt,Maxvorstadt,15512.5,indoors
+390,2019-12-04,Neues Rathaus Munich,46.76470588235294,34,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+391,2019-12-04,Nymphenburg Palace,42.5,32,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+392,2019-12-04,Olympiapark,45.5,20,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+393,2019-12-04,Olympiaturm,48.0,10,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+394,2019-12-04,Pinakothek der Moderne,42.666666666666664,15,Maxvorstadt,Maxvorstadt,15512.5,indoors
+395,2019-12-04,St-Peter Munich,44.166666666666664,24,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+396,2019-12-04,Tierpark Hellabrunn,44.11764705882353,17,Untergiesing-Harlaching,Untergiesing-Harlaching,3599.5,outdoors
+397,2019-12-04,Viktualienmarkt,43.63636363636363,33,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+398,2020-01-04,Allianz Arena,40.476190476190474,21,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+399,2020-01-04,Alte Pinakothek,45.714285714285715,14,Maxvorstadt,Maxvorstadt,15512.5,indoors
+400,2020-01-04,Asamkirche Munich,45.714285714285715,14,Sendling,Sendling,0,indoors
+401,2020-01-04,BMW Museum,41.875,16,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+402,2020-01-04,Bayerisches Nationalmuseum,30.0,3,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+403,2020-01-04,Bayerisches Staatsoper,43.333333333333336,3,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+404,2020-01-04,Deutsches Museum,37.27272727272727,22,Ludwigsvorstadt-Isarvorstadt,Ludwigsvorstadt-Isarvorstadt,16075.5,indoors
+405,2020-01-04,Eisbach,47.5,16,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+406,2020-01-04,English Garden,43.888888888888886,36,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+407,2020-01-04,Lenbachhaus,50.0,3,Maxvorstadt,Maxvorstadt,15512.5,indoors
+408,2020-01-04,Marienplatz,46.36363636363637,88,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+409,2020-01-04,Munich Residenz,46.12903225806452,31,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+410,2020-01-04,Neues Rathaus Munich,45.0,14,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+411,2020-01-04,Nymphenburg Palace,44.4,25,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+412,2020-01-04,Olympiapark,43.63636363636363,11,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+413,2020-01-04,Olympiaturm,50.0,4,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+414,2020-01-04,Pinakothek der Moderne,48.57142857142857,7,Maxvorstadt,Maxvorstadt,15512.5,indoors
+415,2020-01-04,St-Peter Munich,43.333333333333336,15,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+416,2020-01-04,Tierpark Hellabrunn,44.0,5,Untergiesing-Harlaching,Untergiesing-Harlaching,3599.5,outdoors
+417,2020-01-04,Viktualienmarkt,43.57142857142857,14,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+418,2020-02-04,Allianz Arena,44.705882352941174,17,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+419,2020-02-04,Alte Pinakothek,44.285714285714285,14,Maxvorstadt,Maxvorstadt,15512.5,indoors
+420,2020-02-04,Asamkirche Munich,50.0,13,Sendling,Sendling,0,indoors
+421,2020-02-04,BMW Museum,36.42857142857143,14,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+422,2020-02-04,Bayerisches Nationalmuseum,50.0,1,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+423,2020-02-04,Bayerisches Staatsoper,50.0,2,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+424,2020-02-04,Deutsches Museum,40.588235294117645,17,Ludwigsvorstadt-Isarvorstadt,Ludwigsvorstadt-Isarvorstadt,16075.5,indoors
+425,2020-02-04,Eisbach,50.0,4,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+426,2020-02-04,English Garden,46.0,30,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+427,2020-02-04,Lenbachhaus,50.0,3,Maxvorstadt,Maxvorstadt,15512.5,indoors
+428,2020-02-04,Marienplatz,45.9375,64,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+429,2020-02-04,Munich Residenz,47.857142857142854,14,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+430,2020-02-04,Neues Rathaus Munich,46.0,15,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+431,2020-02-04,Nymphenburg Palace,43.333333333333336,18,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+432,2020-02-04,Olympiapark,44.166666666666664,12,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+433,2020-02-04,Olympiaturm,50.0,6,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+434,2020-02-04,St-Peter Munich,44.54545454545455,11,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+435,2020-02-04,Tierpark Hellabrunn,38.57142857142857,7,Untergiesing-Harlaching,Untergiesing-Harlaching,3599.5,outdoors
+436,2020-02-04,Viktualienmarkt,47.77777777777778,9,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+437,2020-03-04,Allianz Arena,45.0,4,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+438,2020-03-04,Alte Pinakothek,45.0,2,Maxvorstadt,Maxvorstadt,15512.5,indoors
+439,2020-03-04,Asamkirche Munich,45.0,4,Sendling,Sendling,0,indoors
+440,2020-03-04,BMW Museum,50.0,4,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+441,2020-03-04,Bayerisches Staatsoper,50.0,1,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+442,2020-03-04,Deutsches Museum,48.333333333333336,6,Ludwigsvorstadt-Isarvorstadt,Ludwigsvorstadt-Isarvorstadt,16075.5,indoors
+443,2020-03-04,Eisbach,50.0,2,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+444,2020-03-04,English Garden,47.857142857142854,14,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+445,2020-03-04,Marienplatz,47.03703703703704,27,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+446,2020-03-04,Munich Residenz,44.0,5,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+447,2020-03-04,Neues Rathaus Munich,45.0,2,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+448,2020-03-04,Nymphenburg Palace,48.18181818181818,11,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+449,2020-03-04,Olympiapark,48.0,5,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+450,2020-03-04,Olympiaturm,50.0,2,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+451,2020-03-04,Pinakothek der Moderne,40.0,2,Maxvorstadt,Maxvorstadt,15512.5,indoors
+452,2020-03-04,St-Peter Munich,50.0,3,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+453,2020-03-04,Tierpark Hellabrunn,40.0,1,Untergiesing-Harlaching,Untergiesing-Harlaching,3599.5,outdoors
+454,2020-03-04,Viktualienmarkt,50.0,4,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+455,2020-04-04,Olympiapark,50.0,1,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+456,2020-05-04,Asamkirche Munich,45.0,4,Sendling,Sendling,0,indoors
+457,2020-05-04,English Garden,43.333333333333336,3,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+458,2020-05-04,Nymphenburg Palace,50.0,1,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+459,2020-05-04,Tierpark Hellabrunn,25.0,2,Untergiesing-Harlaching,Untergiesing-Harlaching,3599.5,outdoors
+460,2020-05-04,Viktualienmarkt,42.5,4,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+461,2020-06-04,Allianz Arena,50.0,2,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+462,2020-06-04,Alte Pinakothek,45.0,2,Maxvorstadt,Maxvorstadt,15512.5,indoors
+463,2020-06-04,BMW Museum,50.0,2,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+464,2020-06-04,Bayerisches Nationalmuseum,10.0,1,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+465,2020-06-04,Deutsches Museum,33.333333333333336,6,Ludwigsvorstadt-Isarvorstadt,Ludwigsvorstadt-Isarvorstadt,16075.5,indoors
+466,2020-06-04,Eisbach,40.0,1,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+467,2020-06-04,English Garden,42.5,8,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+468,2020-06-04,Marienplatz,48.75,8,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+469,2020-06-04,Munich Residenz,42.5,8,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+470,2020-06-04,Neues Rathaus Munich,50.0,3,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+471,2020-06-04,Nymphenburg Palace,47.5,4,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+472,2020-06-04,Olympiapark,50.0,1,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+473,2020-06-04,Pinakothek der Moderne,40.0,1,Maxvorstadt,Maxvorstadt,15512.5,indoors
+474,2020-06-04,Tierpark Hellabrunn,23.333333333333332,6,Untergiesing-Harlaching,Untergiesing-Harlaching,3599.5,outdoors
+475,2020-06-04,Viktualienmarkt,50.0,4,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+476,2020-07-04,Allianz Arena,26.666666666666668,6,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+477,2020-07-04,Alte Pinakothek,50.0,4,Maxvorstadt,Maxvorstadt,15512.5,indoors
+478,2020-07-04,Asamkirche Munich,50.0,1,Sendling,Sendling,0,indoors
+479,2020-07-04,BMW Museum,46.666666666666664,3,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+480,2020-07-04,Deutsches Museum,41.42857142857143,14,Ludwigsvorstadt-Isarvorstadt,Ludwigsvorstadt-Isarvorstadt,16075.5,indoors
+481,2020-07-04,Eisbach,48.125,16,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+482,2020-07-04,English Garden,47.0,20,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+483,2020-07-04,Marienplatz,44.285714285714285,21,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+484,2020-07-04,Munich Residenz,41.0,10,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+485,2020-07-04,Neues Rathaus Munich,50.0,1,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+486,2020-07-04,Nymphenburg Palace,46.666666666666664,9,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+487,2020-07-04,Olympiapark,45.714285714285715,7,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+488,2020-07-04,Olympiaturm,50.0,1,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+489,2020-07-04,Pinakothek der Moderne,50.0,1,Maxvorstadt,Maxvorstadt,15512.5,indoors
+490,2020-07-04,Tierpark Hellabrunn,35.0,2,Untergiesing-Harlaching,Untergiesing-Harlaching,3599.5,outdoors
+491,2020-07-04,Viktualienmarkt,36.666666666666664,9,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+492,2020-08-04,Allianz Arena,40.0,2,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+493,2020-08-04,Alte Pinakothek,40.0,1,Maxvorstadt,Maxvorstadt,15512.5,indoors
+494,2020-08-04,Asamkirche Munich,50.0,2,Sendling,Sendling,0,indoors
+495,2020-08-04,BMW Museum,45.0,2,Milbertshofen-Am Hart,Milbertshofen-Am Hart,0,indoors
+496,2020-08-04,Deutsches Museum,34.54545454545455,11,Ludwigsvorstadt-Isarvorstadt,Ludwigsvorstadt-Isarvorstadt,16075.5,indoors
+497,2020-08-04,Eisbach,48.0,5,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+498,2020-08-04,English Garden,41.875,16,Schwabing-Freimann,Schwabing-Freimann,0,outdoors
+499,2020-08-04,Lenbachhaus,20.0,1,Maxvorstadt,Maxvorstadt,15512.5,indoors
+500,2020-08-04,Marienplatz,43.0,10,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
+501,2020-08-04,Munich Residenz,40.0,2,Altstadt-Lehel,Altstadt-Lehel,4664.0,indoors
+502,2020-08-04,Museum Brandhorst,30.0,1,Maxvorstadt,Maxvorstadt,15512.5,indoors
+503,2020-08-04,Neues Rathaus Munich,40.0,1,Altstadt-Lehel,Altstadt-Lehel,0,indoors
+504,2020-08-04,Nymphenburg Palace,40.0,8,Neuhausen-Nymphenburg,Neuhausen-Nymphenburg,0,indoors
+505,2020-08-04,Olympiapark,46.666666666666664,3,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+506,2020-08-04,Olympiaturm,42.5,4,Milbertshofen-Am Hart,Milbertshofen-Am Hart,4805.5,outdoors
+507,2020-08-04,Pinakothek der Moderne,43.333333333333336,3,Maxvorstadt,Maxvorstadt,15512.5,indoors
+508,2020-08-04,Tierpark Hellabrunn,10.0,1,Untergiesing-Harlaching,Untergiesing-Harlaching,3599.5,outdoors
+509,2020-08-04,Viktualienmarkt,40.0,3,Altstadt-Lehel,Altstadt-Lehel,0,outdoors
