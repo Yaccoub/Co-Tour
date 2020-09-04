@@ -110,4 +110,4 @@ for index, row in df2.iterrows():
             df2['type_door'][index] = 'indoors'
 # store the dataset into a csv file for further use
 rec_dataset = df2
-rec_dataset.to_csv('../data/Recommendation data/rec_dataset_new.csv')
+rec_dataset.to_csv('../data/Recommendation data/rec_dataset.csv')
