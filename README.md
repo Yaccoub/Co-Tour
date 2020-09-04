@@ -69,7 +69,7 @@ source venv/bin/activate venv
 You can install the required packages and modules that don’t come as part of the python standard library using the command window:
 
 ```
-$ conda create --name <env> --file <this file>
+$ pip install -r requirements.txt
 ```
 
 This command can be used to create an environment and install all the required packages.
