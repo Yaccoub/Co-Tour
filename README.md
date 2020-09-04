@@ -1,6 +1,6 @@
-# Co-Tour : Applied Machine Learning Project SS20
+# Co-Tour : Applied Machine Intelligence Project SS20
 
-A tourism analyzing, clustering and recommendation system for the post-COVID period in the city of Munich contributing to the management of the tourism flow of the city and the policies concerning the COVID-19 of the region.
+A tourism analysis, clustering and recommendation system for the post-COVID period in the city of Munich contributing to the management of the tourism flow of the city and the policies concerning COVID-19 in the region.
 
 
  * For a full description of the project, please read the project documentation included
@@ -74,11 +74,15 @@ $ conda create --name <env> --file <this file>
 
 This command can be used to create an environment and install all the required packages.
 
-To deploy the web app, you can use command window
+To access the Web App, first install Docker on your local machine then with the command window run:
 
 ```
-python3 manage.py runserver
+$ cd TO ROOT
+$ docker-compose build
+$ docker-compose up -d
 ```
+The Web App should be then accessible from your web browser using the address http://localhost:8000/ which would land on the home page of Co-Tour
+
 
 Additional Features
 -------------
