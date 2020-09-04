@@ -97,8 +97,8 @@ We use [Gitlab](https://gitlab.ldv.ei.tum.de/) for versioning. For the versions 
 
 * **Alaeddine Yacoub** - *alaeddine.yacoub@tum.de* -
 * **Kheireddine Achour** - *kheireddine.achour@tum.de* -
-* ** Stephan Rappenpserger** - *stephan.rappenpserger@tum.de* -
-* ** Yosra Bahri** - *yosra.bahri@tum.de* -
+* **Stephan Rappenpserger** - *stephan.rappenpserger@tum.de* -
+* **Yosra Bahri** - *yosra.bahri@tum.de* -
 * **Mohamed Mezghanni** - *mohamed.mezghanni@tum.de* -
 * **Oumaima Zneidi** - *oumaima.zneidi@tum.de* -
 * **Salem Sfaxi** - *salem.sfaxi@tum.de* -
