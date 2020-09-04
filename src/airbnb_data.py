@@ -1,11 +1,5 @@
-#!/usr/bin/env python
-# coding: utf-8
 
-# In[131]:
-
-# Import the standard libraries
 import pandas as pd
-import numpy as np
 import requests
 import datetime
 

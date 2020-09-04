@@ -3,7 +3,6 @@ from geopy.geocoders import Nominatim
 import glob
 from pathlib import Path
 from datetime import datetime
-from datetime import timedelta
 
 geolocator = Nominatim(user_agent="AMI", timeout=3)
 

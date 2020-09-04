@@ -1,27 +1,10 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
-# state : dataframe for munich visitors [rows: months , columns : places]
-# listings :  dataframe for listings [rows: months, columns : districts]
-# df: tripadvisor dataframe (columns: date, place,rating, #_of_visits, city_district: Maxvorstadt, Hadern...)
-# dataframe: (date, place,rating,visit: als paar;mit der Familie ect.. )
-# dataset : date, places (metrics= ratings)
-
 import glob
 from pathlib import Path
-import numpy as np
+
 import pandas as pd
-from geopy.geocoders import Nominatim
+
 import dateparser
 from datetime import timedelta
-import ast
-from scipy.stats import norm
-import statsmodels.api as sm
-import matplotlib.pyplot as plt
-from sklearn import preprocessing
 from datetime import datetime
 
 def special_characters_col(data):

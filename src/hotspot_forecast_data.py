@@ -2,7 +2,6 @@ import glob
 from pathlib import Path
 import numpy as np
 import pandas as pd
-from geopy.geocoders import Nominatim
 import dateparser
 import ast
 from datetime import datetime

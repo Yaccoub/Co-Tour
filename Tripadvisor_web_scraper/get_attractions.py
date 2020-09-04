@@ -5,7 +5,6 @@ import os.path
 import glob
 import locale
 from sklearn.cluster import KMeans
-import geopy
 
 locale.setlocale(locale.LC_ALL, 'en_US')
 EU_countries = EUROPEAN_UNION.names

@@ -3,17 +3,10 @@ from datetime import datetime
 import numpy as np
 import folium
 import pandas as pd
-#import simplejson
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
+
 from django.views.generic import TemplateView
 from geopy.geocoders import Nominatim
-#import glob
-#import locale
 from countrygroups import EUROPEAN_UNION
-#import ntpath
-
-
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import minmax_scale
 

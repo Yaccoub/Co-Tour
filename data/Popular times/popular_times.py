@@ -1,10 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[58]:
-
-
-import urllib
 import urllib.request
 import json
 import ssl

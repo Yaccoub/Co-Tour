@@ -1,7 +1,6 @@
 import pandas as pd
-import copy
 import numpy as np
-from pathlib import Path
+
 from geopy.geocoders import Nominatim
 from datetime import datetime
 
