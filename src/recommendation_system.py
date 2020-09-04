@@ -5,6 +5,8 @@ from geopy.geocoders import Nominatim
 from datetime import datetime
 
 import seaborn as sns
+from sklearn.preprocessing import minmax_scale
+
 sns.set()
 
 from countrygroups import EUROPEAN_UNION
@@ -164,15 +166,13 @@ def get_metrics(df_metrics,user):
 
 
 def extract_places_features(rec_dataset,metrics):
-   # rec_dataset=rec_dataset.drop(columns = ['city_district_metric','#_of_visits'])
-   # places_features = rec_dataset.groupby(by = ['place','city_district','type_door']).agg({'rating':'mean','all_metric_score':'mean'})
-    #places_features.reset_index(inplace=True, drop=False)
-    for index, row in rec_dataset.iterrows():
-        for index2, value2 in metrics.items():
-            if rec_dataset.loc[index]['place'] == index2 :
-                rec_dataset['all_metric_score'][index] = metrics.get(key = index2)
-    rec_dataset['all_metric_score'] =(rec_dataset['all_metric_score']-rec_dataset['all_metric_score'].min())/(rec_dataset['all_metric_score'].max()-rec_dataset['all_metric_score'].min())
-    return (rec_dataset)
+    metrics = metrics.drop('DATE')
+    metrics = metrics.reset_index()
+    metrics = metrics.sort_values(by='index')
+    rec_dataset = rec_dataset.sort_values(by='place')
+    rec_dataset['all_metric_score'] = metrics[:][1]
+    rec_dataset['all_metric_score'] = minmax_scale(rec_dataset['all_metric_score'])
+    return rec_dataset
 
 
 
@@ -254,9 +254,11 @@ S['score']= (S['score']-S['score'].min())/(S['score'].max()-S['score'].min())
 df_metrics = pd.read_csv('../data/Forecast Data/dataset_predicted.csv')
 all_metric_score = get_metrics(df_metrics,user)
 
+
 rec_dataset = pd.read_csv('../data/Recommendation data/rec_dataset.csv')
 rec_dataset['all_metric_score'] = 0
 rec_dataset['place_score'] = 0
+
 places_features = extract_places_features(rec_dataset, all_metric_score)
 
 df = places_features

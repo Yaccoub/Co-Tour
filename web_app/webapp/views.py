@@ -151,12 +151,12 @@ def get_metrics(df_metrics, user):
 
 
 def extract_places_features(rec_dataset, metrics, user):
-    for index, row in rec_dataset.iterrows():
-        for index2, value2 in metrics.items():
-            if rec_dataset.loc[index]['place'] == index2:
-                rec_dataset['all_metric_score'][index] = metrics.get(key=index2)
-    rec_dataset['all_metric_score'] = (rec_dataset['all_metric_score'] - rec_dataset['all_metric_score'].min()) / (
-                rec_dataset['all_metric_score'].max() - rec_dataset['all_metric_score'].min())
+    metrics = metrics.drop('DATE')
+    metrics = metrics.reset_index()
+    metrics = metrics.sort_values(by='index')
+    rec_dataset = rec_dataset.sort_values(by='place')
+    rec_dataset['all_metric_score'] = metrics[:][1]
+    rec_dataset['all_metric_score'] = minmax_scale(rec_dataset['all_metric_score'])
     return rec_dataset
 
 
