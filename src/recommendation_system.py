@@ -205,7 +205,7 @@ def merge_dfs(df1, df2):
                 row2.place_score = (row1.place_score + row2.place_score) / 2
                 df1 = df1.drop([index1])
 
-    return (df1, df2)
+    return df1, df2
 
 
 

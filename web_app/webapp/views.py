@@ -130,14 +130,14 @@ def score_func(user, df):
     for index, row in df.iterrows():
         place_score[index] = 0
         if df['city_district'][index] == user['accomodation']:
-            place_score[index] = place_score[index] + 10;
+            place_score[index] = place_score[index] + 20;
         if df['type_door'][index] == user['place_pref']:
-            place_score[index] = place_score[index] + 10;
+            place_score[index] = place_score[index] + 50;
     return place_score
 
 
 def reshape_df(df):
-    df = df.drop(columns=['city_district', 'type_door', 'rating', 'all_metric_score'])
+    df=df.drop(columns=['Unnamed: 0','metric','city_district','type_door','all_metric_score'])
     df["place_score"] = minmax_scale(df["place_score"])
     df = df.sort_values(by="place_score", ascending=False)
     return df
@@ -146,39 +146,32 @@ def reshape_df(df):
 def get_metrics(df_metrics, user):
     for index, row in df_metrics.iterrows():
         if user['date'][:7] == df_metrics['DATE'][index][:7]:
-            new_listing = df_metrics.loc[index].T
             all_metric_score = df_metrics.loc[index]
-    # all_metric_score=all_metric_score.replace({0.0: 100000})
     return all_metric_score
 
 
 def extract_places_features(rec_dataset, metrics, user):
-    rec_dataset = rec_dataset.drop(columns=['city_district_metric', '#_of_visits'])
-    places_features = rec_dataset.groupby(by=['place', 'city_district', 'type_door']).agg(
-        {'rating': 'mean', 'all_metric_score': 'mean'})
-    places_features.reset_index(inplace=True, drop=False)
-    for index, row in places_features.iterrows():
+    for index, row in rec_dataset.iterrows():
         for index2, value2 in metrics.items():
-            if places_features.loc[index]['place'] == index2:
-                places_features['all_metric_score'][index] = metrics.get(key=index2)
-    places_features['all_metric_score'] = minmax_scale(places_features['all_metric_score'])
-    places_features = places_features.groupby(by=['place', 'city_district', 'type_door'], as_index=False).agg(
-        {'rating': 'mean', 'all_metric_score': 'mean', })
-    places_features['place_score'] = places_features['all_metric_score']
-    for index, row in places_features.iterrows():
-        places_features['place_score'][index] = score_func(user, places_features)[index] * 10 + \
-                                                places_features['rating'][index] + \
-                                                places_features['all_metric_score'][
-                                                    index] * 0.001
-    return places_features
+            if rec_dataset.loc[index]['place'] == index2:
+                rec_dataset['all_metric_score'][index] = metrics.get(key=index2)
+    rec_dataset['all_metric_score'] = (rec_dataset['all_metric_score'] - rec_dataset['all_metric_score'].min()) / (
+                rec_dataset['all_metric_score'].max() - rec_dataset['all_metric_score'].min())
+    return rec_dataset
 
 
 def merge_dfs(df1, df2):
     df1.rename(columns={'score': 'place_score'}, inplace=True)
     df2.rename(columns={'place': 'place_name'}, inplace=True)
+    df1 = df1.sort_values(by='place_score', ascending=False)
+    df2 = df2.sort_values(by='place_score', ascending=False)
     for index1, row1 in df1.iterrows():
         for index2, row2 in df2.iterrows():
             if row1.place_name == row2.place_name:
+                print(df1.place_name[index1], df2.place_name[index2])
+                row2.place_score = (row1.place_score + row2.place_score) / 2
+                df1 = df1.drop([index1])
+            if (row1.place_name == 'Allianz Arena') & (row2.place_name == 'Olympiastadion'):
                 row2.place_score = (row1.place_score + row2.place_score) / 2
                 df1 = df1.drop([index1])
 
@@ -435,6 +428,38 @@ class ThfView(TemplateView):
 class TrsView(TemplateView):
     template_name = 'webapp/tourism_recommendation_system.html'
 
+    def update_score(self,data, user):
+
+        outdoors_places = ['Allianz Arena', 'English Garden', 'Eisbach', 'Marienplatz', 'Olympiaturm',
+                           'Olympiastadion', 'Olympiapark', 'Tierpark Hellabrunn', 'Viktualienmarkt']
+
+        indoors_places = ['Alte Pinakothek', 'Asamkirche Munich', 'Bayerisches Nationalmuseum',
+                          'Bayerisches Staatsoper',
+                          'BMW Museum', 'Deutsches Museum', 'Kleine Olympiahalle', 'Lenbachhaus',
+                          'Museum Mensch und Natur',
+                          'Muenchner Stadtmuseum', 'Muenchner Kammerspiele', 'Munich Residenz',
+                          'Muenchner Philharmoniker',
+                          'Museum Brandhorst', 'Nationaltheater', 'Neue Pinakothek', 'Neues Rathaus Munich',
+                          'Nymphenburg Palace',
+                          'Olympiahalle', 'Olympia-Eissportzentrum',
+                          'Prinzregententheater', 'Pinakothek der Moderne',
+                          'Schack galerie', 'St-Peter Munich', 'Staatstheater am Gaertnerplatz']
+
+        for index, row in data.iterrows():
+            for type_door in outdoors_places:
+                if data['place_name'][index] == type_door:
+                    data['place_type'][index] = 'outdoors'
+            for type_door in indoors_places:
+                if data['place_name'][index] == type_door:
+                    data['place_type'][index] = 'indoors'
+        place_score = {}
+        for index, row in data.iterrows():
+            place_score[index] = data['score'][index]
+            user_preference = user['place_pref']
+            if data['place_type'][index] == user_preference:
+                place_score[index] *= 2
+        return place_score
+
     def get_country(self):
         trs_country_select = self.request.GET.get('trs_country_select', 'Tunisia')
         print(trs_country_select)
@@ -503,13 +528,27 @@ class TrsView(TemplateView):
         kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(user_data[user_data.columns[1:]])
 
         S = predict_score(kmeans, user_data, user['origin'], user['visit_type'], num_clusters)
+
+        S['place_type'] = S['place_name']
+        score_list_S = self.update_score(S, user)
+        for index, row in S.iterrows():
+            S['score'][index] = score_list_S[index]
+
+        S = S.drop(columns=['place_type'])
         S['score'] = minmax_scale(S['score'])
 
         df_metrics = pd.read_csv('../data/Forecast Data/dataset_predicted.csv')
         all_metric_score = get_metrics(df_metrics, user)
 
         rec_dataset = pd.read_csv('../data/Recommendation data/rec_dataset.csv')
+        rec_dataset['all_metric_score'] = 0
+        rec_dataset['place_score'] = 0
         places_features = extract_places_features(rec_dataset, all_metric_score, user)
+
+        score_list = score_func(user, places_features)
+        for index, row in places_features.iterrows():
+            places_features['place_score'][index] = (score_list[index] * 10) + (places_features['metric'][index] * 0.00005) + (
+                        places_features['all_metric_score'][index] * 0.001)
 
         dataframe = reshape_df(places_features)
 
