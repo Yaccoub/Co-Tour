@@ -67,13 +67,11 @@ def build_model_lstm(n_steps,n_feats,n_fore=1):
 
 def build_model_cnn(n_steps,n_feats,n_fore=1):
     model = Sequential()
-    model.add(Conv1D(filters=50, kernel_size=7, activation='relu',input_shape=(n_steps,n_feats)))
+    model.add(Conv1D(filters=128, kernel_size=5, activation='relu',input_shape=(n_steps,n_feats)))
     model.add(Conv1D(filters=256, kernel_size=3, activation='relu'))
     model.add(MaxPooling1D(2))
     model.add(Flatten())
-    model.add(Dropout(0.20))
     model.add(Dense(128, activation='relu'))
-    #model.add(Dense(32, activation='relu'))
     model.add(Dense(n_fore, activation='linear'))
     model.compile(optimizer='adam',
                   loss='mse',
@@ -107,7 +105,7 @@ if dataset.isnull().sum().sum() != 0:
 n_steps = 8
 output_len = 4
 dropNan = False
-shuffle = False
+shuffle = True
 
 X_Data, y_Data_comp = create_sequences(dataset, n_steps, output_len, dropNan)
 
@@ -163,7 +161,7 @@ for idx in np.arange(len(places)):
         run_name = place
         mlflow.start_run(experiment_id=experiment_id, run_name=run_name)
 
-        mlflow.keras.autolog()
+        mlflow.tensorflow.autolog()
 
     # Create and build the model
     model = build_model_lstm(n_steps,n_feats,n_fore)
@@ -270,13 +268,13 @@ for idx in np.arange(len(places)):
         print('Pearsons correlation for the',month[i],'month: %.3f' % corr)
         if logging:
             param_name = month[i]+"_pearson_correlation"
-            mlflow.log_param(param_name, corr)
+            mlflow.log_param(param_name, round(corr,3))
 
     # Calcuate the mean Pearson's correlation
     corr_mean = np.mean(li)
     print('Mean Pearsons correlation: %.3f' % corr_mean)
     if logging:
-        mlflow.log_param("mean_pearson_correlation", corr_mean)
+        mlflow.log_param("mean_pearson_correlation", round(corr_mean,3))
 
     # End logging
     if logging:
