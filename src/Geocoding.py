@@ -6,6 +6,7 @@ from geopy.geocoders import Nominatim
 import folium
 import pycountry
 from datetime import datetime
+from pathlib import Path
 
 geolocator = Nominatim(user_agent="AMI")
 
@@ -100,13 +101,13 @@ def main():
         x = pd.read_csv(fname, low_memory=False)
         spc, wpc, wc, sc = get_season(x)
         processed_spc = origin(spc)
-        processed_spc.to_csv('../data/Tripadvisor_datasets/Seasons/{}_summer_pre_covid.csv'.format(fname))
+        processed_spc.to_csv('../data/Tripadvisor_datasets/Seasons/{}_summer_pre_covid.csv'.format(Path(fname).stem))
         processed_wpc = origin(wpc)
-        processed_wpc.to_csv('../data/Tripadvisor_datasets/Seasons/{}_winter_pre_covid.csv'.format(fname))
+        processed_wpc.to_csv('../data/Tripadvisor_datasets/Seasons/{}_winter_pre_covid.csv'.format(Path(fname).stem))
         processed_sc = origin(sc)
-        processed_sc.to_csv('../data/Tripadvisor_datasets/Seasons/{}_summer_covid.csv'.format(fname))
+        processed_sc.to_csv('../data/Tripadvisor_datasets/Seasons/{}_summer_covid.csv'.format(Path(fname).stem))
         processed_wc = origin(wc)
-        processed_wc.to_csv('../data/Tripadvisor_datasets/Seasons/{}_winter_covid.csv'.format(fname))
+        processed_wc.to_csv('../data/Tripadvisor_datasets/Seasons/{}_winter_covid.csv'.format(Path(fname).stem))
     df = pd.read_csv('../data/Tripadvisor_datasets/Seasons/Marienplatz_winter_covid.csv')
     visualise(df)
 

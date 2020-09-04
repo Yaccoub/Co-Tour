@@ -3,15 +3,15 @@ from datetime import datetime
 import numpy as np
 import folium
 import pandas as pd
-import simplejson
+#import simplejson
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 from geopy.geocoders import Nominatim
-import glob
-import locale
+#import glob
+#import locale
 from countrygroups import EUROPEAN_UNION
-import ntpath
+#import ntpath
 
 
 from sklearn.cluster import KMeans
@@ -337,7 +337,7 @@ class TfaView(TemplateView):
         season = self.get_season()
         place = self.get_place()
 
-        geo_trajectory = pd.read_csv('../data/Tripadvisor_datasets/Seasons/{}.csv_{}.csv'.format(place, season))
+        geo_trajectory = pd.read_csv('../data/Tripadvisor_datasets/Seasons/{}_{}.csv'.format(place, season))
         figure = self.get_map(geo_flow)
         figure2 = self.get_map2(geo_trajectory)
         context['map'] = figure
