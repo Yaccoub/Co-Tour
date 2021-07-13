@@ -1,4 +1,4 @@
-# Co-Tour : Applied Machine Intelligence Project SS20
+# Co-Tour : A tourism analysis, clustering and recommendation system for the post-COVID period in the city of Munich
 
 A tourism analysis, clustering and recommendation system for the post-COVID period in the city of Munich contributing to the management of the tourism flow of the city and the policies concerning COVID-19 in the region.
 
