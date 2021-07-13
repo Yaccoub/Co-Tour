@@ -59,11 +59,9 @@ pip install virtualenv
 ```
 ```
 virtualenv venv
-
 ```
 ```
 source venv/bin/activate venv
-
 ```
 
 You can install the required packages and modules that don’t come as part of the python standard library using the command window:
